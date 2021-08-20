@@ -1,8 +1,8 @@
 {
-  "name": "rate-yours",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
+	"name": "rate-yours",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
 		"@apollo/client": "^3.3.20",
 		"@craco/craco": "^6.1.2",
 		"@headlessui/react": "^1.2.0",
@@ -43,8 +43,8 @@
 		"subscriptions-transport-ws": "^0.9.19",
 		"typescript": "^4.3.2",
 		"web-vitals": "^1.1.2"
-  },
-  "devDependencies": {
+	},
+	"devDependencies": {
 		"@graphql-codegen/cli": "^1.21.5",
 		"@graphql-codegen/introspection": "^1.18.2",
 		"@graphql-codegen/typescript": "^1.22.1",
@@ -62,32 +62,32 @@
 		"prettier": "^2.3.1",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
 	},
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "typecheck": "tsc -p . --noEmit true",
+	"scripts": {
+		"start": "craco start",
+		"build": "craco build",
+		"test": "craco test",
+		"eject": "react-scripts eject",
+		"typecheck": "tsc -p . --noEmit true",
 		"codegen:build": "graphql-codegen --config codegen.yml",
 		"csp:dev": "react-csp dev",
 		"csp:prod": "react-csp prod"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

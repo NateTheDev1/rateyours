@@ -1,12 +1,24 @@
 import { hydrate, render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import './normalize.scss';
 import './tailwind.css';
+import App from './App';
 
 const rootElement = document.getElementById('root')!;
 
 if (rootElement.hasChildNodes()) {
-	hydrate(<h1>Hello</h1>, rootElement);
+	hydrate(
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>,
+		rootElement
+	);
 } else {
-	render(<h1>Hello</h1>, rootElement);
+	render(
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>,
+		rootElement
+	);
 }
