@@ -12,7 +12,7 @@ const LoadingComponent = ({ loaderSpeed = 100 }: { loaderSpeed?: number }) => {
 	}, [ref, loaderSpeed]);
 
 	return (
-		<div className="bg-bgmain h-screen w-screen opacity-70">
+		<div className="w-screen opacity-70">
 			<LoadingBar
 				color={COLORS.primary}
 				ref={ref}
