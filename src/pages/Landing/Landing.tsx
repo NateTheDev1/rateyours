@@ -1,9 +1,11 @@
 import { Navbar } from '../../components/Navbar/Navbar';
+import Hero from './Hero';
 
 const Landing = () => {
 	return (
-		<div className="bg-gray-400 min-h-screen">
+		<div className=" min-h-screen">
 			<Navbar />
+			<Hero />
 		</div>
 	);
 };
