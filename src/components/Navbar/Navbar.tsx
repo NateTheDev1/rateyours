@@ -12,7 +12,7 @@ export const Navbar = () => {
 	};
 
 	return (
-		<div className="nav flex px-4 justify-between items-center bg-white h-16">
+		<nav className="nav flex px-4 justify-between items-center bg-white h-16">
 			<div className="flex items-center">
 				<IconLogo width="50px" height="unset" />
 				<Link
@@ -57,6 +57,6 @@ export const Navbar = () => {
 					Sign Up
 				</button>
 			</div>
-		</div>
+		</nav>
 	);
 };

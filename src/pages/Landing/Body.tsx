@@ -25,6 +25,77 @@ export const Body = () => {
 			>
 				Search
 			</button>
+			<div className="about mt-36">
+				<h2 className="font-bold text-4xl text-center mb-8">
+					What are we all about?
+				</h2>
+				<p className="text-center leading-loose font-medium text-lg opacity-50 mb-12">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Exercitationem dolorem sunt nisi ipsum sint laborum impedit
+					nulla inventore debitis magnam similique nihil amet pariatur
+					cum quas dignissimos voluptatem, eum minima fugit omnis
+					libero sapiente. Consequuntur sint exercitationem voluptatem
+					eveniet illum?
+				</p>
+			</div>
+			<div className="stories flex flex-col mb-20 mt-12 justify-center items-center">
+				<div className="story flex">
+					<h4 className="font-medium text-primary text-2xl w-3/5">
+						Truthful Information
+					</h4>
+					<p>
+						Lorem ipsum, dolor sit amet consectetur adipisicing
+						elit. Explicabo facere aspernatur nihil magni asperiores
+						ipsum facilis aut amet consectetur laudantium aliquid,
+						ex natus deserunt. Fuga est praesentium molestias rem
+						atque?
+					</p>
+				</div>
+				<hr className="w-full my-14" />
+
+				<div className="story flex">
+					<h4 className="font-medium text-primary text-2xl w-3/5">
+						Free Information
+					</h4>
+					<p>
+						Lorem ipsum, dolor sit amet consectetur adipisicing
+						elit. Explicabo facere aspernatur nihil magni asperiores
+						ipsum facilis aut amet consectetur laudantium aliquid,
+						ex natus deserunt. Fuga est praesentium molestias rem
+						atque?
+					</p>
+				</div>
+				<hr className="w-full my-14" />
+
+				<div className="story flex">
+					<h4 className="font-medium text-primary text-2xl w-3/5">
+						Creating Change
+					</h4>
+					<p>
+						Lorem ipsum, dolor sit amet consectetur adipisicing
+						elit. Explicabo facere aspernatur nihil magni asperiores
+						ipsum facilis aut amet consectetur laudantium aliquid,
+						ex natus deserunt. Fuga est praesentium molestias rem
+						atque?
+					</p>
+				</div>
+			</div>
+			<div className="sponsored mt-24">
+				<h2 className="font-bold text-4xl text-center mb-8">
+					Do you have a passion for spreading authentic information?
+				</h2>
+				<p className="text-center leading-loose font-medium text-md opacity-30 mb-8">
+					Our Partner Program
+				</p>
+				<p className="text-center leading-loose font-medium text-lg opacity-50 mb-12">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Exercitationem dolorem sunt nisi ipsum sint laborum impedit
+					nulla inventore debitis magnam similique nihil amet pariatur
+					cum quas dignissimos voluptatem, eum minima fugit omnis
+					libero sapiente. Consequuntur sint exercitationem voluptatem
+					eveniet illum?
+				</p>
+			</div>
 		</div>
 	);
 };

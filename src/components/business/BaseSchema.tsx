@@ -9,9 +9,9 @@ const BaseSchema = () => {
 				'@context': 'https://schema.org',
 				'@type': 'Organization',
 				sameAs: [],
-				name: 'RateYours',
+				name: 'rateit',
 				description:
-					'RateYours is your one stop shop to let everyone know how you rate everyday things such as businesses, schools, credit cards, food products, your therapist, and more.',
+					'rateit is your one stop shop to let everyone know how you rate everyday things such as businesses, schools, credit cards, food products, your therapist, and more.',
 				url: SITE_URL,
 				foundingDate: '2021'
 			}}
