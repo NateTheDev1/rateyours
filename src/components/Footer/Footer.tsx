@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { LogoLight } from '../business/Logo/LogoLight';
 import './Footer.scss';
@@ -24,7 +23,7 @@ export const Footer = () => {
 					<Link to="/signup" className="text-xs underline mb-4">
 						Get Started
 					</Link>
-					<Link to="/signup" className="text-xs underline mb-4">
+					<Link to="/login" className="text-xs underline mb-4">
 						Login
 					</Link>
 				</div>
@@ -33,10 +32,10 @@ export const Footer = () => {
 					<Link to="/signup" className="text-xs underline mb-4">
 						Email Us
 					</Link>
-					<Link to="/signup" className="text-xs underline mb-4">
+					<Link to="/support" className="text-xs underline mb-4">
 						Support
 					</Link>
-					<Link to="/signup" className="text-xs underline mb-4">
+					<Link to="/about" className="text-xs underline mb-4">
 						About
 					</Link>
 				</div>
