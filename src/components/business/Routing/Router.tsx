@@ -1,5 +1,6 @@
 import { Route, Switch, useLocation } from 'react-router';
 import Landing from '../../../pages/Landing/Landing';
+import Login from '../../../pages/Onboarding/Login';
 import NotFound from './NotFound';
 import { PublicRoute } from './PublicRoute';
 
@@ -9,10 +10,15 @@ export const Router = () => {
 	return (
 		<>
 			<Switch location={location}>
-				<PublicRoute path="/">
+				<PublicRoute exact path="/login">
+					<Login />
+				</PublicRoute>
+				<PublicRoute exact path="/">
 					<Landing />
 				</PublicRoute>
-				<Route component={NotFound} />
+				<Route path="*">
+					<NotFound />
+				</Route>
 			</Switch>
 		</>
 	);

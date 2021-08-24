@@ -1,4 +1,5 @@
 import { Redirect, Route } from 'react-router';
+import { UserSelectors } from '../../../redux/User/selectors';
 import LoadingComponent from '../Loading/LoadingComponent';
 
 export const PublicRoute: any = ({
@@ -8,8 +9,8 @@ export const PublicRoute: any = ({
 	children: any;
 	rest: any;
 }) => {
-	const authenticated = false;
-	const loading = false;
+	const authenticated = UserSelectors.useSelectAuthenticated();
+	const loading = UserSelectors.useSelectUserLoading();
 
 	if (!authenticated && !loading) {
 		return <Route {...rest}>{children}</Route>;

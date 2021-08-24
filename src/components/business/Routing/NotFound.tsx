@@ -1,7 +1,11 @@
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const NotFound = () => {
-	return <Redirect to="/" />;
+	const history = useHistory();
+
+	history.replace('/');
+
+	return <></>;
 };
 
 export default NotFound;

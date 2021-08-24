@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 
-export const Navbar = () => {
+export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
 	};
 
 	return (
-		<nav className="nav flex px-4 justify-between items-center bg-white h-16">
+		<nav className="nav flex px-4 justify-between items-center bg-white h-16 border border-b-1">
 			<div className="flex items-center">
 				<IconLogo width="50px" height="unset" />
 				<Link
@@ -47,15 +47,19 @@ export const Navbar = () => {
 						/>
 					</form>
 				</div>
-				<Link
-					to="/login"
-					className="font-semibold mr-5 text-sm transition hover:underline"
-				>
-					Log In
-				</Link>
-				<button className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition">
-					Sign Up
-				</button>
+				{showLogin && (
+					<>
+						<Link
+							to="/login"
+							className="font-semibold mr-5 text-sm transition hover:underline"
+						>
+							Log In
+						</Link>
+						<button className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition">
+							Sign Up
+						</button>
+					</>
+				)}
 			</div>
 		</nav>
 	);

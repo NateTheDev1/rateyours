@@ -353,3 +353,16 @@ template {
 * {
 	box-sizing: border-box;
 }
+
+#root {
+	height: 100vh;
+}
+
+.btn:disabled {
+	opacity: 0.5;
+	background-color: lightgray;
+}
+
+.btn {
+	background: #10b981;
+}

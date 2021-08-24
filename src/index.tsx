@@ -24,11 +24,14 @@ if (rootElement.hasChildNodes()) {
 	);
 } else {
 	render(
-		<ApolloProvider client={apolloClient}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ApolloProvider>,
+		<Provider store={store}>
+			<ApolloProvider client={apolloClient}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</ApolloProvider>
+		</Provider>,
+
 		rootElement
 	);
 }
