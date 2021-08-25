@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { IconLogo } from '../business/Logo/IconLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,14 +7,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 
 export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
+	const history = useHistory();
+
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
+	};
+
+	const handleRoute = (path: string) => {
+		history.push(path);
 	};
 
 	return (
 		<nav className="nav flex px-4 justify-between items-center bg-white h-16 border border-b-1">
 			<div className="flex items-center">
-				<IconLogo width="50px" height="unset" />
+				<IconLogo width="50px" />
 				<Link
 					to="/"
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
@@ -28,7 +34,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					Categories
 				</Link>
 				<Link
-					to="/categories"
+					to="/community"
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
 				>
 					Community
@@ -55,7 +61,10 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						>
 							Log In
 						</Link>
-						<button className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition">
+						<button
+							onClick={() => handleRoute('/signup')}
+							className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition"
+						>
 							Sign Up
 						</button>
 					</>

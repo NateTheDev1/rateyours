@@ -1,25 +1,41 @@
 import { Route, Switch, useLocation } from 'react-router';
 import Landing from '../../../pages/Landing/Landing';
-import Login from '../../../pages/Onboarding/Login';
 import NotFound from './NotFound';
 import { PublicRoute } from './PublicRoute';
+import { lazy } from 'react';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
+
+// Components
+const Login = lazy(() => import('../../../pages/Onboarding/Login'));
+const Signup = lazy(() => import('../../../pages/Onboarding/Signup'));
 
 export const Router = () => {
 	const location = useLocation();
 
 	return (
 		<>
-			<Switch location={location}>
-				<PublicRoute exact path="/login">
-					<Login />
-				</PublicRoute>
-				<PublicRoute exact path="/">
-					<Landing />
-				</PublicRoute>
-				<Route path="*">
-					<NotFound />
-				</Route>
-			</Switch>
+			<SwitchTransition>
+				<CSSTransition
+					key={location.key}
+					classNames="fade"
+					timeout={100}
+				>
+					<Switch location={location}>
+						<PublicRoute exact path="/signup">
+							<Signup />
+						</PublicRoute>
+						<PublicRoute exact path="/login">
+							<Login />
+						</PublicRoute>
+						<PublicRoute exact path="/">
+							<Landing />
+						</PublicRoute>
+						<Route path="*">
+							<NotFound />
+						</Route>
+					</Switch>
+				</CSSTransition>
+			</SwitchTransition>
 		</>
 	);
 };

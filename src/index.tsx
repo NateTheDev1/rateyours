@@ -13,25 +13,25 @@ const rootElement = document.getElementById('root')!;
 
 if (rootElement.hasChildNodes()) {
 	hydrate(
-		<Provider store={store}>
-			<ApolloProvider client={apolloClient}>
+		<ApolloProvider client={apolloClient}>
+			<Provider store={store}>
 				<BrowserRouter>
 					<App />
 				</BrowserRouter>
-			</ApolloProvider>
-		</Provider>,
+			</Provider>
+		</ApolloProvider>,
+
 		rootElement
 	);
 } else {
 	render(
-		<Provider store={store}>
-			<ApolloProvider client={apolloClient}>
+		<ApolloProvider client={apolloClient}>
+			<Provider store={store}>
 				<BrowserRouter>
 					<App />
 				</BrowserRouter>
-			</ApolloProvider>
-		</Provider>,
-
+			</Provider>
+		</ApolloProvider>,
 		rootElement
 	);
 }

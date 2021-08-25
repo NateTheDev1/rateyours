@@ -7,7 +7,7 @@ export const Footer = () => {
 		<footer className="bg-darkgray">
 			<div className="max-w-screen-lg m-auto p-24 flex">
 				<div className="flex flex-col">
-					<LogoLight width="75px" height="unset" />
+					<LogoLight width="75px" />
 					<p className="text-white opacity-50 mt-4 font-medium">
 						&copy; rateit.
 					</p>

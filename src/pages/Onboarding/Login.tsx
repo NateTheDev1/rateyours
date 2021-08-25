@@ -16,14 +16,14 @@ const Login = () => {
 	};
 
 	return (
-		<div className="min-h-screen overflow-hidden">
+		<div className="min-h-screen overflow-hidden flex flex-col">
 			<Navbar showLogin={false} />
-			<div className="login min-h-screen mt-14">
-				<h4 className="font-medium text-center text-xl mb-8">
+			<div className="login mb-auto mt-14">
+				<h4 className="font-medium text-center text-xl mb-8 ">
 					Log In To{' '}
 					<span className="text-primary font-bold">rateit</span>
 				</h4>
-				<div className="border border-gray-200 max-w-xl m-auto shadow-lg p-10">
+				<div className="border border-gray-200 max-w-lg m-auto shadow-md p-10">
 					<form onSubmit={e => handleSubmit(e)}>
 						<TextInput
 							name="email"
@@ -58,6 +58,15 @@ const Login = () => {
 							Log in
 						</button>
 					</form>
+				</div>
+				<div className="text-center mt-8 font-light text-md font-sans mb-8">
+					New to <span className="text-primary">rateit?</span>{' '}
+					<Link
+						to="/signup"
+						className="underline font-sans font-light"
+					>
+						Sign Up Instead
+					</Link>
 				</div>
 			</div>
 			<Footer />

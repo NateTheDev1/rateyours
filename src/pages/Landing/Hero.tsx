@@ -40,7 +40,10 @@ const Hero = () => {
 							Read about{' '}
 							<TextLoop interval={2000}>
 								{textLoopList.map((text, key) => (
-									<p className="font-black text-primary text-2xl">
+									<p
+										className="font-black text-primary text-2xl"
+										key={key}
+									>
 										{text}
 									</p>
 								))}

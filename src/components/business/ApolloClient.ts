@@ -11,7 +11,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 const httpLink = new HttpLink({
 	uri:
 		process.env.NODE_ENV === 'production'
-			? ''
+			? 'https://rateit-cluster.herokuapp.com/graphql'
 			: 'http://localhost:5000/graphql'
 });
 
@@ -49,5 +49,5 @@ export const apolloClient = new ApolloClient({
 		mutate: { errorPolicy: 'all' },
 		query: { errorPolicy: 'all' }
 	},
-	link: concat(authMiddleware, splitLink)
+	link: concat(authMiddleware, httpLink)
 });
