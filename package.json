@@ -74,7 +74,7 @@
 	},
 	"scripts": {
 		"start": "craco start",
-		"build": "craco build",
+		"build": "npm config set '@fortawesome:registry' https://npm.fontawesome.com/ && npm config set '//npm.fontawesome.com/:_authToken' 15894FAA-E9F4-4823-8AF2-AACE165D6B83 && craco build",
 		"test": "craco test",
 		"eject": "react-scripts eject",
 		"typecheck": "tsc -p . --noEmit true",
