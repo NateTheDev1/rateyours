@@ -3,9 +3,11 @@ import {
 	faBox,
 	faChalkboardTeacher,
 	faFilm,
+	faMicrophone,
 	faMusic,
 	faSchool,
-	faStore
+	faStore,
+	faUsers
 } from '@fortawesome/pro-light-svg-icons';
 
 export const categoryIconConfig = {
@@ -15,5 +17,7 @@ export const categoryIconConfig = {
 	faProducts: faBox,
 	faBooks: faBooks,
 	faMovies: faFilm,
-	faBusinesses: faStore
+	faBusinesses: faStore,
+	faPeople: faUsers,
+	faPodcasts: faMicrophone
 };

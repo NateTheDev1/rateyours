@@ -39,6 +39,12 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 				>
 					Community
 				</Link>
+				<Link
+					to="/search"
+					className="font-regular ml-10 text-md font-sans transition hover:underline"
+				>
+					Search
+				</Link>
 			</div>
 			<div className="flex items-center">
 				<div className="search-form flex items-center bg-gray-200 rounded-2xl px-4 py-2 mr-8">

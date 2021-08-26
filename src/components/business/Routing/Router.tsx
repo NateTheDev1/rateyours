@@ -4,11 +4,13 @@ import NotFound from './NotFound';
 import { PublicRoute } from './PublicRoute';
 import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
+import SearchRoot from '../../../pages/Search/SearchRoot';
 
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
 const Signup = lazy(() => import('../../../pages/Onboarding/Signup'));
 const Categories = lazy(() => import('../../../pages/Search/Categories'));
+const Suggest = lazy(() => import('../../../pages/Search/Suggest'));
 
 export const Router = () => {
 	const location = useLocation();
@@ -22,6 +24,12 @@ export const Router = () => {
 					timeout={100}
 				>
 					<Switch location={location}>
+						<PublicRoute exact path="/search">
+							<SearchRoot />
+						</PublicRoute>
+						<PublicRoute exact path="/categories/suggest">
+							<Suggest />
+						</PublicRoute>
 						<PublicRoute exact path="/categories">
 							<Categories />
 						</PublicRoute>

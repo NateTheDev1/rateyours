@@ -18,7 +18,7 @@ export const CategoryCard = ({
 	return (
 		<div
 			onClick={() => history.push('/categories/' + id)}
-			className="rounded-md shadow-sm border border-gray-100 mb-6 mr-4 p-8 cursor-pointer hover:shadow-lg transition"
+			className="rounded-md shadow-sm border border-gray-200 mb-6 mr-4 p-8 cursor-pointer hover:shadow-lg transition"
 			style={{ minHeight: '250px', width: '45%' }}
 		>
 			{iconKey && (
