@@ -3,10 +3,8 @@ import {
 	ApolloLink,
 	concat,
 	HttpLink,
-	InMemoryCache,
-	split
+	InMemoryCache
 } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = new HttpLink({
 	uri:
@@ -14,14 +12,6 @@ const httpLink = new HttpLink({
 			? 'https://rateit-cluster.herokuapp.com/graphql'
 			: 'http://localhost:5000/graphql'
 });
-
-const splitLink = split(({ query }) => {
-	const definition = getMainDefinition(query);
-	return (
-		definition.kind === 'OperationDefinition' &&
-		definition.operation === 'subscription'
-	);
-}, httpLink);
 
 const authMiddleware = new ApolloLink((operation, forward) => {
 	// add the authorization to the headers

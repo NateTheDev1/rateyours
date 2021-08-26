@@ -8,6 +8,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
 const Signup = lazy(() => import('../../../pages/Onboarding/Signup'));
+const Categories = lazy(() => import('../../../pages/Search/Categories'));
 
 export const Router = () => {
 	const location = useLocation();
@@ -21,6 +22,9 @@ export const Router = () => {
 					timeout={100}
 				>
 					<Switch location={location}>
+						<PublicRoute exact path="/categories">
+							<Categories />
+						</PublicRoute>
 						<PublicRoute exact path="/signup">
 							<Signup />
 						</PublicRoute>

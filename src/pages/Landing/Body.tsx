@@ -5,7 +5,7 @@ export const Body = () => {
 	return (
 		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto">
 			<h2 className="font-bold text-3xl mt-14">
-				Searh over 20 categories to get information about anything
+				Search over 20 categories to get information about anything
 			</h2>
 			<div className="search-form flex items-center bg-gray-200 rounded-3xl px-4 py-4 mt-8 w-full">
 				<FontAwesomeIcon icon={faSearch} className="mr-2" />
