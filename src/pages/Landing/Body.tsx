@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Body = () => {
 	return (
-		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto">
-			<h2 className="font-bold text-3xl mt-14">
+		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto lg:p-0 p-4">
+			<h2 className="font-bold lg:text-3xl text-xl mt-14 text-center">
 				Search over 20 categories to get information about anything
 			</h2>
 			<div className="search-form flex items-center bg-gray-200 rounded-3xl px-4 py-4 mt-8 w-full">
@@ -15,7 +15,7 @@ export const Body = () => {
 						type="text"
 						style={{ width: '100%' }}
 						placeholder="Search for something"
-						className="bg-gray-200 text-lg outline-none font-medium"
+						className="bg-gray-200 lg:text-lg text-md outline-none font-medium"
 					/>
 				</form>
 			</div>
@@ -26,10 +26,10 @@ export const Body = () => {
 				Search
 			</button>
 			<div className="about mt-36">
-				<h2 className="font-bold text-4xl text-center mb-8">
+				<h2 className="font-bold lg:text-4xl text-2xl text-center mb-8">
 					What are we all about?
 				</h2>
-				<p className="text-center leading-loose font-medium text-lg opacity-50 mb-12">
+				<p className="text-center leading-loose font-medium lg:text-lg text-md opacity-50 mb-12">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit.
 					Exercitationem dolorem sunt nisi ipsum sint laborum impedit
 					nulla inventore debitis magnam similique nihil amet pariatur
@@ -39,11 +39,11 @@ export const Body = () => {
 				</p>
 			</div>
 			<div className="stories flex flex-col mb-20 mt-12 justify-center items-center">
-				<div className="story flex">
-					<h4 className="font-medium text-primary text-2xl w-3/5">
+				<div className="story lg:flex flex-col">
+					<h4 className="font-medium text-primary lg:text-2xl text-xl w-3/5 lg:mb-0 mb-8">
 						Truthful Information
 					</h4>
-					<p>
+					<p className="leading-loose">
 						Lorem ipsum, dolor sit amet consectetur adipisicing
 						elit. Explicabo facere aspernatur nihil magni asperiores
 						ipsum facilis aut amet consectetur laudantium aliquid,
@@ -53,11 +53,11 @@ export const Body = () => {
 				</div>
 				<hr className="w-full my-14" />
 
-				<div className="story flex">
-					<h4 className="font-medium text-primary text-2xl w-3/5">
+				<div className="story lg:flex flex-col">
+					<h4 className="font-medium text-primary lg:text-2xl text-xl w-3/5 lg:mb-0 mb-8">
 						Free Information
 					</h4>
-					<p>
+					<p className="leading-loose">
 						Lorem ipsum, dolor sit amet consectetur adipisicing
 						elit. Explicabo facere aspernatur nihil magni asperiores
 						ipsum facilis aut amet consectetur laudantium aliquid,
@@ -67,11 +67,11 @@ export const Body = () => {
 				</div>
 				<hr className="w-full my-14" />
 
-				<div className="story flex">
-					<h4 className="font-medium text-primary text-2xl w-3/5">
+				<div className="story lg:flex flex-col">
+					<h4 className="font-medium text-primary lg:text-2xl text-xl w-3/5 lg:mb-0 mb-8">
 						Creating Change
 					</h4>
-					<p>
+					<p className="leading-loose">
 						Lorem ipsum, dolor sit amet consectetur adipisicing
 						elit. Explicabo facere aspernatur nihil magni asperiores
 						ipsum facilis aut amet consectetur laudantium aliquid,
@@ -81,7 +81,7 @@ export const Body = () => {
 				</div>
 			</div>
 			<div className="sponsored mt-24">
-				<h2 className="font-bold text-4xl text-center mb-8">
+				<h2 className="font-bold lg:text-4xl text-2xl text-center mb-8">
 					Do you have a passion for spreading authentic information?
 				</h2>
 				<p className="text-center leading-loose font-medium text-md opacity-30 mb-8">

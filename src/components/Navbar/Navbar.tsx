@@ -4,7 +4,7 @@ import { IconLogo } from '../business/Logo/IconLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faSearch } from '@fortawesome/pro-light-svg-icons';
+import { faBars, faSearch, faTimes } from '@fortawesome/pro-light-svg-icons';
 
 export function useQuery() {
 	return new URLSearchParams(useLocation().search);
@@ -13,6 +13,7 @@ export function useQuery() {
 export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState('');
+	const [openMobileNav, setOpenMobileNav] = useState(false);
 
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
@@ -26,8 +27,41 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 
 	return (
 		<nav className="nav flex px-4 justify-between items-center bg-white h-16 border border-b-1">
-			<div className="flex items-center">
-				<IconLogo width="50px" />
+			{openMobileNav && (
+				<div
+					className="fixed bg-gray-100 lg:hidden flex flex-col w-screen top-0 left-0 p-8"
+					style={{ height: '250px' }}
+				>
+					<FontAwesomeIcon
+						icon={faTimes}
+						className="cursor-pointer"
+						onClick={() => setOpenMobileNav(!openMobileNav)}
+					/>
+					<div className="flex flex-col mt-8">
+						<Link
+							to="/"
+							className="font-regular mb-4 underline text-md font-sans transition hover:underline"
+						>
+							Home
+						</Link>
+						<Link
+							to="/categories"
+							className="font-regular mb-4 underline text-md font-sans transition hover:underline"
+						>
+							Categories
+						</Link>
+						<Link
+							to="/search"
+							className="font-regular  mb-4 underline text-md font-sans transition hover:underline"
+						>
+							Search
+						</Link>
+					</div>
+				</div>
+			)}
+			<IconLogo width="50px" />
+
+			<div className="lg:flex hidden items-center">
 				<Link
 					to="/"
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
@@ -41,12 +75,6 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					Categories
 				</Link>
 				<Link
-					to="/community"
-					className="font-regular ml-10 text-md font-sans transition hover:underline"
-				>
-					Community
-				</Link>
-				<Link
 					to="/search"
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
 				>
@@ -54,7 +82,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 				</Link>
 			</div>
 			<div className="flex items-center">
-				<div className="search-form flex items-center bg-gray-200 rounded-2xl px-4 py-2 mr-8">
+				<div className="search-form lg:flex hidden items-center bg-gray-200 rounded-2xl px-4 py-2 mr-8">
 					<FontAwesomeIcon icon={faSearch} className="mr-2" />
 
 					<form onSubmit={onSearch} className="flex items-center">
@@ -84,6 +112,13 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						</button>
 					</>
 				)}
+				<div className="lg:hidden block ml-4">
+					<FontAwesomeIcon
+						icon={faBars}
+						className="cursor-pointer"
+						onClick={() => setOpenMobileNav(!openMobileNav)}
+					/>
+				</div>
 			</div>
 		</nav>
 	);

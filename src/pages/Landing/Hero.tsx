@@ -17,9 +17,9 @@ const textLoopList = [
 const Hero = () => {
 	return (
 		<div className="bg-darkgray">
-			<div className=" max-w-screen-xl m-auto h-96 flex justify-between">
-				<div className="w-3/5 flex flex-col p-16">
-					<h1 className="text-primary text-5xl font-bold leading-normal mb-4">
+			<div className="max-w-screen-xl m-auto flex  justify-between lg:flex-row flex-col lg:p-8 p-2">
+				<div className="lg:w-3/5 w-full flex flex-col lg:p-16 p-8">
+					<h1 className="text-primary lg:text-5xl text-3xl font-bold leading-normal mb-4">
 						Get accurate information with{' '}
 						<span className="text-white font-black">rateit.</span>
 					</h1>
@@ -31,24 +31,23 @@ const Hero = () => {
 						Create An Account
 					</button>
 				</div>
-				<div className="flex justify-center items-center w-2/5">
+				<div className="lg:flex hidden justify-center items-center lg:w-2/5 w-full">
 					<div
-						className="bg-white flex justify-center items-center h-2/3"
+						className="lg:bg-white bg-darkgray  flex justify-center items-center h-2/3"
 						style={{ width: '100%' }}
 					>
-						<h3 className="text-black font-black text-2xl">
+						<h3 className="lg:text-black text-white font-black lg:text-2xl text-xl">
 							Read about{' '}
 							<TextLoop interval={2000}>
 								{textLoopList.map((text, key) => (
 									<p
-										className="font-black text-primary text-2xl"
+										className="font-black text-primary lg:text-2xl text-xl"
 										key={key}
 									>
-										{text}
+										{text}.
 									</p>
 								))}
 							</TextLoop>
-							.
 						</h3>
 					</div>
 				</div>
