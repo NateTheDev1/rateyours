@@ -30,7 +30,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 			{openMobileNav && (
 				<div
 					className="fixed bg-gray-100 lg:hidden flex flex-col w-screen top-0 left-0 p-8"
-					style={{ height: '250px' }}
+					style={{ height: '300px' }}
 				>
 					<FontAwesomeIcon
 						icon={faTimes}
@@ -54,14 +54,37 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 							to="/search"
 							className="font-regular  mb-4 underline text-md font-sans transition hover:underline"
 						>
-							Search
+							Advanced Search
 						</Link>
+						<div className="search-form flex items-center mt-4 bg-gray-200 rounded-md px-4 py-2">
+							<FontAwesomeIcon icon={faSearch} className="mr-2" />
+
+							<form
+								onSubmit={onSearch}
+								className="flex items-center w-full"
+							>
+								<input
+									value={searchQuery}
+									onChange={e =>
+										setSearchQuery(e.target.value)
+									}
+									type="text"
+									placeholder="Search for something"
+									className="bg-gray-200 text-sm outline-none font-medium"
+								/>
+							</form>
+						</div>
 					</div>
 				</div>
 			)}
-			<IconLogo width="50px" />
+
+			<div className="lg:hidden block">
+				<IconLogo width="50px" />
+			</div>
 
 			<div className="lg:flex hidden items-center">
+				<IconLogo width="50px" />
+
 				<Link
 					to="/"
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
