@@ -12,6 +12,16 @@ query Search($filters: SearchFilters!, $first: Int, $query: String!) {
 			tags
 			rating
 			specialContent
+			entity
+		}
+		entities {
+			id
+			type
+			name
+			ownedBy {
+				fullName
+			}
+			specialContent
 		}
 		total
 	}

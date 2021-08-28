@@ -10,9 +10,10 @@ export const SearchResult = ({
 
 	return (
 		<div
-			onClick={() => history.push('/search/results/entity/' + review?.id)}
-			style={{ width: '48%' }}
-			className="border rounded-md shadow-lg border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50 hover:border-gray-400 transition"
+			onClick={() =>
+				history.push('/search/results/entity/' + review?.entity)
+			}
+			className="border rounded-md shadow-lg border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50 flex-1 hover:border-gray-400 transition lg:1/5 md:w-1/2 w-full mr-6 md:mr-8"
 		>
 			<h4 className="font-bold text-lg">{review?.title}</h4>
 			<p className="mt-4 font-medium">
@@ -22,8 +23,23 @@ export const SearchResult = ({
 				{review?.rating}/5 stars
 			</p>
 			<p className="font-normal mt-4 leading-loose">
-				{review?.body.split('0, 100')[0].replaceAll('"', '') + '...'}
+				{review?.body.split('0, 100')[0].replaceAll('"', '') +
+					(review && review?.body.length > 100 ? '...' : '')}
 			</p>
+
+			<div className="flex flex-wrap">
+				<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full mr-2">
+					{review?.type}
+				</span>
+				{review?.tags?.map((tag, key) => (
+					<span
+						key={key}
+						className="inline-flex mr-2 items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-primary rounded-full"
+					>
+						{tag}
+					</span>
+				))}
+			</div>
 		</div>
 	);
 };

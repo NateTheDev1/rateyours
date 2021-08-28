@@ -59,6 +59,7 @@ export type Entity = {
   type: Scalars['String'];
   ownedBy?: Maybe<User>;
   specialContent?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type EntityOwnershipRequest = {
@@ -133,6 +134,7 @@ export type Review = {
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   rating: Scalars['Int'];
   specialContent?: Maybe<Scalars['String']>;
+  entity: Scalars['Int'];
   belongsTo?: Maybe<Entity>;
 };
 
@@ -149,6 +151,7 @@ export type ReviewInput = {
 
 export type ReviewSearchResponse = {
   reviews: Array<Maybe<Review>>;
+  entities: Array<Maybe<Entity>>;
   total: Scalars['Int'];
 };
 
@@ -187,7 +190,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, createdByUser: { fullName?: Maybe<string> } }>> } };
+export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>>, entities: Array<Maybe<{ id: number, type: string, name: string, specialContent?: Maybe<string>, ownedBy?: Maybe<{ fullName?: Maybe<string> }> }>> } };
 
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
@@ -296,6 +299,16 @@ export const SearchDocument = gql`
       body
       tags
       rating
+      specialContent
+      entity
+    }
+    entities {
+      id
+      type
+      name
+      ownedBy {
+        fullName
+      }
       specialContent
     }
     total

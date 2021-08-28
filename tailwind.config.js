@@ -6,6 +6,9 @@ module.exports = {
 			colors: {
 				primary: '#10B981',
 				darkgray: '#141419'
+			},
+			minWidth: {
+				'1/5': '20%'
 			}
 		},
 		borderColor: theme => ({
