@@ -5,6 +5,7 @@ import { PublicRoute } from './PublicRoute';
 import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import SearchRoot from '../../../pages/Search/SearchRoot';
+import { SearchResults } from '../../../pages/Search/SearchResults';
 
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
@@ -24,6 +25,9 @@ export const Router = () => {
 					timeout={100}
 				>
 					<Switch location={location}>
+						<PublicRoute exact path="/search/results">
+							<SearchResults />
+						</PublicRoute>
 						<PublicRoute exact path="/search">
 							<SearchRoot />
 						</PublicRoute>

@@ -1,0 +1,18 @@
+query Search($filters: SearchFilters!, $first: Int, $query: String!) {
+	search(filters: $filters, first: $first, query: $query) {
+		reviews {
+			id
+			type
+			title
+			createdByUser {
+				fullName
+			}
+			createdAt
+			body
+			tags
+			rating
+			specialContent
+		}
+		total
+	}
+}

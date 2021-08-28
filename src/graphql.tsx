@@ -36,6 +36,12 @@ export type Category = {
   approved: Scalars['Boolean'];
 };
 
+export type CreateEntityInput = {
+  type: Scalars['String'];
+  ownedBy?: Maybe<Scalars['Int']>;
+  specialContent: Scalars['String'];
+};
+
 export type CreateUserInput = {
   fullName?: Maybe<Scalars['String']>;
   birthday?: Maybe<Scalars['String']>;
@@ -48,6 +54,24 @@ export type CreateUserReturn = {
   token: Scalars['String'];
 };
 
+export type Entity = {
+  id: Scalars['Int'];
+  type: Scalars['String'];
+  ownedBy?: Maybe<User>;
+  specialContent?: Maybe<Scalars['String']>;
+};
+
+export type EntityOwnershipRequest = {
+  id: Scalars['Int'];
+  requestedBy: Scalars['Int'];
+  approved: Scalars['Boolean'];
+};
+
+export type EntitySearchResponse = {
+  entities: Array<Maybe<Entity>>;
+  total: Scalars['Int'];
+};
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -55,6 +79,7 @@ export type LoginInput = {
 
 export type Mutation = {
   addCategory: Category;
+  addReview: Review;
   createUser: CreateUserReturn;
   login: CreateUserReturn;
 };
@@ -62,6 +87,11 @@ export type Mutation = {
 
 export type MutationAddCategoryArgs = {
   category: AddCategoryInput;
+};
+
+
+export type MutationAddReviewArgs = {
+  review: ReviewInput;
 };
 
 
@@ -76,12 +106,57 @@ export type MutationLoginArgs = {
 
 export type Query = {
   getCategories: Array<Category>;
+  search: ReviewSearchResponse;
   getUser: User;
+};
+
+
+export type QuerySearchArgs = {
+  filters: SearchFilters;
+  first?: Maybe<Scalars['Int']>;
+  query: Scalars['String'];
 };
 
 
 export type QueryGetUserArgs = {
   id: Scalars['Int'];
+};
+
+export type Review = {
+  id: Scalars['Int'];
+  type: Scalars['String'];
+  title: Scalars['String'];
+  createdBy: Scalars['Int'];
+  createdByUser: User;
+  createdAt: Scalars['String'];
+  body: Scalars['String'];
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  rating: Scalars['Int'];
+  specialContent?: Maybe<Scalars['String']>;
+  belongsTo?: Maybe<Entity>;
+};
+
+export type ReviewInput = {
+  type: Scalars['String'];
+  title: Scalars['String'];
+  createdBy: Scalars['Int'];
+  body: Scalars['String'];
+  tags: Array<Maybe<Scalars['String']>>;
+  rating: Scalars['Int'];
+  specialContent?: Maybe<Scalars['String']>;
+  belongTo: Scalars['Int'];
+};
+
+export type ReviewSearchResponse = {
+  reviews: Array<Maybe<Review>>;
+  total: Scalars['Int'];
+};
+
+export type SearchFilters = {
+  minRating: Scalars['Int'];
+  maxRating: Scalars['Int'];
+  sortyBy: Scalars['String'];
+  categoryRestriction?: Maybe<Scalars['String']>;
 };
 
 
@@ -104,6 +179,15 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCategoriesQuery = { getCategories: Array<{ id: number, title: string, caption: string, iconKey?: Maybe<string> }> };
+
+export type SearchQueryVariables = Exact<{
+  filters: SearchFilters;
+  first?: Maybe<Scalars['Int']>;
+  query: Scalars['String'];
+}>;
+
+
+export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, createdByUser: { fullName?: Maybe<string> } }>> } };
 
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
@@ -198,6 +282,56 @@ export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
 export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
 export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
+export const SearchDocument = gql`
+    query Search($filters: SearchFilters!, $first: Int, $query: String!) {
+  search(filters: $filters, first: $first, query: $query) {
+    reviews {
+      id
+      type
+      title
+      createdByUser {
+        fullName
+      }
+      createdAt
+      body
+      tags
+      rating
+      specialContent
+    }
+    total
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      first: // value for 'first'
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($user: CreateUserInput!) {
   createUser(user: $user) {

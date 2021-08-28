@@ -1,16 +1,23 @@
-import { FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { IconLogo } from '../business/Logo/IconLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 
+export function useQuery() {
+	return new URLSearchParams(useLocation().search);
+}
+
 export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 	const history = useHistory();
+	const [searchQuery, setSearchQuery] = useState('');
 
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
+
+		history.push('/search/results/?query=' + searchQuery);
 	};
 
 	const handleRoute = (path: string) => {
@@ -52,6 +59,8 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 
 					<form onSubmit={onSearch} className="flex items-center">
 						<input
+							value={searchQuery}
+							onChange={e => setSearchQuery(e.target.value)}
 							type="text"
 							placeholder="Search for something"
 							className="bg-gray-200 text-sm outline-none font-medium"
