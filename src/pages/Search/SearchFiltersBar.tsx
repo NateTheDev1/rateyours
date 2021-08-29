@@ -11,10 +11,24 @@ import { useQuery } from '../../components/Navbar/Navbar';
 
 export const SearchFiltersBar = () => {
 	const query = useQuery().get('query') ?? '';
+	const filterQuery = useQuery();
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState(query);
+	const [changedFilters, setChangedFilters] = useState(
+		filterQuery.get('maxRating') !== undefined ||
+			filterQuery.get('minRating') !== undefined
+			? true
+			: false
+	);
 
-	const [editingFilters, setEditingFilters] = useState(false);
+	const [filters, setFilters] = useState({
+		minRating: filterQuery.get('minRating') ?? 5,
+		maxRating: filterQuery.get('maxRating') ?? 5
+	});
+
+	const [editingFilters, setEditingFilters] = useState(
+		changedFilters ? true : false
+	);
 
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
@@ -38,7 +52,7 @@ export const SearchFiltersBar = () => {
 				</form>
 			</div>
 			<h2 className="font-md text-lg mt-8">
-				Filters - 0 Applied{' '}
+				Filters - {changedFilters ? '1' : '0'} Applied{' '}
 				{!editingFilters && (
 					<FontAwesomeIcon
 						icon={faEdit}

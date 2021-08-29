@@ -1,4 +1,5 @@
 //@ts-ignore
+import { useHistory } from 'react-router-dom';
 import TextLoop from 'react-text-loop';
 
 const textLoopList = [
@@ -15,6 +16,8 @@ const textLoopList = [
 ];
 
 const Hero = () => {
+	const history = useHistory();
+
 	return (
 		<div className="bg-darkgray">
 			<div className="max-w-screen-xl m-auto flex  justify-between lg:flex-row flex-col lg:p-8 p-2">
@@ -27,7 +30,10 @@ const Hero = () => {
 						Read and write your own reviews on almost anything from
 						businesses, books, movies, music, teachers, and more.
 					</p>
-					<button className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-52 justify-center font-medium text-sm hover:opacity-90 transition">
+					<button
+						onClick={() => history.push('/signup')}
+						className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-52 justify-center font-medium text-sm hover:opacity-90 transition"
+					>
 						Create An Account
 					</button>
 				</div>

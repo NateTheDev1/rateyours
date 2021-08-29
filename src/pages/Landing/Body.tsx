@@ -1,7 +1,18 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const Body = () => {
+	const history = useHistory();
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const onSearch = (e: FormEvent) => {
+		e.preventDefault();
+
+		history.push('/search/results/?query=' + searchQuery);
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto lg:p-0 p-4">
 			<h2 className="font-bold lg:text-3xl text-xl mt-14 text-center">
@@ -10,9 +21,15 @@ export const Body = () => {
 			<div className="search-form flex items-center bg-gray-200 rounded-3xl px-4 py-4 mt-8 w-full">
 				<FontAwesomeIcon icon={faSearch} className="mr-2" />
 
-				<form className="flex items-center" style={{ width: '100%' }}>
+				<form
+					className="flex items-center"
+					style={{ width: '100%' }}
+					onSubmit={onSearch}
+				>
 					<input
 						type="text"
+						value={searchQuery}
+						onChange={e => setSearchQuery(e.target.value)}
 						style={{ width: '100%' }}
 						placeholder="Search for something"
 						className="bg-gray-200 lg:text-lg text-md outline-none font-medium"
