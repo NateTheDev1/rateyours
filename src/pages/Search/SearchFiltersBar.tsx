@@ -15,14 +15,14 @@ export const SearchFiltersBar = () => {
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState(query);
 	const [changedFilters, setChangedFilters] = useState(
-		filterQuery.get('maxRating') !== undefined ||
-			filterQuery.get('minRating') !== undefined
+		filterQuery.get('maxRating') !== null ||
+			filterQuery.get('minRating') !== null
 			? true
 			: false
 	);
 
 	const [filters, setFilters] = useState({
-		minRating: filterQuery.get('minRating') ?? 5,
+		minRating: filterQuery.get('minRating') ?? 1,
 		maxRating: filterQuery.get('maxRating') ?? 5
 	});
 
@@ -33,7 +33,12 @@ export const SearchFiltersBar = () => {
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
 
-		history.push('/search/results/?query=' + searchQuery);
+		history.push(
+			'/search/results/?query=' +
+				searchQuery +
+				(filters.minRating !== 1 && `&minRating=${filters.minRating}`) +
+				(filters.maxRating !== 5 && `&maxRating=${filters.maxRating}`)
+		);
 	};
 
 	return (
@@ -76,17 +81,21 @@ export const SearchFiltersBar = () => {
 								label="Rating Min"
 								className="mt-3 w-50"
 								type="number"
-								value="0"
+								value={String(filters.minRating)}
 								name="rating-min"
-								setValue={() => {}}
+								setValue={val => {
+									setFilters({ ...filters, minRating: val });
+								}}
 							/>
 							<TextInput
 								label="Rating Max"
 								className="mt-3 w-50 ml-4"
 								type="number"
-								value="5"
+								value={String(filters.maxRating)}
 								name="rating-max"
-								setValue={() => {}}
+								setValue={val => {
+									setFilters({ ...filters, maxRating: val });
+								}}
 							/>
 							<div className="w-full ml-5 mt-3">
 								<label className="font-light opacity-50 text-sm  font-sans mb-2">
