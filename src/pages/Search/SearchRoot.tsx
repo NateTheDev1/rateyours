@@ -13,11 +13,8 @@ const SearchRoot = () => {
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
 			<Navbar />
-			<div
-				className="categories mb-auto mt-2 m-auto p-8 flex justify-evenly"
-				style={{ width: '75%' }}
-			>
-				<div className="w-2/5 shadow-md border border-gray-200 p-8 overflow-scroll">
+			<div className="categories mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2 flex justify-evenly lg:flex-row flex-col">
+				<div className="lg:w-2/5 w-full shadow-md border border-gray-200 lg:p-8 p-4 overflow-scroll">
 					<h2 className="font-bold text-2xl">Search</h2>
 					<p className=" font-light text-sm mt-2">
 						Try an advanced search
@@ -84,7 +81,7 @@ const SearchRoot = () => {
 						</>
 					)}
 				</div>
-				<div className="w-3/5 shadow-md border border-gray-200 p-8">
+				<div className="lg:w-3/5 w-full shadow-md border border-gray-200 lg:p-8 p-4">
 					<h2 className="font-bold text-2xl">
 						Or select a category ({data?.getCategories.length})
 					</h2>
@@ -95,7 +92,7 @@ const SearchRoot = () => {
 					<hr className="mt-4" />
 					{loading && <LoadingCircle loading={true} />}
 					<div
-						className="flex flex-wrap items-center justify-evenly  overflow-scroll mt-8"
+						className="items-center justify-evenly lg:flex-row flex flex-wrap overflow-scroll overflow-x-hidden mt-8"
 						style={{ maxHeight: '40rem' }}
 					>
 						{data?.getCategories.map((category, key) => (

@@ -13,7 +13,8 @@ export const SearchResult = ({
 			onClick={() =>
 				history.push('/search/results/entity/' + review?.entity)
 			}
-			className="border rounded-md shadow-lg border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50 flex-1 hover:border-gray-400 transition lg:1/5 md:w-1/2 w-full mr-6 md:mr-8"
+			className="border rounded-md lg:mt-0 mt-4 shadow-lg border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50 flex-1 hover:border-gray-400 transition lg:1/5 md:w-1/2 w-full lg:mr-8"
+			style={{ minHeight: '300px', minWidth: '350px' }}
 		>
 			<h4 className="font-bold text-lg">{review?.title}</h4>
 			<p className="mt-4 font-medium">

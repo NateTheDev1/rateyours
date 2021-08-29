@@ -30,7 +30,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 			{openMobileNav && (
 				<div
 					className="fixed bg-gray-100 lg:hidden flex flex-col w-screen top-0 left-0 p-8"
-					style={{ height: '300px' }}
+					style={{ height: '300px', zIndex: 1 }}
 				>
 					<FontAwesomeIcon
 						icon={faTimes}
@@ -70,7 +70,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 									}
 									type="text"
 									placeholder="Search for something"
-									className="bg-gray-200 text-sm outline-none font-medium"
+									className="bg-gray-200 text-sm outline-none font-medium w-full"
 								/>
 							</form>
 						</div>
