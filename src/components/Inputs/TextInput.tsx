@@ -10,7 +10,8 @@ export const TextInput = ({
 	autoComplete = 'off',
 	type = 'text',
 	className = '',
-	required = false
+	required = false,
+	keyDown = (e: any) => {}
 }: {
 	value: string;
 	setValue: (val: string) => void;
@@ -20,6 +21,7 @@ export const TextInput = ({
 	type?: string;
 	className?: string;
 	required?: boolean;
+	keyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }) => {
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -28,7 +30,10 @@ export const TextInput = ({
 	};
 
 	return (
-		<div className={`flex flex-col ${className}`}>
+		<div
+			className={`flex flex-col ${className}`}
+			onKeyDown={e => keyDown(e)}
+		>
 			<div className="flex mb-2 items-center justify-between">
 				<label
 					htmlFor={name}

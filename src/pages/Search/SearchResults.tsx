@@ -13,7 +13,9 @@ export const SearchResults = () => {
 			filters: {
 				minRating: Number(query.get('minRating') ?? 0),
 				maxRating: Number(query.get('maxRating') ?? 5),
-				sortyBy: 'Best Match'
+				sortyBy: 'Best Match',
+				categoryRestriction:
+					query.get('categoryRestriction') ?? undefined
 			},
 			query: query.get('query') ?? 'a'
 		}
