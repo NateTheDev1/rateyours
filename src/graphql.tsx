@@ -108,6 +108,7 @@ export type MutationLoginArgs = {
 export type Query = {
   getCategories: Array<Category>;
   search: ReviewSearchResponse;
+  getEntity: Entity;
   getUser: User;
 };
 
@@ -116,6 +117,11 @@ export type QuerySearchArgs = {
   filters: SearchFilters;
   first?: Maybe<Scalars['Int']>;
   query: Scalars['String'];
+};
+
+
+export type QueryGetEntityArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -171,6 +177,13 @@ export type User = {
   email: Scalars['String'];
 };
 
+export type GetEntityQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
+
 export type AddCategoryMutationVariables = Exact<{
   category: AddCategoryInput;
 }>;
@@ -214,6 +227,48 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = { login: { token: string } };
 
 
+export const GetEntityDocument = gql`
+    query GetEntity($id: Int!) {
+  getEntity(id: $id) {
+    id
+    type
+    name
+    ownedBy {
+      id
+      fullName
+    }
+    specialContent
+  }
+}
+    `;
+
+/**
+ * __useGetEntityQuery__
+ *
+ * To run a query within a React component, call `useGetEntityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEntityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEntityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEntityQuery(baseOptions: Apollo.QueryHookOptions<GetEntityQuery, GetEntityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEntityQuery, GetEntityQueryVariables>(GetEntityDocument, options);
+      }
+export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEntityQuery, GetEntityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEntityQuery, GetEntityQueryVariables>(GetEntityDocument, options);
+        }
+export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
+export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
+export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
 export const AddCategoryDocument = gql`
     mutation AddCategory($category: AddCategoryInput!) {
   addCategory(category: $category) {

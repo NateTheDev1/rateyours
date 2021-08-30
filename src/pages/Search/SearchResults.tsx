@@ -6,7 +6,7 @@ import { SearchFiltersBar } from './SearchFiltersBar';
 import { SearchResult } from './SearchResult';
 import { SearchResultEntity } from './SearchResultEntity';
 
-export const SearchResults = () => {
+const SearchResults = () => {
 	let query = useQuery();
 	const { data, loading, error } = useSearchQuery({
 		variables: {
@@ -76,3 +76,5 @@ export const SearchResults = () => {
 		</div>
 	);
 };
+
+export default SearchResults;

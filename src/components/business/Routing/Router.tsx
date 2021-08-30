@@ -4,14 +4,15 @@ import NotFound from './NotFound';
 import { PublicRoute } from './PublicRoute';
 import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import SearchRoot from '../../../pages/Search/SearchRoot';
-import { SearchResults } from '../../../pages/Search/SearchResults';
 
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
 const Signup = lazy(() => import('../../../pages/Onboarding/Signup'));
 const Categories = lazy(() => import('../../../pages/Search/Categories'));
 const Suggest = lazy(() => import('../../../pages/Search/Suggest'));
+const SearchResults = lazy(() => import('../../../pages/Search/SearchResults'));
+const SearchRoot = lazy(() => import('../../../pages/Search/SearchRoot'));
+const EntityBase = lazy(() => import('../../../pages/Entity/index'));
 
 export const Router = () => {
 	const location = useLocation();
@@ -25,6 +26,12 @@ export const Router = () => {
 					timeout={100}
 				>
 					<Switch location={location}>
+						<PublicRoute
+							exact
+							path="/search/results/entity/:entityId"
+						>
+							<EntityBase />
+						</PublicRoute>
 						<PublicRoute exact path="/search/results">
 							<SearchResults />
 						</PublicRoute>

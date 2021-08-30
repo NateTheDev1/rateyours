@@ -1,0 +1,12 @@
+query GetEntity($id: Int!) {
+	getEntity(id: $id) {
+		id
+		type
+		name
+		ownedBy {
+			id
+			fullName
+		}
+		specialContent
+	}
+}
