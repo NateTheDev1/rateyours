@@ -19,7 +19,8 @@ export const SearchFiltersBar = () => {
 	const [searchQuery, setSearchQuery] = useState(query);
 	const [changedFilters] = useState(
 		filterQuery.get('maxRating') !== null ||
-			filterQuery.get('minRating') !== null
+			filterQuery.get('minRating') !== null ||
+			filterQuery.get('categoryRestriction') !== null
 			? true
 			: false
 	);
@@ -37,6 +38,10 @@ export const SearchFiltersBar = () => {
 	const onSearch = (e?: FormEvent) => {
 		if (e) {
 			e.preventDefault();
+		}
+
+		if (query.length < 1) {
+			return;
 		}
 
 		let url = '/search/results/?query=' + searchQuery;

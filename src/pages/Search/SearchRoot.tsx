@@ -1,5 +1,7 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { TextInput } from '../../components/Inputs/TextInput';
@@ -8,7 +10,40 @@ import { useGetCategoriesQuery } from '../../graphql';
 import { CategoryCard } from './CategoryCard';
 
 const SearchRoot = () => {
+	const history = useHistory();
 	const { data, loading } = useGetCategoriesQuery();
+	const [searchQuery, setSearchQuery] = useState('');
+	const [filters, setFilters] = useState({
+		minRating: 1,
+		maxRating: 5,
+		categoryRestriction: 'None'
+	});
+
+	const onSearch = (e?: FormEvent) => {
+		if (e) {
+			e.preventDefault();
+		}
+
+		if (searchQuery.length < 1) {
+			return;
+		}
+
+		let url = '/search/results/?query=' + searchQuery;
+
+		if (filters.minRating !== 1) {
+			url += `&minRating=${filters.minRating}`;
+		}
+
+		if (filters.maxRating !== 5) {
+			url += `&maxRating=${filters.maxRating}`;
+		}
+
+		if (filters.categoryRestriction !== 'None') {
+			url += `&categoryRestriction=${filters.categoryRestriction}`;
+		}
+
+		history.push(url);
+	};
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -23,11 +58,14 @@ const SearchRoot = () => {
 						<FontAwesomeIcon icon={faSearch} className="mr-2" />
 
 						<form
+							onSubmit={onSearch}
 							className="flex items-center"
 							style={{ width: '100%' }}
 						>
 							<input
 								type="text"
+								onChange={e => setSearchQuery(e.target.value)}
+								value={searchQuery}
 								style={{ width: '100%' }}
 								placeholder="Search for something"
 								className="bg-gray-200 text-lg outline-none font-medium"
@@ -35,6 +73,7 @@ const SearchRoot = () => {
 						</form>
 					</div>
 					<button
+						onClick={() => onSearch()}
 						type="submit"
 						className="p-4 mt-8 rounded-md bg-green-500 text-white h-10 flex items-center w-full justify-center font-medium text-sm hover:opacity-90 transition"
 					>
@@ -47,20 +86,33 @@ const SearchRoot = () => {
 						label="Min"
 						className="mt-3"
 						type="number"
-						value="0"
 						name="rating-min"
-						setValue={() => {}}
+						value={String(filters.minRating)}
+						setValue={val => {
+							setFilters({ ...filters, minRating: Number(val) });
+						}}
 					/>
 					<TextInput
 						label="Max"
 						className="mt-3"
 						type="number"
-						value="5"
 						name="rating-max"
-						setValue={() => {}}
+						value={String(filters.maxRating)}
+						setValue={val => {
+							setFilters({ ...filters, maxRating: Number(val) });
+						}}
 					/>
 					<p className="font-light mt-8">Sort By</p>
-					<select className="w-full mt-2 bg-gray-200 p-4 rounded-md focus:outline-none">
+					<select
+						className="w-full mt-2 bg-gray-200 p-4 rounded-md focus:outline-none"
+						value={filters.categoryRestriction}
+						onChange={e => {
+							setFilters({
+								...filters,
+								categoryRestriction: e.target.value
+							});
+						}}
+					>
 						<option>Best Match</option>
 						<option>Most Viewed</option>
 					</select>
