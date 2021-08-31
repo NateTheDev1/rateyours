@@ -6,7 +6,7 @@ const Review = ({
 	review: SearchReviewsResponse['reviews'][0];
 }) => {
 	return (
-		<div className="review w-full my-4 rounded-md shadow-xs pb-3 border-b border-gray-200">
+		<div className="review w-full my-4 shadow-xs pb-3 border-b border-gray-200">
 			<h4 className="font-medium text-md">{review?.title}</h4>
 			<h4 className="font-light mt-3 text-sm">
 				By {review?.createdByUser.fullName}
