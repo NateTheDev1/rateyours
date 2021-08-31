@@ -5,3 +5,33 @@ export const parseEntity = (entity: Partial<Entity>) => {
 
 	return extraContent;
 };
+
+export const returnIdentifiedContent = (
+	entity: Partial<Entity>
+): { type: string } | null => {
+	if (entity.type === 'Schools') {
+		return parseEntity(entity).college;
+	}
+
+	if (entity.type === 'Movies') {
+		return parseEntity(entity).movie;
+	}
+
+	return null;
+};
+
+export type School = {
+	websites: string[];
+	country: string;
+};
+
+export type Movie = {
+	title: string;
+	year: string;
+	runtime: string;
+	genres: string[];
+	director: string;
+	actors: string;
+	plot: string;
+	posterUrl: string;
+};

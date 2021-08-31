@@ -109,6 +109,7 @@ export type Query = {
   getCategories: Array<Category>;
   search: ReviewSearchResponse;
   getEntity: Entity;
+  searchReviews: SearchReviewsResponse;
   getUser: User;
 };
 
@@ -122,6 +123,12 @@ export type QuerySearchArgs = {
 
 export type QueryGetEntityArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QuerySearchReviewsArgs = {
+  entityId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
 };
 
 
@@ -141,7 +148,6 @@ export type Review = {
   rating: Scalars['Int'];
   specialContent?: Maybe<Scalars['String']>;
   entity: Scalars['Int'];
-  belongsTo?: Maybe<Entity>;
 };
 
 export type ReviewInput = {
@@ -152,7 +158,7 @@ export type ReviewInput = {
   tags: Array<Maybe<Scalars['String']>>;
   rating: Scalars['Int'];
   specialContent?: Maybe<Scalars['String']>;
-  belongTo: Scalars['Int'];
+  entity: Scalars['Int'];
 };
 
 export type ReviewSearchResponse = {
@@ -166,6 +172,11 @@ export type SearchFilters = {
   maxRating: Scalars['Int'];
   sortyBy: Scalars['String'];
   categoryRestriction?: Maybe<Scalars['String']>;
+};
+
+export type SearchReviewsResponse = {
+  reviews: Array<Maybe<Review>>;
+  total: Scalars['Int'];
 };
 
 
@@ -183,6 +194,14 @@ export type GetEntityQueryVariables = Exact<{
 
 
 export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
+
+export type SearchReviewsQueryVariables = Exact<{
+  entityId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type SearchReviewsQuery = { searchReviews: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>> } };
 
 export type AddCategoryMutationVariables = Exact<{
   category: AddCategoryInput;
@@ -269,6 +288,56 @@ export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
 export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
 export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
+export const SearchReviewsDocument = gql`
+    query SearchReviews($entityId: Int!, $first: Int) {
+  searchReviews(entityId: $entityId, first: $first) {
+    total
+    reviews {
+      id
+      type
+      title
+      createdByUser {
+        fullName
+      }
+      createdAt
+      body
+      tags
+      rating
+      specialContent
+      entity
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchReviewsQuery__
+ *
+ * To run a query within a React component, call `useSearchReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchReviewsQuery({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useSearchReviewsQuery(baseOptions: Apollo.QueryHookOptions<SearchReviewsQuery, SearchReviewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchReviewsQuery, SearchReviewsQueryVariables>(SearchReviewsDocument, options);
+      }
+export function useSearchReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchReviewsQuery, SearchReviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchReviewsQuery, SearchReviewsQueryVariables>(SearchReviewsDocument, options);
+        }
+export type SearchReviewsQueryHookResult = ReturnType<typeof useSearchReviewsQuery>;
+export type SearchReviewsLazyQueryHookResult = ReturnType<typeof useSearchReviewsLazyQuery>;
+export type SearchReviewsQueryResult = Apollo.QueryResult<SearchReviewsQuery, SearchReviewsQueryVariables>;
 export const AddCategoryDocument = gql`
     mutation AddCategory($category: AddCategoryInput!) {
   addCategory(category: $category) {

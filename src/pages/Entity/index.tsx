@@ -1,21 +1,33 @@
-import { faPlus, faQuestionCircle } from '@fortawesome/pro-light-svg-icons';
+import {
+	faPlusSquare,
+	faQuestionCircle
+} from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useHistory, useParams } from 'react-router-dom';
+import { lazy, useState } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useGetEntityQuery } from '../../graphql';
-import { parseEntity } from './parseEntity';
+import { parseEntity, returnIdentifiedContent } from './parseEntity';
+import Reviews from './Reviews';
+
+const School = lazy(() => import('./School'));
+const Movie = lazy(() => import('./Movie'));
 
 const EntityBase = () => {
 	const history = useHistory();
 	const { entityId }: { entityId: string } = useParams();
-	const { data, loading, error } = useGetEntityQuery({
+	const { data, loading } = useGetEntityQuery({
 		variables: { id: Number(entityId) },
 		onError: () => {
 			history.goBack();
+		},
+		onCompleted: data => {
+			setEntity(data.getEntity ?? null);
 		}
 	});
+	const [entity, setEntity] = useState<null | any>(null);
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -44,17 +56,19 @@ const EntityBase = () => {
 							</div>
 						)}
 
-						<div className="flex justify-between items-center">
+						<div className="flex justify-between items-baseline">
 							<h1 className="text-2xl text-primary">
 								{data?.getEntity.name}{' '}
 							</h1>
-							<button className="p-4 mt-4 font-bold rounded-md bg-green-500 text-white h-10 flex items-center w-48 justify-center text-sm hover:opacity-90 transition">
-								Leave a review{' '}
-								<FontAwesomeIcon
-									icon={faPlus}
-									className="ml-2"
-								/>
-							</button>
+							<div className="flex-col">
+								<button className="p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 flex items-center w-48 justify-center text-sm hover:opacity-90 transition">
+									Leave a review{' '}
+									<FontAwesomeIcon
+										icon={faPlusSquare}
+										className="ml-2"
+									/>
+								</button>
+							</div>
 						</div>
 						<p className="font-medium opacity-50 uppercase mt-4">
 							{parseEntity(data.getEntity as any).hasOwnProperty(
@@ -66,10 +80,41 @@ const EntityBase = () => {
 								'bio'
 							) && parseEntity(data.getEntity as any)['bio']}
 						</p>
+						{data.getEntity.type === 'Schools' && (
+							<School
+								school={
+									returnIdentifiedContent(
+										data.getEntity as any
+									) as any
+								}
+							/>
+						)}
+						{data.getEntity.type === 'Movies' && (
+							<Movie
+								movie={
+									returnIdentifiedContent(
+										data.getEntity as any
+									) as any
+								}
+								title={data.getEntity.name}
+							/>
+						)}
 						<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
 							{data.getEntity.type}
 						</span>
+						<Link
+							to={`/support/entity-incorrect?entity=${data.getEntity.id}`}
+							className="underline block mt-4 opacity-50"
+						>
+							Seeing false information?
+						</Link>
 					</div>
+				)}
+				{data && (
+					<Reviews
+						entityId={data.getEntity.id}
+						entityName={data.getEntity.name}
+					/>
 				)}
 			</div>
 			<Footer />

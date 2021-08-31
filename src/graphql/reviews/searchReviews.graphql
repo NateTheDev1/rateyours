@@ -1,0 +1,19 @@
+query SearchReviews($entityId: Int!, $first: Int) {
+	searchReviews(entityId: $entityId, first: $first) {
+		total
+		reviews {
+			id
+			type
+			title
+			createdByUser {
+				fullName
+			}
+			createdAt
+			body
+			tags
+			rating
+			specialContent
+			entity
+		}
+	}
+}

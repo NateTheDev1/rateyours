@@ -28,9 +28,12 @@ const SearchResults = () => {
 				<h2 className="font-bold text-xl mt-10 mb-8">Search</h2>
 				<SearchFiltersBar />
 				<hr className="mt-4" />
-				<h2 className="font-bold text-xl mt-10 mb-8">
-					Categorical Results ({data && data.search.entities.length})
-				</h2>
+				{data && (
+					<h2 className="font-bold text-xl mt-10 mb-8">
+						Categorical Results (
+						{data && data.search.entities.length})
+					</h2>
+				)}
 				{data && data.search.entities.length > 0 && (
 					<div className="mt-8 flex overflow-x-scroll overflow-y-hidden">
 						{data?.search.entities.map((entity, key) => (
