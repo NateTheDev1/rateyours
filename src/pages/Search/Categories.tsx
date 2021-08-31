@@ -6,12 +6,21 @@ import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useGetCategoriesQuery } from '../../graphql';
 import { CategoryCard } from './CategoryCard';
+import { Helmet } from 'react-helmet';
 
 const Categories = () => {
 	const { data, loading } = useGetCategoriesQuery();
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
+			<Helmet>
+				<title>rateit | Categories</title>
+				<meta
+					name="description"
+					content="Checkout categories on rate it."
+				/>
+			</Helmet>
+
 			<Navbar />
 			<div className="categories mb-auto mt-2 max-w-5xl m-auto lg:p-0 p-4">
 				<h2 className="font-bold text-2xl mt-14 text-center">

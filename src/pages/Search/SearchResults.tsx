@@ -5,6 +5,7 @@ import { useSearchQuery } from '../../graphql';
 import { SearchFiltersBar } from './SearchFiltersBar';
 import { SearchResult } from './SearchResult';
 import { SearchResultEntity } from './SearchResultEntity';
+import { Helmet } from 'react-helmet';
 
 const SearchResults = () => {
 	let query = useQuery();
@@ -23,6 +24,14 @@ const SearchResults = () => {
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
+			<Helmet>
+				<title>rateit | Search results for {query.get('query')}</title>
+				<meta
+					name="description"
+					content="Checkout categories on rate it."
+				/>
+			</Helmet>
+
 			<Navbar />
 			<div className="categories px-4 mb-auto sm:px-12 lg:px-20 md:px-16 pb-20">
 				<h2 className="font-bold text-xl mt-10 mb-8">Search</h2>

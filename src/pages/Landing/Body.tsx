@@ -1,7 +1,8 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export const Body = () => {
 	const history = useHistory();
@@ -15,6 +16,13 @@ export const Body = () => {
 
 	return (
 		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto lg:p-0 p-4">
+			<Helmet>
+				<title>rateit | Home</title>
+				<meta
+					name="description"
+					content="Read and write your own reviews on almost anything from businesses, books, movies, music, teachers, and more."
+				/>
+			</Helmet>
 			<h2 className="font-bold lg:text-3xl text-xl mt-14 text-center">
 				Search over 20 categories to get information about anything
 			</h2>
@@ -47,12 +55,13 @@ export const Body = () => {
 					What are we all about?
 				</h2>
 				<p className="text-center leading-loose font-medium lg:text-lg text-md opacity-50 mb-12">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Exercitationem dolorem sunt nisi ipsum sint laborum impedit
-					nulla inventore debitis magnam similique nihil amet pariatur
-					cum quas dignissimos voluptatem, eum minima fugit omnis
-					libero sapiente. Consequuntur sint exercitationem voluptatem
-					eveniet illum?
+					We are a tool you can use to express your opinion about
+					everyday things such as business, products, music and more.
+					Along wit this, rateit can also act as your own source of
+					truth for finding information on the same things as well. At
+					rateit we hold a quality standard to our team to bring
+					uncensored raw information and put it in the ands of the
+					people.
 				</p>
 			</div>
 			<div className="stories flex flex-col mb-20 mt-12 justify-center items-center">
@@ -61,11 +70,12 @@ export const Body = () => {
 						Truthful Information
 					</h4>
 					<p className="leading-loose">
-						Lorem ipsum, dolor sit amet consectetur adipisicing
-						elit. Explicabo facere aspernatur nihil magni asperiores
-						ipsum facilis aut amet consectetur laudantium aliquid,
-						ex natus deserunt. Fuga est praesentium molestias rem
-						atque?
+						We are dedicated to bringing you the information you
+						need without hiccups and will work hard to make reading
+						reviews on rateit something you can trust. Along with
+						reading other user's reviews, you can trust our team of
+						verified reviewers to get you a guaranteed organic
+						opinion.
 					</p>
 				</div>
 				<hr className="w-full my-14" />
@@ -75,11 +85,10 @@ export const Body = () => {
 						Free Information
 					</h4>
 					<p className="leading-loose">
-						Lorem ipsum, dolor sit amet consectetur adipisicing
-						elit. Explicabo facere aspernatur nihil magni asperiores
-						ipsum facilis aut amet consectetur laudantium aliquid,
-						ex natus deserunt. Fuga est praesentium molestias rem
-						atque?
+						Our promise to you is to never censor or remove poor
+						ratings like other sites may do. At rateit we will work
+						hard to stop automated reviewers or investigate fake
+						reviews to ensure the best experience for our users.
 					</p>
 				</div>
 				<hr className="w-full my-14" />
@@ -89,11 +98,13 @@ export const Body = () => {
 						Creating Change
 					</h4>
 					<p className="leading-loose">
-						Lorem ipsum, dolor sit amet consectetur adipisicing
-						elit. Explicabo facere aspernatur nihil magni asperiores
-						ipsum facilis aut amet consectetur laudantium aliquid,
-						ex natus deserunt. Fuga est praesentium molestias rem
-						atque?
+						This platform is not meant to deter you away from a
+						business or product, but it is meant to create change in
+						the areas that need it the most. On our site we reach
+						out out to these business, products, people, and more to
+						show them what people are saying and how things can be
+						changed for the better. Whether you are leaving a review
+						or reading a review, you can make an impact.
 					</p>
 				</div>
 			</div>
@@ -105,12 +116,18 @@ export const Body = () => {
 					Our Partner Program
 				</p>
 				<p className="text-center leading-loose font-medium text-lg opacity-50 mb-12">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Exercitationem dolorem sunt nisi ipsum sint laborum impedit
-					nulla inventore debitis magnam similique nihil amet pariatur
-					cum quas dignissimos voluptatem, eum minima fugit omnis
-					libero sapiente. Consequuntur sint exercitationem voluptatem
-					eveniet illum?
+					If you have a passion for spreading authentic and truthful
+					information in a free environment we are looking for people
+					like you! We are looking for people to join us and our
+					partner program to be a part of a team that strives to bring
+					quality information to our users.
+					<br></br>
+					<span>
+						Want to learn more?{' '}
+						<Link to="/partners" className="underline">
+							Click here
+						</Link>
+					</span>
 				</p>
 			</div>
 		</div>

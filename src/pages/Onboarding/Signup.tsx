@@ -5,6 +5,7 @@ import { Footer } from '../../components/Footer/Footer';
 import { TextInput } from '../../components/Inputs/TextInput';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useCreateUserMutation } from '../../graphql';
+import { Helmet } from 'react-helmet';
 
 const Signup = () => {
 	const [signupMutation, signupData] = useCreateUserMutation();
@@ -54,6 +55,10 @@ const Signup = () => {
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
+			<Helmet>
+				<title>rateit | Signup</title>
+				<meta name="description" content="Signup for rateit" />
+			</Helmet>
 			<Navbar showLogin={false} />
 			<div className="login mb-auto mt-14">
 				<h4 className="font-medium text-center text-xl mb-8">

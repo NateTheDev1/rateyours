@@ -23,6 +23,7 @@
 		"@types/node": "^12.20.15",
 		"@types/react": "^17.0.9",
 		"@types/react-dom": "^17.0.6",
+		"add": "^2.0.6",
 		"axios": "^0.21.1",
 		"faker": "^5.5.3",
 		"graphql": "^15.5.0",
@@ -36,6 +37,7 @@
 		"react-adsense": "^0.1.0",
 		"react-csp": "^1.1.1",
 		"react-dom": "^17.0.2",
+		"react-helmet": "^6.1.0",
 		"react-hot-toast": "^2.1.1",
 		"react-lazy-load-image-component": "^1.5.1",
 		"react-redux": "^7.2.4",
@@ -53,7 +55,8 @@
 		"schema-dts": "^0.8.3",
 		"subscriptions-transport-ws": "^0.9.19",
 		"typescript": "^4.3.2",
-		"web-vitals": "^1.1.2"
+		"web-vitals": "^1.1.2",
+		"yarn": "^1.22.11"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "^1.21.5",
@@ -64,6 +67,7 @@
 		"@graphql-codegen/typescript-react-apollo": "^2.2.5",
 		"@types/faker": "^5.5.6",
 		"@types/logrocket-react": "^3.0.0",
+		"@types/react-helmet": "^6.1.2",
 		"@types/react-lazy-load-image-component": "^1.5.1",
 		"@types/react-router-dom": "^5.1.7",
 		"@types/react-select": "^4.0.15",
