@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 
 const SearchResults = () => {
 	let query = useQuery();
-	const { data, loading, error } = useSearchQuery({
+	const { data, loading } = useSearchQuery({
 		variables: {
 			filters: {
 				minRating: Number(query.get('minRating') ?? 0),

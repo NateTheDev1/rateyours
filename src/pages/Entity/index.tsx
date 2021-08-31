@@ -4,6 +4,7 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { lazy, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
@@ -24,13 +25,22 @@ const EntityBase = () => {
 			history.goBack();
 		},
 		onCompleted: data => {
-			setEntity(data.getEntity ?? null);
+			setHelmet(
+				<Helmet>
+					<title>rateit | {data.getEntity.name}</title>
+					<meta
+						name="description"
+						content={`Viewing information on `}
+					/>
+				</Helmet>
+			);
 		}
 	});
-	const [entity, setEntity] = useState<null | any>(null);
+	const [helmet, setHelmet] = useState<any>(null);
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
+			{helmet !== null && helmet}
 			<Navbar />
 			<div className="categories mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2">
 				{loading && <LoadingCircle loading={true} />}
