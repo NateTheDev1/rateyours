@@ -1,12 +1,21 @@
 import { Movie as MovieType } from './parseEntity';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { useState } from 'react';
 
 const Movie = ({ movie, title }: { movie: MovieType; title: string }) => {
+	const [hideImage, setHideImage] = useState(false);
+
 	return (
 		<div className="mt-4 mb-4 flex">
-			<LazyLoadImage src={movie.posterUrl} alt={title} effect="blur" />
-
+			{!hideImage && (
+				<LazyLoadImage
+					src={movie.posterUrl}
+					alt={title}
+					effect="blur"
+					onError={() => setHideImage(true)}
+				/>
+			)}
 			<div className="mt-4 flex flex-col items-start ml-4">
 				<p className="font-medium opacity-50 uppercase mt-4">
 					{movie.runtime} minutes

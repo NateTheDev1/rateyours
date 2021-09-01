@@ -6,10 +6,11 @@ import { SearchFiltersBar } from './SearchFiltersBar';
 import { SearchResult } from './SearchResult';
 import { SearchResultEntity } from './SearchResultEntity';
 import { Helmet } from 'react-helmet';
+import { useState } from 'react';
 
 const SearchResults = () => {
 	let query = useQuery();
-	const { data, loading } = useSearchQuery({
+	const { data, loading, refetch } = useSearchQuery({
 		variables: {
 			filters: {
 				minRating: Number(query.get('minRating') ?? 0),
@@ -19,8 +20,57 @@ const SearchResults = () => {
 					query.get('categoryRestriction') ?? undefined
 			},
 			query: query.get('query') ?? 'a'
+		},
+		onCompleted: res => {
+			generatePages();
 		}
 	});
+	const [page, setPage] = useState(1);
+	const [pages, setPages] = useState([1]);
+
+	const generatePages = () => {
+		if (data) {
+			const pageArr = [];
+			const pages = data.search.total / 24;
+			for (let i = 0; i < pages; i++) {
+				pageArr.push(i + 1);
+			}
+			setPages(pageArr);
+		}
+	};
+
+	const setPagination = (num: number) => {
+		if (num !== page) {
+			setPage(num);
+
+			if (data) {
+				if (!(pages.length > 1)) {
+					refetch({
+						filters: {
+							minRating: Number(query.get('minRating') ?? 0),
+							maxRating: Number(query.get('maxRating') ?? 5),
+							sortyBy: 'Best Match',
+							categoryRestriction:
+								query.get('categoryRestriction') ?? undefined
+						},
+						query: query.get('query') ?? 'a'
+					});
+				} else {
+					refetch({
+						filters: {
+							minRating: Number(query.get('minRating') ?? 0),
+							maxRating: Number(query.get('maxRating') ?? 5),
+							sortyBy: 'Best Match',
+							categoryRestriction:
+								query.get('categoryRestriction') ?? undefined
+						},
+						query: query.get('query') ?? 'a',
+						first: data.search.reviews.length
+					});
+				}
+			}
+		}
+	};
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -51,18 +101,43 @@ const SearchResults = () => {
 					</div>
 				)}
 				{data && data.search.reviews.length > 0 && (
-					<h2 className="font-bold text-xl mt-10 mb-8">
-						There{' '}
-						{data && data.search.reviews.length > 1 ? 'are' : 'is'}{' '}
-						<span className="text-primary">
-							{data?.search.reviews.length}
-						</span>{' '}
-						review{data && data.search.reviews.length > 1 && 's'}{' '}
-						for{' '}
-						<span className="text-primary">
-							'{query.get('query')}'
-						</span>
-					</h2>
+					<div>
+						<h2 className="font-bold text-xl mt-10 mb-8">
+							There{' '}
+							{data && data.search.reviews.length > 1
+								? 'are'
+								: 'is'}{' '}
+							<span className="text-primary">
+								{data?.search.reviews.length}
+							</span>{' '}
+							review
+							{data &&
+								data.search.reviews.length > 1 &&
+								's'} for{' '}
+							<span className="text-primary">
+								'{query.get('query')}'
+							</span>
+						</h2>
+
+						{pages.length > 1 && (
+							<div className="flex items-center mt-2 mb-8">
+								<h2 className="font-light text-lg mr-4">
+									Page
+								</h2>
+								{pages.map((num, key) => (
+									<p
+										onClick={() => setPagination(num)}
+										className={`font-light text-lg mr-2 cursor-pointer ${
+											num === page && 'underline'
+										}`}
+										key={key}
+									>
+										{num}
+									</p>
+								))}
+							</div>
+						)}
+					</div>
 				)}
 
 				{data && data.search.reviews.length === 0 && (

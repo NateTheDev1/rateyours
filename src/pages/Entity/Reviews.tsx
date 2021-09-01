@@ -1,6 +1,8 @@
 import { faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
+import { useQuery } from '../../components/Navbar/Navbar';
 import { useSearchReviewsQuery } from '../../graphql';
 import Review from './Review';
 
@@ -11,9 +13,25 @@ export const Reviews = ({
 	entityName: string;
 	entityId: number;
 }) => {
+	const queries = useQuery();
 	const { data, loading } = useSearchReviewsQuery({
 		variables: { entityId }
 	});
+
+	useEffect(() => {
+		if (queries.get('scrollTo')) {
+			const el = document.getElementById(queries.get('scrollTo')!);
+
+			el?.classList.add('p-4');
+
+			if (el) {
+				el.style.border = '2px solid #10B981';
+				el.scrollIntoView({
+					behavior: 'smooth'
+				});
+			}
+		}
+	}, [data]);
 
 	return (
 		<div>
@@ -43,7 +61,10 @@ export const Reviews = ({
 							<div className="flex-col p-2">
 								{data.searchReviews.reviews.map(
 									(review, key) => (
-										<Review review={review as any} />
+										<Review
+											review={review as any}
+											key={key}
+										/>
 									)
 								)}
 							</div>
