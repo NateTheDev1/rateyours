@@ -8,8 +8,10 @@ export const Body = () => {
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState('');
 
-	const onSearch = (e: FormEvent) => {
-		e.preventDefault();
+	const onSearch = (e?: FormEvent) => {
+		if (e) {
+			e.preventDefault();
+		}
 
 		history.push('/search/results/?query=' + searchQuery);
 	};
@@ -45,7 +47,7 @@ export const Body = () => {
 				</form>
 			</div>
 			<button
-				type="submit"
+				onClick={() => onSearch()}
 				className="p-4 mt-8 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition"
 			>
 				Search

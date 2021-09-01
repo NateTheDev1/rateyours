@@ -31,13 +31,13 @@ export const Footer = () => {
 				</div>
 				<div className="text-white ml-24  flex-col lg:flex hidden">
 					<p className="font-bold text-xs mb-4">COMPANY</p>
-					<Link to="/signup" className="text-xs underline mb-4">
+					<Link to="/login" className="text-xs underline mb-4">
 						Email Us
 					</Link>
-					<Link to="/support" className="text-xs underline mb-4">
+					<Link to="/login" className="text-xs underline mb-4">
 						Support
 					</Link>
-					<Link to="/about" className="text-xs underline mb-4">
+					<Link to="/login" className="text-xs underline mb-4">
 						About
 					</Link>
 				</div>
