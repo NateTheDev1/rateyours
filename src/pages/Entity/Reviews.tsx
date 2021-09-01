@@ -28,7 +28,9 @@ export const Reviews = ({
 				el.style.border = 'none';
 				el.style.borderLeft = '5px solid #10B981';
 				el.scrollIntoView({
-					behavior: 'smooth'
+					behavior: 'smooth',
+					block: 'nearest',
+					inline: 'start'
 				});
 			}
 		}

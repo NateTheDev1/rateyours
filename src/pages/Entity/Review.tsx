@@ -24,6 +24,14 @@ const Review = ({
 			<p className="mt-4 font-medium text-sm text-primary">
 				{review?.rating}/5 stars
 			</p>
+			{review?.tags?.map((tag, key) => (
+				<span
+					key={key}
+					className="inline-flex mr-2 items-center justify-center px-3 py-3 text-xs mt-4 font-bold leading-none text-red-100 bg-primary rounded-full"
+				>
+					{tag}
+				</span>
+			))}
 		</div>
 	);
 };
