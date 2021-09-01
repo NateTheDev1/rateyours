@@ -108,12 +108,10 @@ const SearchResults = () => {
 								? 'are'
 								: 'is'}{' '}
 							<span className="text-primary">
-								{data?.search.reviews.length}
+								{data?.search.total}
 							</span>{' '}
 							review
-							{data &&
-								data.search.reviews.length > 1 &&
-								's'} for{' '}
+							{data && data.search.total > 1 && 's'} for{' '}
 							<span className="text-primary">
 								'{query.get('query')}'
 							</span>

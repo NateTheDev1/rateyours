@@ -22,16 +22,17 @@ export const Reviews = ({
 		if (queries.get('scrollTo')) {
 			const el = document.getElementById(queries.get('scrollTo')!);
 
-			el?.classList.add('p-4');
+			el?.classList.add('p-2');
 
 			if (el) {
-				el.style.border = '2px solid #10B981';
+				el.style.border = 'none';
+				el.style.borderLeft = '5px solid #10B981';
 				el.scrollIntoView({
 					behavior: 'smooth'
 				});
 			}
 		}
-	}, [data]);
+	}, [data, queries]);
 
 	return (
 		<div>
