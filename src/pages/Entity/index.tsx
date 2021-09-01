@@ -3,13 +3,13 @@ import {
 	faQuestionCircle
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
-import { useGetEntityQuery } from '../../graphql';
+import { useGetEntityQuery, useUpdateEntityViewsMutation } from '../../graphql';
 import { parseEntity, returnIdentifiedContent } from './parseEntity';
 import Reviews from './Reviews';
 
@@ -18,6 +18,8 @@ const Movie = lazy(() => import('./Movie'));
 
 const EntityBase = () => {
 	const history = useHistory();
+	const [viewed, setViewed] = useState(false);
+	const [updateEntityViews] = useUpdateEntityViewsMutation();
 	const { entityId }: { entityId: string } = useParams();
 	const { data, loading } = useGetEntityQuery({
 		variables: { id: Number(entityId) },
@@ -37,6 +39,15 @@ const EntityBase = () => {
 		}
 	});
 	const [helmet, setHelmet] = useState<any>(null);
+
+	useEffect(() => {
+		if (!viewed) {
+			setViewed(true);
+			updateEntityViews({
+				variables: { entityId: Number(entityId), viewCount: 1 }
+			});
+		}
+	}, [entityId, updateEntityViews, viewed]);
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -78,6 +89,9 @@ const EntityBase = () => {
 								/>
 							</button>
 						</div>
+						<p className="opacity-50">
+							{data.getEntity.views} Views
+						</p>
 						<p className="font-medium opacity-50 uppercase mt-4">
 							{parseEntity(data.getEntity as any).hasOwnProperty(
 								'field'

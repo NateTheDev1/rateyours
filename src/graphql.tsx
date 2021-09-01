@@ -60,6 +60,7 @@ export type Entity = {
   ownedBy?: Maybe<User>;
   specialContent?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  views?: Maybe<Scalars['Int']>;
 };
 
 export type EntityOwnershipRequest = {
@@ -81,6 +82,7 @@ export type LoginInput = {
 export type Mutation = {
   addCategory: Category;
   addReview: Review;
+  updateEntityViews: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
 };
@@ -93,6 +95,12 @@ export type MutationAddCategoryArgs = {
 
 export type MutationAddReviewArgs = {
   review: ReviewInput;
+};
+
+
+export type MutationUpdateEntityViewsArgs = {
+  viewCount: Scalars['Int'];
+  entityId: Scalars['Int'];
 };
 
 
@@ -193,7 +201,15 @@ export type GetEntityQueryVariables = Exact<{
 }>;
 
 
-export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
+export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
+
+export type UpdateEntityViewsMutationVariables = Exact<{
+  viewCount: Scalars['Int'];
+  entityId: Scalars['Int'];
+}>;
+
+
+export type UpdateEntityViewsMutation = { updateEntityViews: boolean };
 
 export type SearchReviewsQueryVariables = Exact<{
   entityId: Scalars['Int'];
@@ -222,7 +238,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>>, entities: Array<Maybe<{ id: number, type: string, name: string, specialContent?: Maybe<string>, ownedBy?: Maybe<{ fullName?: Maybe<string> }> }>> } };
+export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>>, entities: Array<Maybe<{ id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ fullName?: Maybe<string> }> }>> } };
 
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
@@ -257,6 +273,7 @@ export const GetEntityDocument = gql`
       fullName
     }
     specialContent
+    views
   }
 }
     `;
@@ -288,6 +305,38 @@ export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
 export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
 export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
+export const UpdateEntityViewsDocument = gql`
+    mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
+  updateEntityViews(viewCount: $viewCount, entityId: $entityId)
+}
+    `;
+export type UpdateEntityViewsMutationFn = Apollo.MutationFunction<UpdateEntityViewsMutation, UpdateEntityViewsMutationVariables>;
+
+/**
+ * __useUpdateEntityViewsMutation__
+ *
+ * To run a mutation, you first call `useUpdateEntityViewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEntityViewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEntityViewsMutation, { data, loading, error }] = useUpdateEntityViewsMutation({
+ *   variables: {
+ *      viewCount: // value for 'viewCount'
+ *      entityId: // value for 'entityId'
+ *   },
+ * });
+ */
+export function useUpdateEntityViewsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEntityViewsMutation, UpdateEntityViewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEntityViewsMutation, UpdateEntityViewsMutationVariables>(UpdateEntityViewsDocument, options);
+      }
+export type UpdateEntityViewsMutationHookResult = ReturnType<typeof useUpdateEntityViewsMutation>;
+export type UpdateEntityViewsMutationResult = Apollo.MutationResult<UpdateEntityViewsMutation>;
+export type UpdateEntityViewsMutationOptions = Apollo.BaseMutationOptions<UpdateEntityViewsMutation, UpdateEntityViewsMutationVariables>;
 export const SearchReviewsDocument = gql`
     query SearchReviews($entityId: Int!, $first: Int) {
   searchReviews(entityId: $entityId, first: $first) {
@@ -434,6 +483,7 @@ export const SearchDocument = gql`
         fullName
       }
       specialContent
+      views
     }
     total
   }

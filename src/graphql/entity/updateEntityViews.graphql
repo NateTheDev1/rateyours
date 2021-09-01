@@ -1,0 +1,3 @@
+mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
+	updateEntityViews(viewCount: $viewCount, entityId: $entityId)
+}

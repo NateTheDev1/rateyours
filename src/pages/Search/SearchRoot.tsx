@@ -1,6 +1,7 @@
 import { faSearch } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormEvent, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
@@ -47,6 +48,13 @@ const SearchRoot = () => {
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
+			<Helmet>
+				<title>rateit | Advanced Search</title>
+				<meta
+					name="description"
+					content="Make an advanced search on rateit"
+				/>
+			</Helmet>
 			<Navbar />
 			<div className="categories mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2 flex justify-evenly lg:flex-row flex-col">
 				<div className="lg:w-2/5 w-full shadow-md border border-gray-200 lg:p-8 p-4 overflow-scroll">

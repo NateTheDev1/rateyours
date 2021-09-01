@@ -22,6 +22,7 @@ query Search($filters: SearchFilters!, $first: Int, $query: String!) {
 				fullName
 			}
 			specialContent
+			views
 		}
 		total
 	}
