@@ -4,7 +4,8 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%PUBLIC_URL%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,
+		maximum-scale=1.0, user-scalable=0"" />
 		<meta name="theme-color" content="#000000" />
 		<meta
 			name="description"
@@ -15,6 +16,20 @@
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3214358634915966"
 			crossorigin="anonymous"
 		></script>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-6XYFN18WLK"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+
+			gtag('config', 'G-6XYFN18WLK');
+		</script>
 		<link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.png" />
 		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 		<title>rateit</title>
