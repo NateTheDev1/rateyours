@@ -122,17 +122,24 @@ const SearchResults = () => {
 								<h2 className="font-light text-lg mr-4">
 									Page
 								</h2>
-								{pages.map((num, key) => (
-									<p
-										onClick={() => setPagination(num)}
-										className={`font-light text-lg mr-2 cursor-pointer ${
-											num === page && 'underline'
-										}`}
-										key={key}
-									>
-										{num}
-									</p>
-								))}
+								<div className="bg-gray-100 flex items-center">
+									{pages.map((num, key) => (
+										<div
+											className={`py-2 px-5 border border-gray-300 cursor-pointer flex justify-center hover:opacity-50 transition ${
+												num === page &&
+												'bg-primary text-white'
+											}`}
+											onClick={() => setPagination(num)}
+										>
+											<p
+												className={`font-light text-lg`}
+												key={key}
+											>
+												{num}
+											</p>
+										</div>
+									))}
+								</div>
 							</div>
 						)}
 					</div>
