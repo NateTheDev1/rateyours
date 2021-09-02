@@ -15,23 +15,24 @@ import {
 	useUpdateEntityViewsMutation
 } from '../../graphql';
 import { UserSelectors } from '../../redux/User/selectors';
+import NewReview from './NewReview';
 import { parseEntity, returnIdentifiedContent } from './parseEntity';
 import Reviews from './Reviews';
 import StartReview from './startReviewEmitter';
 
 const School = lazy(() => import('./School'));
 const Movie = lazy(() => import('./Movie'));
-const NewReview = lazy(() => import('./NewReview'));
 
 const EntityBase = () => {
-	const query = useQuery();
 	const history = useHistory();
 	const userId = UserSelectors.useSelectUserId();
 
-	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery();
+	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery({
+		fetchPolicy: 'network-only'
+	});
 
 	const [viewed, setViewed] = useState(false);
-	const [submittedReview, setSubmittedReview] = useState(false);
+	const [submittedReview, setSubmittedReview] = useState(null);
 	const [updateEntityViews] = useUpdateEntityViewsMutation();
 
 	const { entityId }: { entityId: string } = useParams();
@@ -82,6 +83,28 @@ const EntityBase = () => {
 
 		return () => {
 			StartReview.off('STARTED_REVIEW');
+		};
+	}, []);
+
+	useEffect(() => {
+		StartReview.on('ENDED_REVIEW', review => {
+			setCreatingReview(false);
+			setSubmittedReview(review);
+			getHasReviewed();
+		});
+
+		return () => {
+			StartReview.off('ENDED_REVIEW');
+		};
+	}, []);
+
+	useEffect(() => {
+		StartReview.on('CANCEL_REVIEW', x => {
+			setCreatingReview(false);
+		});
+
+		return () => {
+			StartReview.off('CANCEL_REVIEW');
 		};
 	}, []);
 
@@ -169,24 +192,21 @@ const EntityBase = () => {
 						>
 							Seeing false information?
 						</Link>
-						{creatingReview &&
-							hasReviewedLoading.data?.hasReviewed !==
-								undefined &&
-							data && (
-								<NewReview
-									entityId={data.getEntity.id}
-									entityType={data.getEntity.type}
-									entityName={data.getEntity.name}
-									hasReviewed={
-										hasReviewedLoading.data.hasReviewed
-									}
-								/>
-							)}
 					</div>
 				)}
-
+				{creatingReview &&
+					hasReviewedLoading.data?.hasReviewed !== undefined &&
+					data && (
+						<NewReview
+							entityId={data.getEntity.id}
+							entityType={data.getEntity.type}
+							entityName={data.getEntity.name}
+							hasReviewed={hasReviewedLoading.data.hasReviewed}
+						/>
+					)}
 				{data && (
 					<Reviews
+						review={submittedReview}
 						entityId={data.getEntity.id}
 						entityName={data.getEntity.name}
 					/>

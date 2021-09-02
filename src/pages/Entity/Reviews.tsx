@@ -9,10 +9,12 @@ import StartReview from './startReviewEmitter';
 
 export const Reviews = ({
 	entityId,
-	entityName
+	entityName,
+	review
 }: {
 	entityName: string;
 	entityId: number;
+	review: any;
 }) => {
 	const queries = useQuery();
 	const { data, loading } = useSearchReviewsQuery({
@@ -67,6 +69,7 @@ export const Reviews = ({
 						</div>
 						{data.searchReviews.total > 0 && (
 							<div className="flex-col p-2">
+								{review && <Review review={review as any} />}
 								{data.searchReviews.reviews.map(
 									(review, key) => (
 										<Review
