@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { TextInput } from '../../components/Inputs/TextInput';
-import { Navbar } from '../../components/Navbar/Navbar';
+import { Navbar, useQuery } from '../../components/Navbar/Navbar';
 import { useLoginMutation } from '../../graphql';
 import { Helmet } from 'react-helmet';
+import { UserActions } from '../../redux/User/actions';
 
 const Login = () => {
+	const query = useQuery();
+	const history = useHistory();
 	const [loginUser, loginData] = useLoginMutation();
 	const [formValues, setFormValues] = useState({ email: '', password: '' });
 	const [formError, setFormError] = useState<null | string>(null);
+	const loginUserRedux = UserActions.useLogin();
 
 	const onChange = (val: string, name: 'email' | 'password') => {
 		setFormValues({ ...formValues, [name]: val });
@@ -23,7 +27,23 @@ const Login = () => {
 		loginUser({ variables: { credentials: { ...formValues } } })
 			.then(res => {
 				if (res.data) {
-					console.log(res.data);
+					loginUserRedux(res.data.login.token);
+					if (query.get('redirect')) {
+						const redirect = query.get('redirect');
+						console.log(redirect);
+
+						if (redirect?.includes('entity-')) {
+							const entityId = redirect.split('-')[1];
+
+							history.push(
+								'/search/results/entity/' +
+									entityId +
+									'?reviewing=true'
+							);
+						}
+					} else {
+						history.push('/');
+					}
 				} else {
 					setFormError('Email or password is incorrect.');
 				}

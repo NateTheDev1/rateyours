@@ -1,0 +1,16 @@
+mutation AddReview($review: ReviewInput!, $hasReviewed: Boolean!) {
+	addReview(review: $review, hasReviewed: $hasReviewed) {
+		id
+		type
+		title
+		createdByUser {
+			fullName
+		}
+		createdAt
+		body
+		tags
+		rating
+		specialContent
+		entity
+	}
+}

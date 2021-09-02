@@ -26,33 +26,30 @@ export const Router = () => {
 					timeout={100}
 				>
 					<Switch location={location}>
-						<PublicRoute
-							exact
-							path="/search/results/entity/:entityId"
-						>
+						<Route exact path="/search/results/entity/:entityId">
 							<EntityBase />
-						</PublicRoute>
-						<PublicRoute exact path="/search/results">
+						</Route>
+						<Route exact path="/search/results">
 							<SearchResults />
-						</PublicRoute>
-						<PublicRoute exact path="/search">
+						</Route>
+						<Route exact path="/search">
 							<SearchRoot />
-						</PublicRoute>
-						<PublicRoute exact path="/categories/suggest">
+						</Route>
+						<Route exact path="/categories/suggest">
 							<Suggest />
-						</PublicRoute>
-						<PublicRoute exact path="/categories">
+						</Route>
+						<Route exact path="/categories">
 							<Categories />
-						</PublicRoute>
+						</Route>
 						<PublicRoute exact path="/signup">
 							<Signup />
 						</PublicRoute>
 						<PublicRoute exact path="/login">
 							<Login />
 						</PublicRoute>
-						<PublicRoute exact path="/">
+						<Route exact path="/">
 							<Landing />
-						</PublicRoute>
+						</Route>
 						<Route path="*">
 							<NotFound />
 						</Route>

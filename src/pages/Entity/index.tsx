@@ -8,19 +8,34 @@ import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
-import { Navbar } from '../../components/Navbar/Navbar';
-import { useGetEntityQuery, useUpdateEntityViewsMutation } from '../../graphql';
+import { Navbar, useQuery } from '../../components/Navbar/Navbar';
+import {
+	useGetEntityQuery,
+	useHasReviewedLazyQuery,
+	useUpdateEntityViewsMutation
+} from '../../graphql';
+import { UserSelectors } from '../../redux/User/selectors';
 import { parseEntity, returnIdentifiedContent } from './parseEntity';
 import Reviews from './Reviews';
+import StartReview from './startReviewEmitter';
 
 const School = lazy(() => import('./School'));
 const Movie = lazy(() => import('./Movie'));
+const NewReview = lazy(() => import('./NewReview'));
 
 const EntityBase = () => {
+	const query = useQuery();
 	const history = useHistory();
+	const userId = UserSelectors.useSelectUserId();
+
+	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery();
+
 	const [viewed, setViewed] = useState(false);
+	const [submittedReview, setSubmittedReview] = useState(false);
 	const [updateEntityViews] = useUpdateEntityViewsMutation();
+
 	const { entityId }: { entityId: string } = useParams();
+	const [creatingReview, setCreatingReview] = useState(false);
 	const { data, loading } = useGetEntityQuery({
 		variables: { id: Number(entityId) },
 		onError: () => {
@@ -48,6 +63,27 @@ const EntityBase = () => {
 			});
 		}
 	}, [entityId, updateEntityViews, viewed]);
+
+	const onStartReview = () => {
+		if (!userId) {
+			history.push(
+				'/login?redirect=entity-' + entityId + '&reviewing=true'
+			);
+		} else {
+			getHasReviewed({
+				variables: { entityId: Number(entityId), userId: userId }
+			});
+			setCreatingReview(true);
+		}
+	};
+
+	useEffect(() => {
+		StartReview.on('STARTED_REVIEW', room => onStartReview());
+
+		return () => {
+			StartReview.off('STARTED_REVIEW');
+		};
+	}, []);
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -81,7 +117,10 @@ const EntityBase = () => {
 							<h1 className="text-2xl text-primary">
 								{data?.getEntity.name}{' '}
 							</h1>
-							<button className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition">
+							<button
+								onClick={onStartReview}
+								className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
+							>
 								Leave a review{' '}
 								<FontAwesomeIcon
 									icon={faPlusSquare}
@@ -130,8 +169,22 @@ const EntityBase = () => {
 						>
 							Seeing false information?
 						</Link>
+						{creatingReview &&
+							hasReviewedLoading.data?.hasReviewed !==
+								undefined &&
+							data && (
+								<NewReview
+									entityId={data.getEntity.id}
+									entityType={data.getEntity.type}
+									entityName={data.getEntity.name}
+									hasReviewed={
+										hasReviewedLoading.data.hasReviewed
+									}
+								/>
+							)}
 					</div>
 				)}
+
 				{data && (
 					<Reviews
 						entityId={data.getEntity.id}

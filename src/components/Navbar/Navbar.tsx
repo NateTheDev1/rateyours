@@ -1,10 +1,13 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { IconLogo } from '../business/Logo/IconLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faBars, faSearch, faTimes } from '@fortawesome/pro-light-svg-icons';
+import { UserActions } from '../../redux/User/actions';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/types/state-types';
 
 export function useQuery() {
 	return new URLSearchParams(useLocation().search);
@@ -13,7 +16,21 @@ export function useQuery() {
 export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState('');
+
+	const logout = UserActions.useLogout();
 	const [openMobileNav, setOpenMobileNav] = useState(false);
+
+	const fetchUser = UserActions.useFetchUser();
+	const user = useSelector((state: RootState) => state.user.user);
+	const authenticated = useSelector(
+		(state: RootState) => state.user.authenticated
+	);
+
+	useEffect(() => {
+		if (!user && authenticated) {
+			fetchUser();
+		}
+	}, []);
 
 	const onSearch = (e: FormEvent) => {
 		e.preventDefault();
@@ -119,7 +136,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						/>
 					</form>
 				</div>
-				{showLogin && (
+				{showLogin && !authenticated && (
 					<>
 						<Link
 							to="/login"
@@ -132,6 +149,24 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 							className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition"
 						>
 							Sign Up
+						</button>
+					</>
+				)}
+				{authenticated && (
+					<>
+						{user && (
+							<Link
+								to="/account"
+								className="font-semibold mr-5 text-sm transition hover:underline"
+							>
+								{user?.fullName}
+							</Link>
+						)}
+						<button
+							onClick={() => logout()}
+							className="p-4 rounded-md bg-red-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition"
+						>
+							Logout
 						</button>
 					</>
 				)}

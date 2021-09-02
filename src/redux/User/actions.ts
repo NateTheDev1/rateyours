@@ -57,12 +57,11 @@ export const UserActions: RootActions['user'] = {
 					type: UserActionConstants.APP_FETCHED_USER,
 					payload: data.getUser as any
 				};
-
 				dispatch(action);
 			}
 		});
 
-		return async () => {
+		return () => {
 			const token = localStorage.getItem(
 				process.env.REACT_APP_TOKEN_KEY!
 			)!;

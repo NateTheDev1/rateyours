@@ -1,10 +1,11 @@
 import { faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { useQuery } from '../../components/Navbar/Navbar';
 import { useSearchReviewsQuery } from '../../graphql';
 import Review from './Review';
+import StartReview from './startReviewEmitter';
 
 export const Reviews = ({
 	entityId,
@@ -17,9 +18,8 @@ export const Reviews = ({
 	const { data, loading } = useSearchReviewsQuery({
 		variables: { entityId }
 	});
-
 	useEffect(() => {
-		if (queries.get('scrollTo')) {
+		if (queries.get('s	ollTo')) {
 			const el = document.getElementById(queries.get('scrollTo')!);
 
 			el?.classList.add('p-2');
@@ -52,7 +52,12 @@ export const Reviews = ({
 							<h4 className="font-light text-sm my-2">
 								{data.searchReviews.total} Reviews
 							</h4>
-							<button className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition">
+							<button
+								onClick={() => {
+									StartReview.emit('STARTED_REVIEW', {});
+								}}
+								className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition"
+							>
 								Leave a review{' '}
 								<FontAwesomeIcon
 									icon={faPlusSquare}

@@ -32,7 +32,8 @@ export const userReducer = (
 				...state,
 				user: action.payload,
 				userId: action.payload.id,
-				loading: false
+				loading: false,
+				authenticated: true
 			};
 		}
 		case UserActionConstants.SET_LOADING: {

@@ -1,0 +1,3 @@
+query HasReviewed($entityId: Int!, $userId: Int!) {
+	hasReviewed(entityId: $entityId, userId: $userId)
+}

@@ -95,6 +95,7 @@ export type MutationAddCategoryArgs = {
 
 export type MutationAddReviewArgs = {
   review: ReviewInput;
+  hasReviewed: Scalars['Boolean'];
 };
 
 
@@ -118,6 +119,7 @@ export type Query = {
   search: ReviewSearchResponse;
   getEntity: Entity;
   searchReviews: SearchReviewsResponse;
+  hasReviewed: Scalars['Boolean'];
   getUser: User;
 };
 
@@ -137,6 +139,12 @@ export type QueryGetEntityArgs = {
 export type QuerySearchReviewsArgs = {
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryHasReviewedArgs = {
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -210,6 +218,22 @@ export type UpdateEntityViewsMutationVariables = Exact<{
 
 
 export type UpdateEntityViewsMutation = { updateEntityViews: boolean };
+
+export type AddReviewMutationVariables = Exact<{
+  review: ReviewInput;
+  hasReviewed: Scalars['Boolean'];
+}>;
+
+
+export type AddReviewMutation = { addReview: { id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } } };
+
+export type HasReviewedQueryVariables = Exact<{
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type HasReviewedQuery = { hasReviewed: boolean };
 
 export type SearchReviewsQueryVariables = Exact<{
   entityId: Scalars['Int'];
@@ -337,6 +361,85 @@ export function useUpdateEntityViewsMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateEntityViewsMutationHookResult = ReturnType<typeof useUpdateEntityViewsMutation>;
 export type UpdateEntityViewsMutationResult = Apollo.MutationResult<UpdateEntityViewsMutation>;
 export type UpdateEntityViewsMutationOptions = Apollo.BaseMutationOptions<UpdateEntityViewsMutation, UpdateEntityViewsMutationVariables>;
+export const AddReviewDocument = gql`
+    mutation AddReview($review: ReviewInput!, $hasReviewed: Boolean!) {
+  addReview(review: $review, hasReviewed: $hasReviewed) {
+    id
+    type
+    title
+    createdByUser {
+      fullName
+    }
+    createdAt
+    body
+    tags
+    rating
+    specialContent
+    entity
+  }
+}
+    `;
+export type AddReviewMutationFn = Apollo.MutationFunction<AddReviewMutation, AddReviewMutationVariables>;
+
+/**
+ * __useAddReviewMutation__
+ *
+ * To run a mutation, you first call `useAddReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addReviewMutation, { data, loading, error }] = useAddReviewMutation({
+ *   variables: {
+ *      review: // value for 'review'
+ *      hasReviewed: // value for 'hasReviewed'
+ *   },
+ * });
+ */
+export function useAddReviewMutation(baseOptions?: Apollo.MutationHookOptions<AddReviewMutation, AddReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddReviewMutation, AddReviewMutationVariables>(AddReviewDocument, options);
+      }
+export type AddReviewMutationHookResult = ReturnType<typeof useAddReviewMutation>;
+export type AddReviewMutationResult = Apollo.MutationResult<AddReviewMutation>;
+export type AddReviewMutationOptions = Apollo.BaseMutationOptions<AddReviewMutation, AddReviewMutationVariables>;
+export const HasReviewedDocument = gql`
+    query HasReviewed($entityId: Int!, $userId: Int!) {
+  hasReviewed(entityId: $entityId, userId: $userId)
+}
+    `;
+
+/**
+ * __useHasReviewedQuery__
+ *
+ * To run a query within a React component, call `useHasReviewedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHasReviewedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHasReviewedQuery({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useHasReviewedQuery(baseOptions: Apollo.QueryHookOptions<HasReviewedQuery, HasReviewedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HasReviewedQuery, HasReviewedQueryVariables>(HasReviewedDocument, options);
+      }
+export function useHasReviewedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HasReviewedQuery, HasReviewedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HasReviewedQuery, HasReviewedQueryVariables>(HasReviewedDocument, options);
+        }
+export type HasReviewedQueryHookResult = ReturnType<typeof useHasReviewedQuery>;
+export type HasReviewedLazyQueryHookResult = ReturnType<typeof useHasReviewedLazyQuery>;
+export type HasReviewedQueryResult = Apollo.QueryResult<HasReviewedQuery, HasReviewedQueryVariables>;
 export const SearchReviewsDocument = gql`
     query SearchReviews($entityId: Int!, $first: Int) {
   searchReviews(entityId: $entityId, first: $first) {
