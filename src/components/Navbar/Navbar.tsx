@@ -30,6 +30,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 		if (!user && authenticated) {
 			fetchUser();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const onSearch = (e: FormEvent) => {

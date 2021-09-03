@@ -1,0 +1,23 @@
+query GetCategory($id: Int!) {
+	getCategory(id: $id) {
+		id
+		title
+		caption
+		iconKey
+		banner
+		topTen {
+			mostViewed {
+				id
+				type
+				name
+				views
+			}
+			mostRecent {
+				id
+				type
+				name
+				views
+			}
+		}
+	}
+}

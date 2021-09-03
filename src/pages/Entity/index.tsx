@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
 	faPlusSquare,
 	faQuestionCircle
@@ -48,7 +49,7 @@ const EntityBase = () => {
 					<title>rateit | {data.getEntity.name}</title>
 					<meta
 						name="description"
-						content={`Viewing information on `}
+						content={`Viewing information on ${data.getEntity.name}`}
 					/>
 				</Helmet>
 			);
@@ -112,7 +113,7 @@ const EntityBase = () => {
 		<div className="min-h-screen overflow-hidden flex flex-col">
 			{helmet !== null && helmet}
 			<Navbar />
-			<div className="categories mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2">
+			<div className="mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2">
 				{loading && <LoadingCircle loading={true} />}
 				{!loading && data && (
 					<div className="flex-col bg-white border border-gray-100 shadow-sm p-4">

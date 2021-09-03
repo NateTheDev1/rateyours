@@ -13,6 +13,7 @@ const Suggest = lazy(() => import('../../../pages/Search/Suggest'));
 const SearchResults = lazy(() => import('../../../pages/Search/SearchResults'));
 const SearchRoot = lazy(() => import('../../../pages/Search/SearchRoot'));
 const EntityBase = lazy(() => import('../../../pages/Entity/index'));
+const CategoryPage = lazy(() => import('../../../pages/Category'));
 
 export const Router = () => {
 	const location = useLocation();
@@ -23,7 +24,7 @@ export const Router = () => {
 				<CSSTransition
 					key={location.key}
 					classNames="fade"
-					timeout={100}
+					timeout={200}
 				>
 					<Switch location={location}>
 						<Route exact path="/search/results/entity/:entityId">
@@ -34,6 +35,9 @@ export const Router = () => {
 						</Route>
 						<Route exact path="/search">
 							<SearchRoot />
+						</Route>
+						<Route exact path="/categories/:id">
+							<CategoryPage />
 						</Route>
 						<Route exact path="/categories/suggest">
 							<Suggest />

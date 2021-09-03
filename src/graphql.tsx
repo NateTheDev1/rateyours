@@ -34,6 +34,13 @@ export type Category = {
   caption: Scalars['String'];
   iconKey?: Maybe<Scalars['String']>;
   approved: Scalars['Boolean'];
+  banner?: Maybe<Scalars['String']>;
+  topTen: CategoryTopTen;
+};
+
+export type CategoryTopTen = {
+  mostViewed: Array<Maybe<Entity>>;
+  mostRecent: Array<Maybe<Entity>>;
 };
 
 export type CreateEntityInput = {
@@ -120,6 +127,7 @@ export type Query = {
   getEntity: Entity;
   searchReviews: SearchReviewsResponse;
   hasReviewed: Scalars['Boolean'];
+  getCategory: Category;
   getUser: User;
 };
 
@@ -145,6 +153,11 @@ export type QuerySearchReviewsArgs = {
 export type QueryHasReviewedArgs = {
   entityId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type QueryGetCategoryArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -254,6 +267,13 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCategoriesQuery = { getCategories: Array<{ id: number, title: string, caption: string, iconKey?: Maybe<string> }> };
+
+export type GetCategoryQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetCategoryQuery = { getCategory: { id: number, title: string, caption: string, iconKey?: Maybe<string>, banner?: Maybe<string>, topTen: { mostViewed: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>>, mostRecent: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> } } };
 
 export type SearchQueryVariables = Exact<{
   filters: SearchFilters;
@@ -561,6 +581,59 @@ export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
 export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
 export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
+export const GetCategoryDocument = gql`
+    query GetCategory($id: Int!) {
+  getCategory(id: $id) {
+    id
+    title
+    caption
+    iconKey
+    banner
+    topTen {
+      mostViewed {
+        id
+        type
+        name
+        views
+      }
+      mostRecent {
+        id
+        type
+        name
+        views
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCategoryQuery__
+ *
+ * To run a query within a React component, call `useGetCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCategoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetCategoryQuery(baseOptions: Apollo.QueryHookOptions<GetCategoryQuery, GetCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCategoryQuery, GetCategoryQueryVariables>(GetCategoryDocument, options);
+      }
+export function useGetCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCategoryQuery, GetCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCategoryQuery, GetCategoryQueryVariables>(GetCategoryDocument, options);
+        }
+export type GetCategoryQueryHookResult = ReturnType<typeof useGetCategoryQuery>;
+export type GetCategoryLazyQueryHookResult = ReturnType<typeof useGetCategoryLazyQuery>;
+export type GetCategoryQueryResult = Apollo.QueryResult<GetCategoryQuery, GetCategoryQueryVariables>;
 export const SearchDocument = gql`
     query Search($filters: SearchFilters!, $first: Int, $query: String!) {
   search(filters: $filters, first: $first, query: $query) {

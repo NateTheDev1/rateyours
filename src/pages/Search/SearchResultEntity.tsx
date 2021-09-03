@@ -2,9 +2,11 @@ import { useHistory } from 'react-router-dom';
 import { SearchQuery } from '../../graphql';
 
 export const SearchResultEntity = ({
-	entity
+	entity,
+	showTag = true
 }: {
 	entity: SearchQuery['search']['entities'][0];
+	showTag?: boolean;
 }) => {
 	const history = useHistory();
 	return (
@@ -15,9 +17,11 @@ export const SearchResultEntity = ({
 		>
 			<h4 className="font-bold text-lg">{entity?.name}</h4>
 			<p className="opacity-50">{entity?.views} Views</p>
-			<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
-				{entity?.type}
-			</span>
+			{showTag && (
+				<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
+					{entity?.type}
+				</span>
+			)}
 		</div>
 	);
 };
