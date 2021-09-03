@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
-import { Navbar, useQuery } from '../../components/Navbar/Navbar';
+import { Navbar } from '../../components/Navbar/Navbar';
 import {
 	useGetEntityQuery,
 	useHasReviewedLazyQuery,

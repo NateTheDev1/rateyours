@@ -22,7 +22,7 @@ const Categories = () => {
 			</Helmet>
 
 			<Navbar />
-			<div className="categories mb-auto mt-2 max-w-5xl m-auto lg:p-0 p-4">
+			<div className="categories mb-auto mt-2 max-w-7xl m-auto lg:p-0 p-4">
 				<h2 className="font-bold text-2xl mt-14 text-center">
 					Search from over {data?.getCategories.length ?? '20'}{' '}
 					categories to get information about anything

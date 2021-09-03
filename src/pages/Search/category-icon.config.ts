@@ -3,6 +3,8 @@ import {
 	faBox,
 	faChalkboardTeacher,
 	faFilm,
+	faFlag,
+	faGameConsoleHandheld,
 	faMicrophone,
 	faMusic,
 	faSchool,
@@ -19,5 +21,7 @@ export const categoryIconConfig = {
 	faMovies: faFilm,
 	faBusinesses: faStore,
 	faPeople: faUsers,
-	faPodcasts: faMicrophone
+	faPodcasts: faMicrophone,
+	faGames: faGameConsoleHandheld,
+	faCountries: faFlag
 };
