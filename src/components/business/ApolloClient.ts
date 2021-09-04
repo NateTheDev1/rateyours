@@ -9,7 +9,7 @@ import {
 const httpLink = new HttpLink({
 	uri:
 		process.env.NODE_ENV === 'production'
-			? 'https://rateit-cluster.herokuapp.com/graphql'
+			? 'https://graphql.yourateit.io/graohql'
 			: 'http://localhost:5000/graphql'
 });
 
