@@ -9,7 +9,7 @@ import {
 const httpLink = new HttpLink({
 	uri:
 		process.env.NODE_ENV === 'production'
-			? 'https://graphql.yourateit.io/graohql'
+			? 'https://graphql.yourateit.io/graphql'
 			: 'http://localhost:5000/graphql'
 });
 
