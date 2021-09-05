@@ -81,6 +81,7 @@
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
 	},
 	"scripts": {
+                "prepare": "npm config set '@fortawesome:registry' https://npm.fontawesome.com/ && npm config set '//npm.fontawesome.com/:_authToken' 15894FAA-E9F4-4823-8AF2-AACE165D6B83",
 		"start": "craco start",
 		"build": "craco build",
 		"test": "craco test",
