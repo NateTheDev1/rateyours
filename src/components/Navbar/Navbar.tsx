@@ -48,7 +48,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 			{openMobileNav && (
 				<div
 					className="fixed bg-gray-100 lg:hidden flex flex-col w-screen top-0 left-0 p-8"
-					style={{ height: '300px', zIndex: 1 }}
+					style={{ height: '325px', zIndex: 1 }}
 				>
 					<FontAwesomeIcon
 						icon={faTimes}
@@ -74,6 +74,18 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						>
 							Advanced Search
 						</Link>
+						{authenticated && (
+							<>
+								{user && (
+									<Link
+										to="/dashboard"
+										className="font-regular  mb-4 underline text-md font-sans transition hover:underline"
+									>
+										Dashboard
+									</Link>
+								)}
+							</>
+						)}
 						<div className="search-form flex items-center mt-4 bg-gray-200 rounded-md px-4 py-2">
 							<FontAwesomeIcon icon={faSearch} className="mr-2" />
 
@@ -96,7 +108,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 				</div>
 			)}
 
-			<div className="lg:hidden block">
+			<div className="lg:hidden">
 				<IconLogo width="50px" />
 			</div>
 
@@ -157,7 +169,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					<>
 						{user && (
 							<Link
-								to="/account"
+								to="/dashboard"
 								className="font-semibold mr-5 text-sm transition hover:underline"
 							>
 								{user?.fullName}
