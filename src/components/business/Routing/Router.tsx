@@ -1,9 +1,9 @@
 import { Route, Switch, useLocation } from 'react-router';
 import Landing from '../../../pages/Landing/Landing';
-import NotFound from './NotFound';
 import { PublicRoute } from './PublicRoute';
 import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
+import { PrivateRoute } from './PrivateRoute';
 
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
@@ -14,6 +14,10 @@ const SearchResults = lazy(() => import('../../../pages/Search/SearchResults'));
 const SearchRoot = lazy(() => import('../../../pages/Search/SearchRoot'));
 const EntityBase = lazy(() => import('../../../pages/Entity/index'));
 const CategoryPage = lazy(() => import('../../../pages/Category'));
+const NotFound = lazy(() => import('./NotFound'));
+const UserDashboardRoot = lazy(
+	() => import('../../../pages/Dashboard/UserDashboardRoot')
+);
 
 export const Router = () => {
 	const location = useLocation();
@@ -27,6 +31,9 @@ export const Router = () => {
 					timeout={200}
 				>
 					<Switch location={location}>
+						<PrivateRoute exact path="/dashboard">
+							<UserDashboardRoot />
+						</PrivateRoute>
 						<Route exact path="/search/results/entity/:entityId">
 							<EntityBase />
 						</Route>
