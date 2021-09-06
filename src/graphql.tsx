@@ -129,6 +129,7 @@ export type Query = {
   hasReviewed: Scalars['Boolean'];
   getCategory: Category;
   getUser: User;
+  getUserActivity: UserActivity;
 };
 
 
@@ -162,6 +163,11 @@ export type QueryGetCategoryArgs = {
 
 
 export type QueryGetUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUserActivityArgs = {
   id: Scalars['Int'];
 };
 
@@ -215,6 +221,10 @@ export type User = {
   birthday?: Maybe<Scalars['String']>;
   accountType: Scalars['String'];
   email: Scalars['String'];
+};
+
+export type UserActivity = {
+  reviews: Array<Maybe<Review>>;
 };
 
 export type GetEntityQueryVariables = Exact<{
@@ -297,6 +307,13 @@ export type GetUserQueryVariables = Exact<{
 
 
 export type GetUserQuery = { getUser: { id: number, fullName?: Maybe<string>, email: string, birthday?: Maybe<string>, accountType: string } };
+
+export type GetUserActivityQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetUserActivityQuery = { getUserActivity: { reviews: Array<Maybe<{ id: number, type: string, title: string, entity: number, createdAt: string, tags?: Maybe<Array<Maybe<string>>> }>> } };
 
 export type LoginMutationVariables = Exact<{
   credentials: LoginInput;
@@ -774,6 +791,48 @@ export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetUserActivityDocument = gql`
+    query GetUserActivity($id: Int!) {
+  getUserActivity(id: $id) {
+    reviews {
+      id
+      type
+      title
+      entity
+      createdAt
+      tags
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserActivityQuery__
+ *
+ * To run a query within a React component, call `useGetUserActivityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActivityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActivityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserActivityQuery(baseOptions: Apollo.QueryHookOptions<GetUserActivityQuery, GetUserActivityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserActivityQuery, GetUserActivityQueryVariables>(GetUserActivityDocument, options);
+      }
+export function useGetUserActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserActivityQuery, GetUserActivityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserActivityQuery, GetUserActivityQueryVariables>(GetUserActivityDocument, options);
+        }
+export type GetUserActivityQueryHookResult = ReturnType<typeof useGetUserActivityQuery>;
+export type GetUserActivityLazyQueryHookResult = ReturnType<typeof useGetUserActivityLazyQuery>;
+export type GetUserActivityQueryResult = Apollo.QueryResult<GetUserActivityQuery, GetUserActivityQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($credentials: LoginInput!) {
   login(credentials: $credentials) {
