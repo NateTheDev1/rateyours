@@ -56,7 +56,7 @@ const Dashboard = () => {
 			{!loading && data && data.getUserActivity.reviews.length > 0 && (
 				<div
 					className="flex flex-col overflow-y-scroll"
-					style={{ maxHeight: '350px' }}
+					style={{ maxHeight: '450px' }}
 				>
 					{data.getUserActivity.reviews.map((review, key) => (
 						<ActivityCard key={key} review={review} />

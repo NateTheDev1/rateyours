@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { PrivateRoute } from '../../components/business/Routing/PrivateRoute';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
+import { UserSelectors } from '../../redux/User/selectors';
 
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const UserDashboardRoot = () => {
 	const location = useLocation();
+	const id = UserSelectors.useSelectUserId()!;
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -27,14 +29,15 @@ const UserDashboardRoot = () => {
 					</Link>
 					<Link
 						to="/dashboard/settings"
-						className={`mr-8 underline text-lg font-medium opacity-40 ${location.pathname.includes(
-							'settings'
-						)}`}
+						className={`mr-8 underline text-lg font-medium opacity-40 ${
+							location.pathname.includes('settings') &&
+							'opacity-100 text-primary'
+						}`}
 					>
-						Account
+						Settings
 					</Link>
 					<Link
-						to="/dashboard/profile"
+						to={`/profiles/${id}`}
 						className={`mr-8 underline text-lg font-medium opacity-40 ${location.pathname.includes(
 							'profile'
 						)}`}
@@ -46,9 +49,6 @@ const UserDashboardRoot = () => {
 				<Switch>
 					<PrivateRoute path="/dashboard/settings">
 						<h1>Settings</h1>
-					</PrivateRoute>
-					<PrivateRoute path="/dashboard/profile">
-						<h1>Profile</h1>
 					</PrivateRoute>
 					<PrivateRoute path="/">
 						<Dashboard />
