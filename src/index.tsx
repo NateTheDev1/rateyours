@@ -8,8 +8,11 @@ import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './components/business/ApolloClient';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { initSentry } from './components/business/Sentry';
 
 const rootElement = document.getElementById('root')!;
+
+initSentry();
 
 if (rootElement.hasChildNodes()) {
 	hydrate(
