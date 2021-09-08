@@ -1,0 +1,3 @@
+mutation UpdateUserDetails($patch: UpdateUserDetailsInput!) {
+	updateUserDetails(patch: $patch)
+}

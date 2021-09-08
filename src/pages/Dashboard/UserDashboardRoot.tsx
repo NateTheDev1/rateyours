@@ -1,16 +1,19 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Switch, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import LoadingComponent from '../../components/business/Loading/LoadingComponent';
 import { PrivateRoute } from '../../components/business/Routing/PrivateRoute';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { UserSelectors } from '../../redux/User/selectors';
 
 const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
 
 const UserDashboardRoot = () => {
 	const location = useLocation();
 	const id = UserSelectors.useSelectUserId()!;
+	const user = UserSelectors.useSelectUser();
 
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
@@ -48,7 +51,9 @@ const UserDashboardRoot = () => {
 				<hr className="mt-4 mb-4" />
 				<Switch>
 					<PrivateRoute path="/dashboard/settings">
-						<h1>Settings</h1>
+						<Suspense fallback={<LoadingComponent />}>
+							{user && <Settings />}
+						</Suspense>
 					</PrivateRoute>
 					<PrivateRoute path="/">
 						<Dashboard />

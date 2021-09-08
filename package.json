@@ -38,6 +38,7 @@
 		"react": "^17.0.2",
 		"react-adsense": "^0.1.0",
 		"react-csp": "^1.1.1",
+		"react-date-picker": "^8.3.2",
 		"react-dom": "^17.0.2",
 		"react-helmet": "^6.1.0",
 		"react-hot-toast": "^2.1.1",
@@ -81,7 +82,7 @@
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
 	},
 	"scripts": {
-                "prepare": "npm config set '@fortawesome:registry' https://npm.fontawesome.com/ && npm config set '//npm.fontawesome.com/:_authToken' 15894FAA-E9F4-4823-8AF2-AACE165D6B83",
+		"prepare": "npm config set '@fortawesome:registry' https://npm.fontawesome.com/ && npm config set '//npm.fontawesome.com/:_authToken' 15894FAA-E9F4-4823-8AF2-AACE165D6B83",
 		"start": "craco start",
 		"build": "craco build",
 		"test": "craco test",
