@@ -1,13 +1,20 @@
-import { lazy } from 'react';
-import { Switch } from 'react-router';
+import { lazy, Suspense } from 'react';
+import { Switch, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import LoadingComponent from '../../components/business/Loading/LoadingComponent';
 import { PrivateRoute } from '../../components/business/Routing/PrivateRoute';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
+import { UserSelectors } from '../../redux/User/selectors';
 
 const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
 
 const UserDashboardRoot = () => {
+	const location = useLocation();
+	const id = UserSelectors.useSelectUserId()!;
+	const user = UserSelectors.useSelectUser();
+
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
 			<Navbar />
@@ -16,25 +23,38 @@ const UserDashboardRoot = () => {
 				<div className="flex">
 					<Link
 						to="/dashboard"
-						className="mr-8 underline text-lg font-medium opacity-70"
+						className={`mr-8 underline text-lg font-medium opacity-40 ${
+							location.pathname === '/dashboard' &&
+							'opacity-100 text-primary'
+						}`}
 					>
 						Activity
 					</Link>
 					<Link
-						to="/settings"
-						className="mr-8 underline text-lg font-medium opacity-70"
+						to="/dashboard/settings"
+						className={`mr-8 underline text-lg font-medium opacity-40 ${
+							location.pathname.includes('settings') &&
+							'opacity-100 text-primary'
+						}`}
 					>
-						Account
+						Settings
 					</Link>
-					<Link
-						to="/settings"
-						className="mr-8 underline text-lg font-medium opacity-70"
+					{/* <Link
+						to={`/profiles/${id}`}
+						className={`mr-8 underline text-lg font-medium opacity-40 ${location.pathname.includes(
+							'profile'
+						)}`}
 					>
 						Public Profile (Beta)
-					</Link>
+					</Link> */}
 				</div>
 				<hr className="mt-4 mb-4" />
 				<Switch>
+					<PrivateRoute path="/dashboard/settings">
+						<Suspense fallback={<LoadingComponent />}>
+							{user && <Settings />}
+						</Suspense>
+					</PrivateRoute>
 					<PrivateRoute path="/">
 						<Dashboard />
 					</PrivateRoute>

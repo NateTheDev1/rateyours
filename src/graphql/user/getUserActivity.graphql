@@ -1,0 +1,12 @@
+query GetUserActivity($id: Int!) {
+	getUserActivity(id: $id) {
+		reviews {
+			id
+			type
+			title
+			entity
+			createdAt
+			tags
+		}
+	}
+}
