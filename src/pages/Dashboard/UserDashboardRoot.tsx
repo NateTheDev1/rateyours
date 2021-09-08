@@ -39,14 +39,14 @@ const UserDashboardRoot = () => {
 					>
 						Settings
 					</Link>
-					<Link
+					{/* <Link
 						to={`/profiles/${id}`}
 						className={`mr-8 underline text-lg font-medium opacity-40 ${location.pathname.includes(
 							'profile'
 						)}`}
 					>
 						Public Profile (Beta)
-					</Link>
+					</Link> */}
 				</div>
 				<hr className="mt-4 mb-4" />
 				<Switch>
