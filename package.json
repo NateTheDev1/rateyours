@@ -90,9 +90,7 @@
 		"test": "craco test",
 		"eject": "react-scripts eject",
 		"typecheck": "tsc -p . --noEmit true",
-		"codegen:build": "graphql-codegen --config codegen.yml",
-		"csp:dev": "react-csp dev",
-		"csp:prod": "react-csp prod"
+		"codegen:build": "graphql-codegen --config codegen.yml"
 	},
 	"eslintConfig": {
 		"extends": [
