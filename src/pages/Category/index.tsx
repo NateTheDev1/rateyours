@@ -6,6 +6,8 @@ import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useGetCategoryQuery } from '../../graphql';
 import { SearchResultEntity } from '../Search/SearchResultEntity';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const CategoryPage = () => {
 	const history = useHistory();
@@ -37,17 +39,20 @@ const CategoryPage = () => {
 				{helmet !== null && helmet}
 				<Navbar />
 				{data && data.getCategory.banner && (
-					<div
-						className="w-screen"
-						style={{
-							backgroundImage: `url(${data.getCategory.banner})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-							backgroundRepeat: 'no-repeat',
-							height: '300px'
-						}}
-					></div>
+					<div>
+						<LazyLoadImage
+							src={data?.getCategory.banner}
+							alt={data?.getCategory.caption}
+							effect="blur"
+							style={{
+								height: '300px',
+								width: '100vw',
+								objectFit: 'cover'
+							}}
+						/>
+					</div>
 				)}
+
 				<div className=" px-4 mb-auto sm:px-12 lg:px-20 md:px-16 pb-20">
 					{loading && <LoadingCircle loading={true} />}
 					{!loading && data && (
