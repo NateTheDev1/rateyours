@@ -31,7 +31,7 @@ export const Router = () => {
 					timeout={200}
 				>
 					<Switch location={location}>
-						<PrivateRoute exact path="/dashboard">
+						<PrivateRoute path="/dashboard">
 							<UserDashboardRoot />
 						</PrivateRoute>
 						<Route exact path="/search/results/entity/:entityId">
