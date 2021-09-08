@@ -37,6 +37,14 @@ export const Footer = () => {
 					<Link to="/login" className="text-xs underline mb-4">
 						Support
 					</Link>
+					<a
+						href="https://status.yourateit.io"
+						target="_blank"
+						rel="noreferrer"
+						className="text-xs underline mb-4"
+					>
+						Status
+					</a>
 					<Link to="/login" className="text-xs underline mb-4">
 						About
 					</Link>
