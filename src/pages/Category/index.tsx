@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
@@ -6,6 +6,10 @@ import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useGetCategoryQuery } from '../../graphql';
 import { SearchResultEntity } from '../Search/SearchResultEntity';
+
+const NoContent = lazy(
+	() => import('../../components/business/Loading/NoContent')
+);
 
 const CategoryPage = () => {
 	const history = useHistory();
@@ -76,6 +80,8 @@ const CategoryPage = () => {
 										/>
 									)
 								)}
+								{data.getCategory.topTen.mostViewed.length <
+									1 && <NoContent />}
 							</div>
 							<h3 className="font-bold text-lg mb-8 mt-20">
 								Explore The Top 10 Most Recently Added Profiles
@@ -95,8 +101,9 @@ const CategoryPage = () => {
 										/>
 									)
 								)}
+								{data.getCategory.topTen.mostRecent.length <
+									1 && <NoContent />}
 							</div>
-							<hr className="mt-4" />
 						</>
 					)}
 				</div>
