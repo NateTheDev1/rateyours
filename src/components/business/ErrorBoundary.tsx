@@ -1,4 +1,6 @@
 import React from 'react';
+import * as Sentry from '@sentry/react';
+import { Link } from 'react-router-dom';
 
 class ErrorBoundary extends React.Component {
 	state: { hasError: boolean };
@@ -17,11 +19,20 @@ class ErrorBoundary extends React.Component {
 	}
 
 	render() {
-		if (this.state.hasError) {
-			return <h1 style={{ color: 'red' }}>Something went wrong.</h1>;
-		}
-
-		return this.props.children;
+		return (
+			<Sentry.ErrorBoundary
+				fallback={
+					<div>
+						<p className="text-red-500 text-lg text-center">
+							Something went wrong.
+						</p>
+						<Link to="/">Reload</Link>
+					</div>
+				}
+			>
+				{this.props.children}
+			</Sentry.ErrorBoundary>
+		);
 	}
 }
 
