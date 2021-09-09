@@ -8,6 +8,9 @@ import { useGetUserActivityQuery } from '../../graphql';
 import { UserSelectors } from '../../redux/User/selectors';
 
 const ActivityCard = lazy(() => import('./ActivityCard'));
+const NoContent = lazy(
+	() => import('../../components/business/Loading/NoContent')
+);
 
 const Dashboard = () => {
 	const id = UserSelectors.useSelectUserId()!;
@@ -61,6 +64,7 @@ const Dashboard = () => {
 					{data.getUserActivity.reviews.map((review, key) => (
 						<ActivityCard key={key} review={review} />
 					))}
+					{data.getUserActivity.reviews.length < 1 && <NoContent />}
 				</div>
 			)}
 		</div>

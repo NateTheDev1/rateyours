@@ -12,7 +12,7 @@ const Settings = lazy(() => import('./Settings'));
 
 const UserDashboardRoot = () => {
 	const location = useLocation();
-	const id = UserSelectors.useSelectUserId()!;
+	// const id = UserSelectors.useSelectUserId()!;
 	const user = UserSelectors.useSelectUser();
 
 	return (
