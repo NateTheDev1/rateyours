@@ -101,6 +101,10 @@ const Dashboard = () => {
 				{userEntitiesData?.getUserEntities.map((entity, key) => (
 					<SearchResultEntity entity={entity} key={key} />
 				))}
+				{userEntitiesData &&
+					userEntitiesData.getUserEntities.length < 1 && (
+						<NoContent />
+					)}
 			</div>
 		</div>
 	);
