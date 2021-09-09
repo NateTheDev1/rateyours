@@ -57,26 +57,19 @@ export const Reviews = ({
 							<h4 className="font-light text-sm my-2">
 								{data.searchReviews.total} Reviews
 							</h4>
-							<Suspense fallback={<></>}>
-								{((userId && query.get('reviewing')) ||
-									!userId) && (
-									<button
-										onClick={() => {
-											StartReview.emit(
-												'STARTED_REVIEW',
-												{}
-											);
-										}}
-										className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition"
-									>
-										Leave a review{' '}
-										<FontAwesomeIcon
-											icon={faPlusSquare}
-											className="ml-2"
-										/>
-									</button>
-								)}
-							</Suspense>
+
+							<button
+								onClick={() => {
+									StartReview.emit('STARTED_REVIEW', {});
+								}}
+								className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition"
+							>
+								Leave a review{' '}
+								<FontAwesomeIcon
+									icon={faPlusSquare}
+									className="ml-2"
+								/>
+							</button>
 						</div>
 						{data.searchReviews.total > 0 && (
 							<div className="flex-col p-2">

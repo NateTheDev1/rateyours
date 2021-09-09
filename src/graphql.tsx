@@ -148,6 +148,7 @@ export type Query = {
   getCategory: Category;
   getUser: User;
   getUserActivity: UserActivity;
+  getUserEntities: Array<Maybe<Entity>>;
 };
 
 
@@ -186,6 +187,11 @@ export type QueryGetUserArgs = {
 
 
 export type QueryGetUserActivityArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUserEntitiesArgs = {
   id: Scalars['Int'];
 };
 
@@ -345,6 +351,13 @@ export type GetUserActivityQueryVariables = Exact<{
 
 
 export type GetUserActivityQuery = { getUserActivity: { reviews: Array<Maybe<{ id: number, type: string, title: string, entity: number, createdAt: string, tags?: Maybe<Array<Maybe<string>>> }>> } };
+
+export type GetUserEntitiesQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetUserEntitiesQuery = { getUserEntities: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> };
 
 export type LoginMutationVariables = Exact<{
   credentials: LoginInput;
@@ -885,6 +898,44 @@ export function useGetUserActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetUserActivityQueryHookResult = ReturnType<typeof useGetUserActivityQuery>;
 export type GetUserActivityLazyQueryHookResult = ReturnType<typeof useGetUserActivityLazyQuery>;
 export type GetUserActivityQueryResult = Apollo.QueryResult<GetUserActivityQuery, GetUserActivityQueryVariables>;
+export const GetUserEntitiesDocument = gql`
+    query GetUserEntities($id: Int!) {
+  getUserEntities(id: $id) {
+    id
+    type
+    name
+    views
+  }
+}
+    `;
+
+/**
+ * __useGetUserEntitiesQuery__
+ *
+ * To run a query within a React component, call `useGetUserEntitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserEntitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserEntitiesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserEntitiesQuery(baseOptions: Apollo.QueryHookOptions<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>(GetUserEntitiesDocument, options);
+      }
+export function useGetUserEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>(GetUserEntitiesDocument, options);
+        }
+export type GetUserEntitiesQueryHookResult = ReturnType<typeof useGetUserEntitiesQuery>;
+export type GetUserEntitiesLazyQueryHookResult = ReturnType<typeof useGetUserEntitiesLazyQuery>;
+export type GetUserEntitiesQueryResult = Apollo.QueryResult<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($credentials: LoginInput!) {
   login(credentials: $credentials) {

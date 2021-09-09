@@ -142,21 +142,17 @@ const EntityBase = () => {
 							<h1 className="text-2xl text-primary">
 								{data?.getEntity.name}{' '}
 							</h1>
-							<Suspense fallback={<></>}>
-								{((userId && query.get('reviewing')) ||
-									!userId) && (
-									<button
-										onClick={onStartReview}
-										className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
-									>
-										Leave a review{' '}
-										<FontAwesomeIcon
-											icon={faPlusSquare}
-											className="ml-2"
-										/>
-									</button>
-								)}
-							</Suspense>
+
+							<button
+								onClick={onStartReview}
+								className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
+							>
+								Leave a review{' '}
+								<FontAwesomeIcon
+									icon={faPlusSquare}
+									className="ml-2"
+								/>
+							</button>
 						</div>
 						<p className="opacity-50">
 							{data.getEntity.views} Views
