@@ -45,7 +45,7 @@ export const Footer = () => {
 					>
 						Status
 					</a>
-					<Link to="/login" className="text-xs underline mb-4">
+					<Link to="/about" className="text-xs underline mb-4">
 						About
 					</Link>
 				</div>
