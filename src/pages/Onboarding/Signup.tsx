@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { TextInput } from '../../components/Inputs/TextInput';
@@ -15,6 +15,7 @@ const Signup = () => {
 		fullName: '',
 		confirmPassword: ''
 	});
+	const history = useHistory();
 
 	const [formError, setFormError] = useState<null | string>(null);
 
@@ -40,7 +41,7 @@ const Signup = () => {
 		})
 			.then(res => {
 				if (res.data) {
-					console.log(res.data);
+					history.push('/');
 				} else {
 					setFormError('A user may already exist with this email.');
 				}

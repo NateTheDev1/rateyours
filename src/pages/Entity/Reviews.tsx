@@ -1,9 +1,11 @@
 import { faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect } from 'react';
+import { Suspense } from 'react';
+// import { useEffect } from 'react';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { useQuery } from '../../components/Navbar/Navbar';
 import { useSearchReviewsQuery } from '../../graphql';
+import { UserSelectors } from '../../redux/User/selectors';
 import Review from './Review';
 import StartReview from './startReviewEmitter';
 
@@ -16,27 +18,28 @@ export const Reviews = ({
 	entityId: number;
 	review: any;
 }) => {
-	const queries = useQuery();
+	const query = useQuery();
 	const { data, loading } = useSearchReviewsQuery({
 		variables: { entityId }
 	});
-	useEffect(() => {
-		if (queries.get('s	ollTo')) {
-			const el = document.getElementById(queries.get('scrollTo')!);
+	const userId = UserSelectors.useSelectUserId();
+	// useEffect(() => {
+	// 	if (queries.get('scrollTo')) {
+	// 		const el = document.getElementById(queries.get('scrollTo')!);
 
-			el?.classList.add('p-2');
+	// 		el?.classList.add('p-2');
 
-			if (el) {
-				el.style.border = 'none';
-				el.style.borderLeft = '5px solid #10B981';
-				el.scrollIntoView({
-					behavior: 'smooth',
-					block: 'nearest',
-					inline: 'start'
-				});
-			}
-		}
-	}, [data, queries]);
+	// 		if (el) {
+	// 			el.style.border = 'none';
+	// 			el.style.borderLeft = '5px solid #10B981';
+	// 			// el.scrollIntoView({
+	// 			// 	behavior: 'smooth',
+	// 			// 	block: 'nearest',
+	// 			// 	inline: 'start'
+	// 			// });
+	// 		}
+	// 	}
+	// }, [data, queries]);
 
 	return (
 		<div>
@@ -54,18 +57,26 @@ export const Reviews = ({
 							<h4 className="font-light text-sm my-2">
 								{data.searchReviews.total} Reviews
 							</h4>
-							<button
-								onClick={() => {
-									StartReview.emit('STARTED_REVIEW', {});
-								}}
-								className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition"
-							>
-								Leave a review{' '}
-								<FontAwesomeIcon
-									icon={faPlusSquare}
-									className="ml-2"
-								/>
-							</button>
+							<Suspense fallback={<></>}>
+								{((userId && query.get('reviewing')) ||
+									!userId) && (
+									<button
+										onClick={() => {
+											StartReview.emit(
+												'STARTED_REVIEW',
+												{}
+											);
+										}}
+										className="sm:hidden flex p-2 mt-4 font-medium rounded-md bg-green-500 text-white text-xs h-8 items-center w-40 justify-center hover:opacity-90 transition"
+									>
+										Leave a review{' '}
+										<FontAwesomeIcon
+											icon={faPlusSquare}
+											className="ml-2"
+										/>
+									</button>
+								)}
+							</Suspense>
 						</div>
 						{data.searchReviews.total > 0 && (
 							<div className="flex-col p-2">

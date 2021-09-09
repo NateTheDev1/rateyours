@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { getTagColor } from '../../components/business/tag-colors-config';
 import { SearchQuery } from '../../graphql';
 
 export const SearchResultEntity = ({
@@ -9,6 +10,7 @@ export const SearchResultEntity = ({
 	showTag?: boolean;
 }) => {
 	const history = useHistory();
+
 	return (
 		<div
 			onClick={() => history.push('/search/results/entity/' + entity?.id)}
@@ -18,7 +20,10 @@ export const SearchResultEntity = ({
 			<h4 className="font-bold text-lg">{entity?.name}</h4>
 			<p className="opacity-50">{entity?.views} Views</p>
 			{showTag && (
-				<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
+				<span
+					className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 rounded-full"
+					style={{ backgroundColor: getTagColor(entity!.type) }}
+				>
 					{entity?.type}
 				</span>
 			)}

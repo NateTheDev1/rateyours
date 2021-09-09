@@ -4,12 +4,12 @@ import {
 	faQuestionCircle
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
-import { Navbar } from '../../components/Navbar/Navbar';
+import { Navbar, useQuery } from '../../components/Navbar/Navbar';
 import {
 	useGetEntityQuery,
 	useHasReviewedLazyQuery,
@@ -27,6 +27,7 @@ const Movie = lazy(() => import('./Movie'));
 const EntityBase = () => {
 	const history = useHistory();
 	const userId = UserSelectors.useSelectUserId();
+	const query = useQuery();
 
 	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery({
 		fetchPolicy: 'network-only'
@@ -141,16 +142,21 @@ const EntityBase = () => {
 							<h1 className="text-2xl text-primary">
 								{data?.getEntity.name}{' '}
 							</h1>
-							<button
-								onClick={onStartReview}
-								className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
-							>
-								Leave a review{' '}
-								<FontAwesomeIcon
-									icon={faPlusSquare}
-									className="ml-2"
-								/>
-							</button>
+							<Suspense fallback={<></>}>
+								{((userId && query.get('reviewing')) ||
+									!userId) && (
+									<button
+										onClick={onStartReview}
+										className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
+									>
+										Leave a review{' '}
+										<FontAwesomeIcon
+											icon={faPlusSquare}
+											className="ml-2"
+										/>
+									</button>
+								)}
+							</Suspense>
 						</div>
 						<p className="opacity-50">
 							{data.getEntity.views} Views
