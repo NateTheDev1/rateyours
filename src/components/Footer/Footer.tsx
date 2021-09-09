@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { UserSelectors } from '../../redux/User/selectors';
 import { LogoLight } from '../business/Logo/LogoLight';
 import './Footer.scss';
 
 export const Footer = () => {
+	const loggedIn = UserSelectors.useSelectAuthenticated();
+
 	return (
 		<footer className="bg-darkgray">
 			<div className="max-w-screen-lg m-auto lg:p-24 p-8 flex lg:flex-row flex-col lg:items-start items-center">
@@ -20,20 +23,25 @@ export const Footer = () => {
 						Email: corporate@rateit.com
 					</p>
 				</div>
-				<div className="text-white ml-24  flex-col lg:flex hidden">
-					<p className="font-bold text-xs mb-4">PRODUCT</p>
-					<Link to="/signup" className="text-xs underline mb-4">
-						Get Started
-					</Link>
-					<Link to="/login" className="text-xs underline mb-4">
-						Login
-					</Link>
-				</div>
+				{!loggedIn && (
+					<div className="text-white ml-24  flex-col lg:flex hidden">
+						<p className="font-bold text-xs mb-4">PRODUCT</p>
+						<Link to="/signup" className="text-xs underline mb-4">
+							Get Started
+						</Link>
+						<Link to="/login" className="text-xs underline mb-4">
+							Login
+						</Link>
+					</div>
+				)}
 				<div className="text-white ml-24  flex-col lg:flex hidden">
 					<p className="font-bold text-xs mb-4">COMPANY</p>
-					<Link to="/login" className="text-xs underline mb-4">
+					<a
+						href="mailto:corporate@yourateit.io"
+						className="text-xs underline mb-4"
+					>
 						Email Us
-					</Link>
+					</a>
 					<Link to="/login" className="text-xs underline mb-4">
 						Support
 					</Link>

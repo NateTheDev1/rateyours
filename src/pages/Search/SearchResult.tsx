@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { SearchQuery } from '../../graphql';
 import Moment from 'react-moment';
+import { getTagColor } from '../../components/business/tag-colors-config';
 
 export const SearchResult = ({
 	review
@@ -38,7 +39,10 @@ export const SearchResult = ({
 			</p>
 
 			<div className="flex flex-wrap">
-				<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full mr-2">
+				<span
+					style={{ backgroundColor: getTagColor(review!.type) }}
+					className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 rounded-full mr-2"
+				>
 					{review?.type}
 				</span>
 				{review?.tags?.map((tag, key) => (
