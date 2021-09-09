@@ -125,9 +125,8 @@ export const Body = () => {
 					quality information to our users.
 					<br></br>
 					<span>
-						Want to learn more?{' '}
 						<Link to="/partners" className="underline">
-							Click here
+							Want to learn more?
 						</Link>
 					</span>
 				</p>

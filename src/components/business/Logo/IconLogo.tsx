@@ -1,57 +1,27 @@
 export const IconLogo = ({
-	width = 186,
-	height = 49
+	width = 205,
+	height = 47
 }: {
 	width?: number | string;
 	height?: number | string;
 }) => {
 	return (
 		<svg
-			style={{ width, height }}
-			viewBox="0 0 186 49"
+			width={width}
+			height={height}
+			viewBox="0 0 205 47"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<g filter="url(#filter0_d)">
-				<circle cx="24.5" cy="20.5" r="20.5" fill="#FF5C5C" />
-				<ellipse cx="93" cy="20.5" rx="21" ry="20.5" fill="#A8A8A8" />
-				<circle cx="161.5" cy="20.5" r="20.5" fill="#00BE7A" />
-			</g>
-			<defs>
-				<filter
-					id="filter0_d"
-					x="0"
-					y="0"
-					filterUnits="userSpaceOnUse"
-					colorInterpolationFilters="sRGB"
-				>
-					<feFlood floodOpacity="0" result="BackgroundImageFix" />
-					<feColorMatrix
-						in="SourceAlpha"
-						type="matrix"
-						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-						result="hardAlpha"
-					/>
-					<feOffset dy="4" />
-					<feGaussianBlur stdDeviation="2" />
-					<feComposite in2="hardAlpha" operator="out" />
-					<feColorMatrix
-						type="matrix"
-						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-					/>
-					<feBlend
-						mode="normal"
-						in2="BackgroundImageFix"
-						result="effect1_dropShadow"
-					/>
-					<feBlend
-						mode="normal"
-						in="SourceGraphic"
-						in2="effect1_dropShadow"
-						result="shape"
-					/>
-				</filter>
-			</defs>
+			<circle cx="23.5" cy="23.5" r="23.5" fill="#FF5C5C" />
+			<ellipse
+				cx="102.024"
+				cy="23.5"
+				rx="24.0732"
+				ry="23.5"
+				fill="#A8A8A8"
+			/>
+			<circle cx="180.549" cy="23.5" r="23.5" fill="#00BE7A" />
 		</svg>
 	);
 };

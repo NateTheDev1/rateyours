@@ -1,6 +1,7 @@
 //@ts-ignore
 import { useHistory } from 'react-router-dom';
 import TextLoop from 'react-text-loop';
+import { UserSelectors } from '../../redux/User/selectors';
 
 const textLoopList = [
 	'Teachers',
@@ -16,6 +17,7 @@ const textLoopList = [
 ];
 
 const Hero = () => {
+	const loggedIn = UserSelectors.useSelectAuthenticated();
 	const history = useHistory();
 
 	return (
@@ -30,12 +32,14 @@ const Hero = () => {
 						Read and write your own reviews on almost anything from
 						businesses, books, movies, music, teachers, and more.
 					</p>
-					<button
-						onClick={() => history.push('/signup')}
-						className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-52 justify-center font-medium text-sm hover:opacity-90 transition"
-					>
-						Create An Account
-					</button>
+					{!loggedIn && (
+						<button
+							onClick={() => history.push('/signup')}
+							className="p-4 rounded-md bg-green-500 text-white h-10 flex items-center w-52 justify-center font-medium text-sm hover:opacity-90 transition"
+						>
+							Create An Account
+						</button>
+					)}
 				</div>
 				<div className="lg:flex hidden justify-center items-center lg:w-2/5 w-full">
 					<div

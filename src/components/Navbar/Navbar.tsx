@@ -4,7 +4,12 @@ import { IconLogo } from '../business/Logo/IconLogo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faBars, faSearch, faTimes } from '@fortawesome/pro-light-svg-icons';
+import {
+	faBars,
+	faSearch,
+	faTimes,
+	faUserCircle
+} from '@fortawesome/pro-light-svg-icons';
 import { UserActions } from '../../redux/User/actions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/types/state-types';
@@ -53,6 +58,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					<FontAwesomeIcon
 						icon={faTimes}
 						className="cursor-pointer"
+						size="lg"
 						onClick={() => setOpenMobileNav(!openMobileNav)}
 					/>
 					<div className="flex flex-col mt-8">
@@ -166,13 +172,17 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					</>
 				)}
 				{authenticated && (
-					<>
+					<div className="flex items-center">
 						{user && (
 							<Link
 								to="/dashboard"
-								className="font-semibold mr-5 text-sm transition hover:underline"
+								className="font-semibold mr-5 text-sm transition hover:underline lg:block hidden"
 							>
-								{user?.fullName}
+								<FontAwesomeIcon
+									icon={faUserCircle}
+									className="opacity-50"
+									size="2x"
+								/>
 							</Link>
 						)}
 						<button
@@ -181,12 +191,13 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						>
 							Logout
 						</button>
-					</>
+					</div>
 				)}
 				<div className="lg:hidden block ml-4">
 					<FontAwesomeIcon
 						icon={faBars}
-						className="cursor-pointer"
+						className="cursor-pointer opacity-50"
+						size="lg"
 						onClick={() => setOpenMobileNav(!openMobileNav)}
 					/>
 				</div>
