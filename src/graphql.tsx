@@ -292,6 +292,14 @@ export type GetEntityOwnershipRequestsQueryVariables = Exact<{
 
 export type GetEntityOwnershipRequestsQuery = { getEntityOwnershipRequests: Array<Maybe<{ id: number, entity: number, approved: boolean }>> };
 
+export type RequestOwnershipMutationVariables = Exact<{
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type RequestOwnershipMutation = { requestOwnership: boolean };
+
 export type UpdateEntityViewsMutationVariables = Exact<{
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
@@ -489,6 +497,38 @@ export function useGetEntityOwnershipRequestsLazyQuery(baseOptions?: Apollo.Lazy
 export type GetEntityOwnershipRequestsQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsQuery>;
 export type GetEntityOwnershipRequestsLazyQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsLazyQuery>;
 export type GetEntityOwnershipRequestsQueryResult = Apollo.QueryResult<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>;
+export const RequestOwnershipDocument = gql`
+    mutation RequestOwnership($entityId: Int!, $userId: Int!) {
+  requestOwnership(entityId: $entityId, userId: $userId)
+}
+    `;
+export type RequestOwnershipMutationFn = Apollo.MutationFunction<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
+
+/**
+ * __useRequestOwnershipMutation__
+ *
+ * To run a mutation, you first call `useRequestOwnershipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestOwnershipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestOwnershipMutation, { data, loading, error }] = useRequestOwnershipMutation({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRequestOwnershipMutation(baseOptions?: Apollo.MutationHookOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestOwnershipMutation, RequestOwnershipMutationVariables>(RequestOwnershipDocument, options);
+      }
+export type RequestOwnershipMutationHookResult = ReturnType<typeof useRequestOwnershipMutation>;
+export type RequestOwnershipMutationResult = Apollo.MutationResult<RequestOwnershipMutation>;
+export type RequestOwnershipMutationOptions = Apollo.BaseMutationOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
 export const UpdateEntityViewsDocument = gql`
     mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
   updateEntityViews(viewCount: $viewCount, entityId: $entityId)

@@ -31,15 +31,17 @@ export const PendingOwnerships = () => {
 					{data?.getEntityOwnershipRequests.map((request, key) => (
 						<div
 							key={key}
-							className="border border-gray-100 rounded-md p-4 shadow-sm flex justify-between items-center"
+							className="border border-gray-100 rounded-md p-4 shadow-sm flex flex-wrap justify-between items-center"
 						>
-							<h4 className="font-medium">
-								Ownership requested for entity{' '}
-								<span className="font-bold">
-									{request?.entity}
-								</span>
-							</h4>
-							<div className="flex-col">
+							<div className="mr-4">
+								<h4 className="font-medium">
+									Ownership requested for entity{' '}
+									<span className="font-bold">
+										{request?.entity}
+									</span>
+								</h4>
+							</div>
+							<div className="flex-col mt-4 lg:mt-0">
 								<h4 className="font-bold uppercase text-yellow-500">
 									{request?.approved
 										? 'Approved'
