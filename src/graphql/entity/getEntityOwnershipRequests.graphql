@@ -1,0 +1,7 @@
+query GetEntityOwnershipRequests($id: Int!) {
+	getEntityOwnershipRequests(id: $id) {
+		id
+		entity
+		approved
+	}
+}

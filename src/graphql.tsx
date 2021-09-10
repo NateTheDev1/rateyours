@@ -73,6 +73,7 @@ export type Entity = {
 export type EntityOwnershipRequest = {
   id: Scalars['Int'];
   requestedBy: Scalars['Int'];
+  entity: Scalars['Int'];
   approved: Scalars['Boolean'];
 };
 
@@ -90,6 +91,7 @@ export type Mutation = {
   addCategory: Category;
   addReview: Review;
   updateEntityViews: Scalars['Boolean'];
+  requestOwnership: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
   sendPasswordReset: Scalars['Boolean'];
@@ -112,6 +114,12 @@ export type MutationAddReviewArgs = {
 export type MutationUpdateEntityViewsArgs = {
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
+};
+
+
+export type MutationRequestOwnershipArgs = {
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -146,6 +154,7 @@ export type Query = {
   searchReviews: SearchReviewsResponse;
   hasReviewed: Scalars['Boolean'];
   getCategory: Category;
+  getEntityOwnershipRequests: Array<Maybe<EntityOwnershipRequest>>;
   getUser: User;
   getUserActivity: UserActivity;
   getUserEntities: Array<Maybe<Entity>>;
@@ -177,6 +186,11 @@ export type QueryHasReviewedArgs = {
 
 
 export type QueryGetCategoryArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetEntityOwnershipRequestsArgs = {
   id: Scalars['Int'];
 };
 
@@ -270,6 +284,13 @@ export type GetEntityQueryVariables = Exact<{
 
 
 export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
+
+export type GetEntityOwnershipRequestsQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEntityOwnershipRequestsQuery = { getEntityOwnershipRequests: Array<Maybe<{ id: number, entity: number, approved: boolean }>> };
 
 export type UpdateEntityViewsMutationVariables = Exact<{
   viewCount: Scalars['Int'];
@@ -431,6 +452,43 @@ export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
 export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
 export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
+export const GetEntityOwnershipRequestsDocument = gql`
+    query GetEntityOwnershipRequests($id: Int!) {
+  getEntityOwnershipRequests(id: $id) {
+    id
+    entity
+    approved
+  }
+}
+    `;
+
+/**
+ * __useGetEntityOwnershipRequestsQuery__
+ *
+ * To run a query within a React component, call `useGetEntityOwnershipRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEntityOwnershipRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEntityOwnershipRequestsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEntityOwnershipRequestsQuery(baseOptions: Apollo.QueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+      }
+export function useGetEntityOwnershipRequestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+        }
+export type GetEntityOwnershipRequestsQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsQuery>;
+export type GetEntityOwnershipRequestsLazyQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsLazyQuery>;
+export type GetEntityOwnershipRequestsQueryResult = Apollo.QueryResult<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>;
 export const UpdateEntityViewsDocument = gql`
     mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
   updateEntityViews(viewCount: $viewCount, entityId: $entityId)

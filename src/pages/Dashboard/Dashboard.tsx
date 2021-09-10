@@ -1,6 +1,6 @@
 import { faRedo } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
@@ -11,6 +11,7 @@ import {
 import { UserSelectors } from '../../redux/User/selectors';
 import { SearchResultEntity } from '../Search/SearchResultEntity';
 import ActivityCard from './ActivityCard';
+import PendingOwnerships from './PendingOwnerships';
 
 const NoContent = lazy(
 	() => import('../../components/business/Loading/NoContent')
@@ -106,6 +107,7 @@ const Dashboard = () => {
 						<NoContent />
 					)}
 			</div>
+			<Suspense fallback={<></>}>{id && <PendingOwnerships />}</Suspense>
 		</div>
 	);
 };
