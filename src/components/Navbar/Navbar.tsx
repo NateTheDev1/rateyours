@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faBars,
 	faSearch,
-	faTimes,
-	faUserCircle
+	faSlidersH,
+	faTimes
 } from '@fortawesome/pro-light-svg-icons';
+
 import { UserActions } from '../../redux/User/actions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/types/state-types';
@@ -114,12 +115,17 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 				</div>
 			)}
 
-			<div className="lg:hidden">
+			<div className="lg:hidden cursor-pointer hover:opacity-50 transition">
 				<IconLogo width="50px" />
 			</div>
 
 			<div className="lg:flex hidden items-center">
-				<IconLogo width="50px" />
+				<div
+					onClick={() => history.push('/')}
+					className="cursor-pointer hover:opacity-50 transition"
+				>
+					<IconLogo width="50px" />
+				</div>
 
 				<Link
 					to="/"
@@ -179,15 +185,33 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 								className="font-semibold mr-5 text-sm transition hover:underline lg:block hidden"
 							>
 								<FontAwesomeIcon
-									icon={faUserCircle}
-									className="opacity-50"
+									icon={faSlidersH}
+									className="opacity-80"
 									size="2x"
 								/>
 							</Link>
 						)}
+						<div className="search-form lg:hidden flex items-center bg-gray-200 rounded-md px-4 py-2">
+							<FontAwesomeIcon icon={faSearch} className="mr-2" />
+
+							<form
+								onSubmit={onSearch}
+								className="flex items-center w-full"
+							>
+								<input
+									value={searchQuery}
+									onChange={e =>
+										setSearchQuery(e.target.value)
+									}
+									type="text"
+									placeholder="Search for something"
+									className="bg-gray-200 text-sm outline-none font-medium w-full"
+								/>
+							</form>
+						</div>
 						<button
 							onClick={() => logout()}
-							className="p-4 rounded-md bg-red-500 text-white h-10 flex items-center w-40 justify-center font-medium text-sm hover:opacity-90 transition"
+							className="p-3 rounded-md lg:flex hidden bg-red-500 text-white h-10 items-center w-32 justify-center font-medium text-sm hover:opacity-90 transition"
 						>
 							Logout
 						</button>

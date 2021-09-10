@@ -73,6 +73,7 @@ export type Entity = {
 export type EntityOwnershipRequest = {
   id: Scalars['Int'];
   requestedBy: Scalars['Int'];
+  entity: Scalars['Int'];
   approved: Scalars['Boolean'];
 };
 
@@ -90,6 +91,7 @@ export type Mutation = {
   addCategory: Category;
   addReview: Review;
   updateEntityViews: Scalars['Boolean'];
+  requestOwnership: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
   sendPasswordReset: Scalars['Boolean'];
@@ -112,6 +114,12 @@ export type MutationAddReviewArgs = {
 export type MutationUpdateEntityViewsArgs = {
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
+};
+
+
+export type MutationRequestOwnershipArgs = {
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -146,6 +154,7 @@ export type Query = {
   searchReviews: SearchReviewsResponse;
   hasReviewed: Scalars['Boolean'];
   getCategory: Category;
+  getEntityOwnershipRequests: Array<Maybe<EntityOwnershipRequest>>;
   getUser: User;
   getUserActivity: UserActivity;
   getUserEntities: Array<Maybe<Entity>>;
@@ -165,8 +174,10 @@ export type QueryGetEntityArgs = {
 
 
 export type QuerySearchReviewsArgs = {
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -177,6 +188,11 @@ export type QueryHasReviewedArgs = {
 
 
 export type QueryGetCategoryArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetEntityOwnershipRequestsArgs = {
   id: Scalars['Int'];
 };
 
@@ -226,6 +242,12 @@ export type ReviewInput = {
   entity: Scalars['Int'];
 };
 
+export type ReviewSearchFilters = {
+  minRating: Scalars['Int'];
+  maxRating: Scalars['Int'];
+  sortBy: Scalars['String'];
+};
+
 export type ReviewSearchResponse = {
   reviews: Array<Maybe<Review>>;
   entities: Array<Maybe<Entity>>;
@@ -271,6 +293,21 @@ export type GetEntityQueryVariables = Exact<{
 
 export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
 
+export type GetEntityOwnershipRequestsQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEntityOwnershipRequestsQuery = { getEntityOwnershipRequests: Array<Maybe<{ id: number, entity: number, approved: boolean }>> };
+
+export type RequestOwnershipMutationVariables = Exact<{
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type RequestOwnershipMutation = { requestOwnership: boolean };
+
 export type UpdateEntityViewsMutationVariables = Exact<{
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
@@ -296,8 +333,10 @@ export type HasReviewedQueryVariables = Exact<{
 export type HasReviewedQuery = { hasReviewed: boolean };
 
 export type SearchReviewsQueryVariables = Exact<{
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -431,6 +470,75 @@ export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
 export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
 export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
+export const GetEntityOwnershipRequestsDocument = gql`
+    query GetEntityOwnershipRequests($id: Int!) {
+  getEntityOwnershipRequests(id: $id) {
+    id
+    entity
+    approved
+  }
+}
+    `;
+
+/**
+ * __useGetEntityOwnershipRequestsQuery__
+ *
+ * To run a query within a React component, call `useGetEntityOwnershipRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEntityOwnershipRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEntityOwnershipRequestsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEntityOwnershipRequestsQuery(baseOptions: Apollo.QueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+      }
+export function useGetEntityOwnershipRequestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+        }
+export type GetEntityOwnershipRequestsQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsQuery>;
+export type GetEntityOwnershipRequestsLazyQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsLazyQuery>;
+export type GetEntityOwnershipRequestsQueryResult = Apollo.QueryResult<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>;
+export const RequestOwnershipDocument = gql`
+    mutation RequestOwnership($entityId: Int!, $userId: Int!) {
+  requestOwnership(entityId: $entityId, userId: $userId)
+}
+    `;
+export type RequestOwnershipMutationFn = Apollo.MutationFunction<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
+
+/**
+ * __useRequestOwnershipMutation__
+ *
+ * To run a mutation, you first call `useRequestOwnershipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestOwnershipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestOwnershipMutation, { data, loading, error }] = useRequestOwnershipMutation({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRequestOwnershipMutation(baseOptions?: Apollo.MutationHookOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestOwnershipMutation, RequestOwnershipMutationVariables>(RequestOwnershipDocument, options);
+      }
+export type RequestOwnershipMutationHookResult = ReturnType<typeof useRequestOwnershipMutation>;
+export type RequestOwnershipMutationResult = Apollo.MutationResult<RequestOwnershipMutation>;
+export type RequestOwnershipMutationOptions = Apollo.BaseMutationOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
 export const UpdateEntityViewsDocument = gql`
     mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
   updateEntityViews(viewCount: $viewCount, entityId: $entityId)
@@ -543,8 +651,13 @@ export type HasReviewedQueryHookResult = ReturnType<typeof useHasReviewedQuery>;
 export type HasReviewedLazyQueryHookResult = ReturnType<typeof useHasReviewedLazyQuery>;
 export type HasReviewedQueryResult = Apollo.QueryResult<HasReviewedQuery, HasReviewedQueryVariables>;
 export const SearchReviewsDocument = gql`
-    query SearchReviews($entityId: Int!, $first: Int) {
-  searchReviews(entityId: $entityId, first: $first) {
+    query SearchReviews($filters: ReviewSearchFilters!, $entityId: Int!, $first: Int, $query: String) {
+  searchReviews(
+    filters: $filters
+    entityId: $entityId
+    first: $first
+    query: $query
+  ) {
     total
     reviews {
       id
@@ -576,8 +689,10 @@ export const SearchReviewsDocument = gql`
  * @example
  * const { data, loading, error } = useSearchReviewsQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *      entityId: // value for 'entityId'
  *      first: // value for 'first'
+ *      query: // value for 'query'
  *   },
  * });
  */
