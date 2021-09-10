@@ -19,6 +19,10 @@ const UserDashboardRoot = lazy(
 	() => import('../../../pages/Dashboard/UserDashboardRoot')
 );
 
+const AdvancedReviewsPage = lazy(
+	() => import('../../../pages/Entity/AdvancedReviewsPage')
+);
+
 export const Router = () => {
 	const location = useLocation();
 
@@ -34,6 +38,12 @@ export const Router = () => {
 						<PrivateRoute path="/dashboard">
 							<UserDashboardRoot />
 						</PrivateRoute>
+						<Route
+							exact
+							path="/search/results/entity/:entityId/reviews"
+						>
+							<AdvancedReviewsPage />
+						</Route>
 						<Route exact path="/search/results/entity/:entityId">
 							<EntityBase />
 						</Route>

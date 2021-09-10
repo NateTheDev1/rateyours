@@ -174,8 +174,10 @@ export type QueryGetEntityArgs = {
 
 
 export type QuerySearchReviewsArgs = {
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -238,6 +240,12 @@ export type ReviewInput = {
   rating: Scalars['Int'];
   specialContent?: Maybe<Scalars['String']>;
   entity: Scalars['Int'];
+};
+
+export type ReviewSearchFilters = {
+  minRating: Scalars['Int'];
+  maxRating: Scalars['Int'];
+  sortBy: Scalars['String'];
 };
 
 export type ReviewSearchResponse = {
@@ -325,8 +333,10 @@ export type HasReviewedQueryVariables = Exact<{
 export type HasReviewedQuery = { hasReviewed: boolean };
 
 export type SearchReviewsQueryVariables = Exact<{
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -641,8 +651,13 @@ export type HasReviewedQueryHookResult = ReturnType<typeof useHasReviewedQuery>;
 export type HasReviewedLazyQueryHookResult = ReturnType<typeof useHasReviewedLazyQuery>;
 export type HasReviewedQueryResult = Apollo.QueryResult<HasReviewedQuery, HasReviewedQueryVariables>;
 export const SearchReviewsDocument = gql`
-    query SearchReviews($entityId: Int!, $first: Int) {
-  searchReviews(entityId: $entityId, first: $first) {
+    query SearchReviews($filters: ReviewSearchFilters!, $entityId: Int!, $first: Int, $query: String) {
+  searchReviews(
+    filters: $filters
+    entityId: $entityId
+    first: $first
+    query: $query
+  ) {
     total
     reviews {
       id
@@ -674,8 +689,10 @@ export const SearchReviewsDocument = gql`
  * @example
  * const { data, loading, error } = useSearchReviewsQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *      entityId: // value for 'entityId'
  *      first: // value for 'first'
+ *      query: // value for 'query'
  *   },
  * });
  */

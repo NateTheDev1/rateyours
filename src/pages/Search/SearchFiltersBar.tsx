@@ -5,13 +5,18 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { TextInput } from '../../components/Inputs/TextInput';
 import { useQuery } from '../../components/Navbar/Navbar';
 import { useGetCategoriesQuery } from '../../graphql';
 
-export const SearchFiltersBar = () => {
-	const { data } = useGetCategoriesQuery();
+export const SearchFiltersBar = ({
+	forReviews = false
+}: {
+	forReviews?: boolean;
+}) => {
+	const { data } = useGetCategoriesQuery({ skip: forReviews });
+	const { entityId }: { entityId?: string } = useParams();
 
 	const query = useQuery().get('query') ?? '';
 	const filterQuery = useQuery();
@@ -40,22 +45,53 @@ export const SearchFiltersBar = () => {
 			e.preventDefault();
 		}
 
-		if (query.length < 1) {
-			return;
+		if (!forReviews) {
+			if (query.length < 1) {
+				return;
+			}
 		}
 
-		let url = '/search/results/?query=' + searchQuery;
-
-		if (filters.minRating !== 1) {
-			url += `&minRating=${filters.minRating}`;
+		let url = '';
+		if (!forReviews) {
+			url = '/search/results/?query=' + searchQuery;
 		}
 
-		if (filters.maxRating !== 5) {
-			url += `&maxRating=${filters.maxRating}`;
+		if (forReviews && entityId) {
+			url = '/search/results/entity/' + entityId + '/reviews';
+
+			if (searchQuery.length > 0) {
+				url += '?query=' + searchQuery;
+			}
+
+			if (filters.minRating !== 1) {
+				url += `${searchQuery.length > 0 ? '&' : '?'}minRating=${
+					filters.minRating
+				}`;
+			}
+
+			if (filters.maxRating !== 5) {
+				url += `${
+					searchQuery.length > 0 && filters.minRating !== 1
+						? '&'
+						: '?'
+				}maxRating=${filters.maxRating}`;
+			}
 		}
 
-		if (filters.categoryRestriction !== 'None') {
-			url += `&categoryRestriction=${filters.categoryRestriction}`;
+		if (!forReviews) {
+			if (filters.minRating !== 1) {
+				url += `&minRating=${filters.minRating}`;
+			}
+
+			if (filters.maxRating !== 5) {
+				url += `&maxRating=${filters.maxRating}`;
+			}
+		}
+
+		if (!forReviews) {
+			if (filters.categoryRestriction !== 'None') {
+				url += `&categoryRestriction=${filters.categoryRestriction}`;
+			}
 		}
 
 		history.push(url);
@@ -68,10 +104,14 @@ export const SearchFiltersBar = () => {
 				<form className="flex items-center w-full" onSubmit={onSearch}>
 					<input
 						type="text"
-						required
+						required={forReviews !== true}
 						onChange={e => setSearchQuery(e.target.value)}
 						value={searchQuery}
-						placeholder="Search for something"
+						placeholder={
+							forReviews
+								? 'Search for reviews'
+								: 'Search for something'
+						}
 						className="bg-gray-200 text-lg outline-none font-medium w-full"
 					/>
 				</form>
@@ -131,12 +171,21 @@ export const SearchFiltersBar = () => {
 									Sort By
 								</label>
 								<select className="w-full bg-gray-200 p-4 rounded-md focus:outline-none">
-									<option>Best Match</option>
-									<option>Most Viewed</option>
+									{forReviews ? (
+										<>
+											<option>Ratings Ascending</option>
+											<option>Ratings Descending</option>
+										</>
+									) : (
+										<>
+											<option>Best Match</option>
+											<option>Most Viewed</option>
+										</>
+									)}
 								</select>
 							</div>
 						</div>
-						{data && (
+						{data && !forReviews && (
 							<>
 								<p className="font-light mt-8">
 									Category Restriction

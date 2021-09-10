@@ -5,7 +5,7 @@ import { UserSelectors } from '../../redux/User/selectors';
 
 export const PendingOwnerships = () => {
 	const id = UserSelectors.useSelectUserId()!;
-	const { data, loading, error } = useGetEntityOwnershipRequestsQuery({
+	const { data, loading } = useGetEntityOwnershipRequestsQuery({
 		variables: { id }
 	});
 	const history = useHistory();
