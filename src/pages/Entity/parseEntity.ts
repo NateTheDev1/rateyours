@@ -17,6 +17,14 @@ export const returnIdentifiedContent = (
 		return parseEntity(entity).movie;
 	}
 
+	if (entity.type === 'Cities') {
+		return parseEntity(entity).city;
+	}
+
+	if (entity.type === 'Countries') {
+		return parseEntity(entity).country;
+	}
+
 	return null;
 };
 
@@ -34,4 +42,13 @@ export type Movie = {
 	actors: string;
 	plot: string;
 	posterUrl: string;
+};
+
+export type City = {
+	countryId: number;
+	countryName: string;
+};
+export type Country = {
+	flag: string;
+	population: number;
 };

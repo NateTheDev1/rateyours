@@ -4,12 +4,12 @@ import {
 	faQuestionCircle
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
-import { Navbar, useQuery } from '../../components/Navbar/Navbar';
+import { Navbar } from '../../components/Navbar/Navbar';
 import {
 	useGetEntityQuery,
 	useHasReviewedLazyQuery,
@@ -23,11 +23,12 @@ import StartReview from './startReviewEmitter';
 
 const School = lazy(() => import('./School'));
 const Movie = lazy(() => import('./Movie'));
+const City = lazy(() => import('./City'));
+const Country = lazy(() => import('./Country'));
 
 const EntityBase = () => {
 	const history = useHistory();
 	const userId = UserSelectors.useSelectUserId();
-	const query = useQuery();
 
 	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery({
 		fetchPolicy: 'network-only'
@@ -176,6 +177,15 @@ const EntityBase = () => {
 								}
 							/>
 						)}
+						{data.getEntity.type === 'Cities' && (
+							<City
+								city={
+									returnIdentifiedContent(
+										data.getEntity as any
+									) as any
+								}
+							/>
+						)}
 						{data.getEntity.type === 'Movies' && (
 							<Movie
 								movie={
@@ -184,6 +194,16 @@ const EntityBase = () => {
 									) as any
 								}
 								title={data.getEntity.name}
+							/>
+						)}
+						{data.getEntity.type === 'Countries' && (
+							<Country
+								title={data.getEntity.name}
+								country={
+									returnIdentifiedContent(
+										data.getEntity as any
+									) as any
+								}
 							/>
 						)}
 						<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
