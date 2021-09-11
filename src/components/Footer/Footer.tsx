@@ -56,6 +56,14 @@ export const Footer = () => {
 					<Link to="/login" className="text-xs underline mb-4">
 						About
 					</Link>
+					<a
+						className="text-xs underline mb-4"
+						href="https://twitter.com/rateitio"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Twitter
+					</a>
 				</div>
 			</div>
 		</footer>
