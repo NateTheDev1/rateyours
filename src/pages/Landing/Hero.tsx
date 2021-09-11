@@ -42,10 +42,7 @@ const Hero = () => {
 					)}
 				</div>
 				<div className="lg:flex hidden justify-center items-center lg:w-2/5 w-full">
-					<div
-						className="lg:bg-white bg-darkgray  flex justify-center items-center h-2/3"
-						style={{ width: '100%' }}
-					>
+					<div className="lg:bg-white bg-darkgray w-full flex justify-center items-center h-2/3">
 						<h3 className="lg:text-black text-white font-black lg:text-2xl text-xl">
 							Read about{' '}
 							<TextLoop interval={2000}>

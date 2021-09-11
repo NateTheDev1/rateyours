@@ -6,9 +6,7 @@ export const parseEntity = (entity: Partial<Entity>) => {
 	return extraContent;
 };
 
-export const returnIdentifiedContent = (
-	entity: Partial<Entity>
-): { type: string } | null => {
+export const returnIdentifiedContent = (entity: Partial<Entity>): any => {
 	if (entity.type === 'Schools') {
 		return parseEntity(entity).college;
 	}

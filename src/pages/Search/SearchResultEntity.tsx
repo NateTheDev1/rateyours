@@ -1,6 +1,24 @@
 import { useHistory } from 'react-router-dom';
+import EntitySchema from '../../components/business/EntitySchema';
 import { getTagColor } from '../../components/business/tag-colors-config';
 import { SearchQuery } from '../../graphql';
+
+const getEntityType = (type: string) => {
+	if (type) {
+		if (type === 'Movies') {
+			return 'Movie';
+		}
+
+		if (type === 'Podcasts') {
+			return 'PodcastSeries';
+		}
+
+		if (type === 'Businesses') {
+			return 'Corporation';
+		}
+	}
+	return type;
+};
 
 export const SearchResultEntity = ({
 	entity,
@@ -17,6 +35,10 @@ export const SearchResultEntity = ({
 			className="border rounded-md shadow-lg border-gray-200 p-8 mr-8 bg-white cursor-pointer hover:opacity-50 hover:border-gray-400 transition w-1/5 flex flex-col justify-between"
 			style={{ minWidth: '300px' }}
 		>
+			<EntitySchema
+				type={getEntityType(entity!.type as any)}
+				entityName={entity!.name}
+			/>
 			<h4 className="font-bold text-lg">{entity?.name}</h4>
 			<p className="opacity-50">{entity?.views} Views</p>
 			{showTag && (

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { lazy, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import EntitySchema from '../../components/business/EntitySchema';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
@@ -190,42 +191,71 @@ const EntityBase = () => {
 							) && parseEntity(data.getEntity as any)['bio']}
 						</p>
 						{data.getEntity.type === 'Schools' && (
-							<School
-								school={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-							/>
+							<>
+								<EntitySchema
+									type="School"
+									entityName={data.getEntity.name}
+									sameAs={[
+										...returnIdentifiedContent(
+											data.getEntity as any
+										).websites
+									]}
+								/>
+								<School
+									school={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
 						)}
 						{data.getEntity.type === 'Cities' && (
-							<City
-								city={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-							/>
+							<>
+								<EntitySchema
+									type="City"
+									entityName={data.getEntity.name}
+								/>
+								<City
+									city={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
 						)}
 						{data.getEntity.type === 'Movies' && (
-							<Movie
-								movie={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-								title={data.getEntity.name}
-							/>
+							<>
+								<EntitySchema
+									type="Movie"
+									entityName={data.getEntity.name}
+								/>
+								<Movie
+									movie={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+									title={data.getEntity.name}
+								/>
+							</>
 						)}
 						{data.getEntity.type === 'Countries' && (
-							<Country
-								title={data.getEntity.name}
-								country={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-							/>
+							<>
+								<EntitySchema
+									type="Country"
+									entityName={data.getEntity.name}
+								/>
+								<Country
+									title={data.getEntity.name}
+									country={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
 						)}
 						<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
 							{data.getEntity.type}

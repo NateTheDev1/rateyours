@@ -2,7 +2,6 @@ import { faArrowRight, faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
-import { useQuery } from '../../components/Navbar/Navbar';
 import { useSearchReviewsQuery } from '../../graphql';
 import Review from './Review';
 import StartReview from './startReviewEmitter';
