@@ -17,7 +17,7 @@ const EntitySchema = ({
 				'@context': 'https://schema.org',
 				'@type': type as any,
 				sameAs: sameAs,
-				name: 'rateit',
+				name: entityName,
 				description: '',
 				url: SITE_URL,
 				foundingDate: '2021'
