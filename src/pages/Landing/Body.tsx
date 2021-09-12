@@ -19,10 +19,10 @@ export const Body = () => {
 	return (
 		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto lg:p-0 p-4">
 			<Helmet>
-				<title>rateit | Home</title>
+				<title>Rateit | Leave a rating on anything</title>
 				<meta
 					name="description"
-					content="Read and write your own reviews on almost anything from businesses, books, movies, music, teachers, and more."
+					content="Rateit is your one stop shop to let everyone know how you rate everyday things such as businesses, schools, credit cards, food products, and more."
 				/>
 			</Helmet>
 			<h2 className="font-bold lg:text-3xl text-xl mt-14 text-center">

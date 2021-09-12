@@ -119,12 +119,17 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 									/>
 								</form>
 							</div>
-							<button
-								onClick={() => logout()}
-								className="p-3 rounded-md flex mt-4 w-full bg-red-500 text-white h-10 items-center justify-center font-medium text-sm hover:opacity-90 transition"
-							>
-								Logout
-							</button>
+							{authenticated && (
+								<button
+									onClick={() => {
+										setOpenMobileNav(!openMobileNav);
+										logout();
+									}}
+									className="p-3 rounded-md flex mt-4 w-full bg-red-500 text-white h-10 items-center justify-center font-medium text-sm hover:opacity-90 transition"
+								>
+									Logout
+								</button>
+							)}
 						</div>
 					</div>
 				</Drawer>
@@ -183,7 +188,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					</form>
 				</div>
 				{showLogin && !authenticated && (
-					<>
+					<div className="flex items-center justify-end flex-1">
 						<Link
 							to="/login"
 							className="font-semibold mr-5 text-sm transition hover:underline"
@@ -196,8 +201,9 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 						>
 							Sign Up
 						</button>
-					</>
+					</div>
 				)}
+				{!showLogin && <div></div>}
 				{authenticated && (
 					<div className="flex items-center lg:w-auto w-full">
 						{user && (
