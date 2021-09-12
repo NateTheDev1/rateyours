@@ -29,7 +29,7 @@ export const Body = () => {
 				Search over 20 categories to get information about anything
 			</h2>
 			<div className="search-form flex items-center bg-gray-200 rounded-3xl px-4 py-4 mt-8 w-full">
-				<FontAwesomeIcon icon={faSearch} className="mr-2" />
+				<FontAwesomeIcon icon={faSearch} className="mr-2 opacity-50" />
 
 				<form
 					className="flex items-center"

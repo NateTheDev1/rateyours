@@ -100,7 +100,7 @@ export const SearchFiltersBar = ({
 	return (
 		<div className="w-full">
 			<div className="search-form flex items-center bg-gray-200 rounded-xl px-4 py-4 mt-8 w-full">
-				<FontAwesomeIcon icon={faSearch} className="mr-2" />
+				<FontAwesomeIcon icon={faSearch} className="mr-2 opacity-50" />
 				<form className="flex items-center w-full" onSubmit={onSearch}>
 					<input
 						type="text"
