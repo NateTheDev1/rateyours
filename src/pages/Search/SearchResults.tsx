@@ -7,6 +7,11 @@ import { SearchResult } from './SearchResult';
 import { SearchResultEntity } from './SearchResultEntity';
 import { Helmet } from 'react-helmet';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faChevronLeft,
+	faChevronRight
+} from '@fortawesome/pro-regular-svg-icons';
 
 const SearchResults = () => {
 	let query = useQuery();
@@ -120,26 +125,9 @@ const SearchResults = () => {
 						{pages.length > 1 && (
 							<div className="flex items-center mt-2 mb-8">
 								<h2 className="font-light text-lg mr-4">
-									Page
+									Viewing page {page} of{' '}
+									{pages[pages.length - 1]}
 								</h2>
-								<div className="bg-gray-100 flex items-center">
-									{pages.map((num, key) => (
-										<div
-											className={`py-2 px-5 border border-gray-300 cursor-pointer flex justify-center hover:opacity-50 transition ${
-												num === page &&
-												'bg-primary text-white'
-											}`}
-											onClick={() => setPagination(num)}
-										>
-											<p
-												className={`font-light text-lg`}
-												key={key}
-											>
-												{num}
-											</p>
-										</div>
-									))}
-								</div>
 							</div>
 						)}
 					</div>
@@ -163,6 +151,28 @@ const SearchResults = () => {
 				)}
 
 				{loading && <LoadingCircle loading={true} />}
+				<div className="flex items-center justify-center mt-8">
+					<FontAwesomeIcon
+						onClick={() => setPagination(page - 1)}
+						icon={faChevronLeft}
+						className={`mr-4 cursor-pointer ${
+							page === pages[0] && 'opacity-30'
+						}`}
+						size="lg"
+					/>
+					<p className="text-lg">
+						Page {page} of {pages[pages.length - 1]}
+					</p>
+
+					<FontAwesomeIcon
+						onClick={() => setPagination(page + 1)}
+						icon={faChevronRight}
+						className={`ml-4 cursor-pointer ${
+							page === pages[pages.length - 1] && 'opacity-30'
+						}`}
+						size="lg"
+					/>
+				</div>
 			</div>
 			<Footer />
 		</div>
