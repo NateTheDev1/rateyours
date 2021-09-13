@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, Slide } from '@material-ui/core';
+import { Button, DialogActions, DialogContent } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import { TextInput } from '../../components/Inputs/TextInput';
 

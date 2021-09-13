@@ -11,6 +11,7 @@ import Drawer from 'rc-drawer';
 import { UserActions } from '../../redux/User/actions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/types/state-types';
+import SearchDropdown from './SearchDropdown';
 
 export function useQuery() {
 	return new URLSearchParams(useLocation().search);
@@ -172,22 +173,32 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 				</Link>
 			</div>
 			<div className="flex items-center lg:w-auto w-4/5 justify-between">
-				<div className="search-form lg:flex hidden items-center bg-gray-200 rounded-2xl px-4 py-2 mr-8">
-					<FontAwesomeIcon
-						icon={faSearch}
-						className="mr-2 opacity-50"
-					/>
-
-					<form onSubmit={onSearch} className="flex items-center">
-						<input
-							value={searchQuery}
-							onChange={e => setSearchQuery(e.target.value)}
-							type="text"
-							placeholder="Search for something"
-							className="bg-gray-200 text-sm outline-none font-medium"
-							style={{ width: '200px' }}
+				<div className="search-form lg:flex lg:flex-col hidden items-center bg-gray-200 rounded-2xl px-4 py-2 mr-8">
+					<div className="flex">
+						<FontAwesomeIcon
+							icon={faSearch}
+							className="mr-2 opacity-50"
 						/>
-					</form>
+
+						<form
+							onSubmit={onSearch}
+							className="flex flex-col items-center"
+						>
+							<input
+								value={searchQuery}
+								onChange={e => setSearchQuery(e.target.value)}
+								type="text"
+								placeholder="Search for something"
+								className="bg-gray-200 text-sm outline-none font-medium"
+								style={{ width: '200px' }}
+							/>
+							<div className="absolute mt-8 w-52">
+								{searchQuery.length > 0 && !openMobileNav && (
+									<SearchDropdown />
+								)}
+							</div>
+						</form>
+					</div>
 				</div>
 				{showLogin && !authenticated && (
 					<div className="flex items-center justify-end flex-1">
@@ -224,7 +235,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 
 							<form
 								onSubmit={onSearch}
-								className="flex items-center w-full"
+								className="flex flex-col w-full"
 							>
 								<input
 									value={searchQuery}
@@ -235,8 +246,13 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 									placeholder="Search for something"
 									className="bg-gray-200 text-sm outline-none font-medium w-full"
 								/>
+								<div className="absolute z-10 mt-8 w-72">
+									{searchQuery.length > 0 &&
+										!openMobileNav && <SearchDropdown />}
+								</div>
 							</form>
 						</div>
+
 						<button
 							onClick={() => logout()}
 							className="p-3 rounded-md lg:flex hidden bg-red-500 text-white h-10 items-center w-32 justify-center font-medium text-sm hover:opacity-90 transition"
