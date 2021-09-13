@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
+import NoContent from '../../components/business/Loading/NoContent';
 import {
 	useGetUserActivityQuery,
 	useGetUserEntitiesQuery
@@ -12,10 +13,6 @@ import { UserSelectors } from '../../redux/User/selectors';
 import { SearchResultEntity } from '../Search/SearchResultEntity';
 import ActivityCard from './ActivityCard';
 import PendingOwnerships from './PendingOwnerships';
-
-const NoContent = lazy(
-	() => import('../../components/business/Loading/NoContent')
-);
 
 const Dashboard = () => {
 	const id = UserSelectors.useSelectUserId()!;

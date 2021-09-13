@@ -16,8 +16,8 @@ export const SearchResult = ({
 				history.push(
 					'/search/results/entity/' +
 						review?.entity +
-						'?scrollTo=' +
-						review?.id
+						'/reviews?query=' +
+						review?.title
 				)
 			}
 			className="border rounded-md lg:mt-0 mt-4 mb-4 shadow-md  border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50  hover:border-gray-400 transition  lg:mr-8"

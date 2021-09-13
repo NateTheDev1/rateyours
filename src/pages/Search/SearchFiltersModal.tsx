@@ -26,7 +26,7 @@ const SearchFiltersModal = ({
 			open={open.open}
 			onClose={() => setOpen({ open: false, editing: 'FILTERS' })}
 		>
-			<DialogContent>
+			<DialogContent className="mb-12">
 				<h3 className="font-medium text-xl">
 					Editing search {open.editing.toLowerCase()}
 				</h3>
@@ -110,11 +110,14 @@ const SearchFiltersModal = ({
 			</DialogContent>
 			<DialogActions>
 				<Button
+					variant="outlined"
 					onClick={() => setOpen({ open: false, editing: 'FILTERS' })}
 				>
 					Close
 				</Button>
-				<Button onClick={() => onSearch()}>Search</Button>
+				<Button variant="outlined" onClick={() => onSearch()}>
+					Search
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

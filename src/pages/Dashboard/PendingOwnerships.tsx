@@ -1,5 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
+import NoContent from '../../components/business/Loading/NoContent';
 import { useGetEntityOwnershipRequestsQuery } from '../../graphql';
 import { UserSelectors } from '../../redux/User/selectors';
 
@@ -28,6 +29,9 @@ export const PendingOwnerships = () => {
 				</Link>
 				{loading && <LoadingCircle loading={true} />}
 				<div className="mt-4">
+					{data && data.getEntityOwnershipRequests.length < 1 && (
+						<NoContent />
+					)}
 					{data?.getEntityOwnershipRequests.map((request, key) => (
 						<div
 							key={key}

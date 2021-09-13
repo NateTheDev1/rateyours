@@ -153,7 +153,11 @@ const SearchResults = () => {
 				{loading && <LoadingCircle loading={true} />}
 				<div className="flex items-center justify-center mt-8">
 					<FontAwesomeIcon
-						onClick={() => setPagination(page - 1)}
+						onClick={() => {
+							if (pages.length > 1) {
+								setPagination(page - 1);
+							}
+						}}
 						icon={faChevronLeft}
 						className={`mr-4 cursor-pointer ${
 							page === pages[0] && 'opacity-30'
@@ -165,7 +169,11 @@ const SearchResults = () => {
 					</p>
 
 					<FontAwesomeIcon
-						onClick={() => setPagination(page + 1)}
+						onClick={() => {
+							if (pages.length > 1) {
+								setPagination(page + 1);
+							}
+						}}
 						icon={faChevronRight}
 						className={`ml-4 cursor-pointer ${
 							page === pages[pages.length - 1] && 'opacity-30'
