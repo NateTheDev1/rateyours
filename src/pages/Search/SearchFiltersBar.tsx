@@ -1,14 +1,11 @@
-import {
-	faChevronCircleUp,
-	faEdit,
-	faSearch
-} from '@fortawesome/pro-light-svg-icons';
+import { faSearch } from '@fortawesome/pro-light-svg-icons';
+import { faSlidersH, faSort } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormEvent, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { TextInput } from '../../components/Inputs/TextInput';
 import { useQuery } from '../../components/Navbar/Navbar';
 import { useGetCategoriesQuery } from '../../graphql';
+import SearchFiltersModal from './SearchFiltersModal';
 
 export const SearchFiltersBar = ({
 	forReviews = false
@@ -22,13 +19,6 @@ export const SearchFiltersBar = ({
 	const filterQuery = useQuery();
 	const history = useHistory();
 	const [searchQuery, setSearchQuery] = useState(query);
-	const [changedFilters] = useState(
-		filterQuery.get('maxRating') !== null ||
-			filterQuery.get('minRating') !== null ||
-			filterQuery.get('categoryRestriction') !== null
-			? true
-			: false
-	);
 
 	const [filters, setFilters] = useState({
 		minRating: filterQuery.get('minRating') ?? 1,
@@ -36,9 +26,10 @@ export const SearchFiltersBar = ({
 		categoryRestriction: filterQuery.get('categoryRestriction') ?? 'None'
 	});
 
-	const [editingFilters, setEditingFilters] = useState(
-		changedFilters ? true : false
-	);
+	const [editingFilters, setEditingFilters] = useState({
+		open: false,
+		editing: 'FILTERS'
+	});
 
 	const onSearch = (e?: FormEvent) => {
 		if (e) {
@@ -123,98 +114,51 @@ export const SearchFiltersBar = ({
 			>
 				Search
 			</button>
-			<h2 className="font-md text-lg mt-8">
-				Filters - {changedFilters ? 'Currently' : 'Not'} Applied{' '}
-				{!editingFilters && (
-					<FontAwesomeIcon
-						icon={faEdit}
-						onClick={() => setEditingFilters(true)}
-						className="ml-2 cursor-pointer"
-					/>
-				)}
-				{editingFilters && (
-					<FontAwesomeIcon
-						icon={faChevronCircleUp}
-						onClick={() => setEditingFilters(false)}
-						className="ml-2 cursor-pointer"
-					/>
-				)}
-			</h2>
-			{editingFilters && (
-				<>
-					<div>
-						<div className="flex items-center">
-							<TextInput
-								label="Rating Min"
-								className="mt-3 w-50"
-								type="number"
-								value={String(filters.minRating)}
-								name="rating-min"
-								keyDown={e => e.key === 'Enter' && onSearch()}
-								setValue={val => {
-									setFilters({ ...filters, minRating: val });
-								}}
-							/>
-							<TextInput
-								label="Rating Max"
-								className="mt-3 w-50 ml-4"
-								keyDown={e => e.key === 'Enter' && onSearch()}
-								type="number"
-								value={String(filters.maxRating)}
-								name="rating-max"
-								setValue={val => {
-									setFilters({ ...filters, maxRating: val });
-								}}
-							/>
-							<div className="w-full ml-5 mt-3">
-								<label className="font-light opacity-50 text-sm font-sans mb-2">
-									Sort By
-								</label>
-								<select className="w-full bg-gray-200 p-4 rounded-md focus:outline-none">
-									{forReviews ? (
-										<>
-											<option>Ratings Ascending</option>
-											<option>Ratings Descending</option>
-										</>
-									) : (
-										<>
-											<option>Best Match</option>
-											<option>Most Viewed</option>
-										</>
-									)}
-								</select>
-							</div>
-						</div>
-						{data && !forReviews && (
-							<>
-								<p className="font-light mt-8">
-									Category Restriction
-								</p>
-								<select
-									value={filters.categoryRestriction}
-									onChange={e => {
-										setFilters({
-											...filters,
-											categoryRestriction: e.target.value
-										});
-									}}
-									className="w-full mt-2 bg-gray-200 p-4 rounded-md focus:outline-none"
-								>
-									<option>None</option>
-									{data &&
-										data.getCategories.map(
-											(category, key) => (
-												<option key={key}>
-													{category.title}
-												</option>
-											)
-										)}
-								</select>
-							</>
-						)}
-					</div>
-				</>
-			)}
+			<div className="flex justify-between">
+				<div
+					className="border border-gray-400 mt-8 p-4 w-almost rounded-md text-center cursor-pointer hover:opacity-50 transition"
+					onClick={() =>
+						setEditingFilters({
+							open: !editingFilters.open,
+							editing: 'FILTERS'
+						})
+					}
+				>
+					<h2 className="font-md text-md">
+						<FontAwesomeIcon
+							icon={faSlidersH}
+							className="mr-2 text-primary"
+						/>
+						Filters
+					</h2>
+				</div>
+				<div
+					className="border border-gray-400 mt-8 p-4 w-almost rounded-md text-center cursor-pointer hover:opacity-50 transition"
+					onClick={() =>
+						setEditingFilters({
+							open: !editingFilters.open,
+							editing: 'SORT'
+						})
+					}
+				>
+					<h2 className="font-md text-md">
+						<FontAwesomeIcon
+							icon={faSort}
+							className="mr-2 text-primary"
+						/>
+						Sort
+					</h2>
+				</div>
+			</div>
+			<SearchFiltersModal
+				open={editingFilters as any}
+				setOpen={setEditingFilters as any}
+				filters={filters}
+				setFilters={setFilters}
+				data={data}
+				onSearch={onSearch}
+				forReviews={forReviews}
+			/>
 		</div>
 	);
 };
