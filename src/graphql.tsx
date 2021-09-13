@@ -97,6 +97,7 @@ export type Mutation = {
   sendPasswordReset: Scalars['Boolean'];
   resetPassword: Scalars['Boolean'];
   updateUserDetails: Scalars['Boolean'];
+  deleteSearchHistory: Scalars['Boolean'];
 };
 
 
@@ -147,6 +148,17 @@ export type MutationUpdateUserDetailsArgs = {
   patch: UpdateUserDetailsInput;
 };
 
+
+export type MutationDeleteSearchHistoryArgs = {
+  id: Scalars['Int'];
+};
+
+export type PopularSearch = {
+  id: Scalars['Int'];
+  query: Scalars['String'];
+  searches: Scalars['Int'];
+};
+
 export type Query = {
   getCategories: Array<Category>;
   search: ReviewSearchResponse;
@@ -155,9 +167,11 @@ export type Query = {
   hasReviewed: Scalars['Boolean'];
   getCategory: Category;
   getEntityOwnershipRequests: Array<Maybe<EntityOwnershipRequest>>;
+  getPopularSearches: Array<Maybe<PopularSearch>>;
   getUser: User;
   getUserActivity: UserActivity;
   getUserEntities: Array<Maybe<Entity>>;
+  getSearchHistory: Array<Maybe<SearchHistory>>;
 };
 
 
@@ -211,6 +225,11 @@ export type QueryGetUserEntitiesArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryGetSearchHistoryArgs = {
+  id: Scalars['Int'];
+};
+
 export type ResetPasswordCredentials = {
   email: Scalars['String'];
   newPassword: Scalars['String'];
@@ -259,6 +278,12 @@ export type SearchFilters = {
   maxRating: Scalars['Int'];
   sortyBy: Scalars['String'];
   categoryRestriction?: Maybe<Scalars['String']>;
+};
+
+export type SearchHistory = {
+  id: Scalars['Int'];
+  query: Scalars['String'];
+  user: Scalars['Int'];
 };
 
 export type SearchReviewsResponse = {
@@ -361,6 +386,11 @@ export type GetCategoryQueryVariables = Exact<{
 
 export type GetCategoryQuery = { getCategory: { id: number, title: string, caption: string, iconKey?: Maybe<string>, banner?: Maybe<string>, topTen: { mostViewed: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>>, mostRecent: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> } } };
 
+export type GetPopularSearchesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularSearchesQuery = { getPopularSearches: Array<Maybe<{ query: string, searches: number }>> };
+
 export type SearchQueryVariables = Exact<{
   filters: SearchFilters;
   first?: Maybe<Scalars['Int']>;
@@ -376,6 +406,20 @@ export type CreateUserMutationVariables = Exact<{
 
 
 export type CreateUserMutation = { createUser: { token: string, user: { id: number, fullName?: Maybe<string>, birthday?: Maybe<string>, accountType: string, email: string } } };
+
+export type DeleteSearchHistoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteSearchHistoryMutation = { deleteSearchHistory: boolean };
+
+export type GetSearchHistoryQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetSearchHistoryQuery = { getSearchHistory: Array<Maybe<{ query: string }>> };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -831,6 +875,41 @@ export function useGetCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetCategoryQueryHookResult = ReturnType<typeof useGetCategoryQuery>;
 export type GetCategoryLazyQueryHookResult = ReturnType<typeof useGetCategoryLazyQuery>;
 export type GetCategoryQueryResult = Apollo.QueryResult<GetCategoryQuery, GetCategoryQueryVariables>;
+export const GetPopularSearchesDocument = gql`
+    query GetPopularSearches {
+  getPopularSearches {
+    query
+    searches
+  }
+}
+    `;
+
+/**
+ * __useGetPopularSearchesQuery__
+ *
+ * To run a query within a React component, call `useGetPopularSearchesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularSearchesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularSearchesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularSearchesQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>(GetPopularSearchesDocument, options);
+      }
+export function useGetPopularSearchesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>(GetPopularSearchesDocument, options);
+        }
+export type GetPopularSearchesQueryHookResult = ReturnType<typeof useGetPopularSearchesQuery>;
+export type GetPopularSearchesLazyQueryHookResult = ReturnType<typeof useGetPopularSearchesLazyQuery>;
+export type GetPopularSearchesQueryResult = Apollo.QueryResult<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>;
 export const SearchDocument = gql`
     query Search($filters: SearchFilters!, $first: Int, $query: String!) {
   search(filters: $filters, first: $first, query: $query) {
@@ -932,6 +1011,72 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const DeleteSearchHistoryDocument = gql`
+    mutation DeleteSearchHistory($id: Int!) {
+  deleteSearchHistory(id: $id)
+}
+    `;
+export type DeleteSearchHistoryMutationFn = Apollo.MutationFunction<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>;
+
+/**
+ * __useDeleteSearchHistoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteSearchHistoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSearchHistoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSearchHistoryMutation, { data, loading, error }] = useDeleteSearchHistoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSearchHistoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>(DeleteSearchHistoryDocument, options);
+      }
+export type DeleteSearchHistoryMutationHookResult = ReturnType<typeof useDeleteSearchHistoryMutation>;
+export type DeleteSearchHistoryMutationResult = Apollo.MutationResult<DeleteSearchHistoryMutation>;
+export type DeleteSearchHistoryMutationOptions = Apollo.BaseMutationOptions<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>;
+export const GetSearchHistoryDocument = gql`
+    query GetSearchHistory($id: Int!) {
+  getSearchHistory(id: $id) {
+    query
+  }
+}
+    `;
+
+/**
+ * __useGetSearchHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetSearchHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchHistoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSearchHistoryQuery(baseOptions: Apollo.QueryHookOptions<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>(GetSearchHistoryDocument, options);
+      }
+export function useGetSearchHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>(GetSearchHistoryDocument, options);
+        }
+export type GetSearchHistoryQueryHookResult = ReturnType<typeof useGetSearchHistoryQuery>;
+export type GetSearchHistoryLazyQueryHookResult = ReturnType<typeof useGetSearchHistoryLazyQuery>;
+export type GetSearchHistoryQueryResult = Apollo.QueryResult<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser($id: Int!) {
   getUser(id: $id) {

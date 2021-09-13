@@ -1,0 +1,5 @@
+query GetSearchHistory($id: Int!) {
+	getSearchHistory(id: $id) {
+		query
+	}
+}
