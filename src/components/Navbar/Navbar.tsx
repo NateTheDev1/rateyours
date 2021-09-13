@@ -246,7 +246,7 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 									placeholder="Search for something"
 									className="bg-gray-200 text-sm outline-none font-medium w-full"
 								/>
-								<div className="absolute z-10 mt-8 w-72">
+								<div className="absolute z-10 mt-8 w-64">
 									{searchQuery.length > 0 &&
 										!openMobileNav && <SearchDropdown />}
 								</div>
