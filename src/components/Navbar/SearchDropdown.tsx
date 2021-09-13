@@ -31,7 +31,9 @@ export const SearchDropdown = () => {
 							className="flex cursor-pointer justify-between items-center my-1 hover:opacity-50 transition"
 							key={key}
 						>
-							<Link to="/">{search?.query}</Link>
+							<Link to={'/search/results?query=' + search!.query}>
+								{search?.query}
+							</Link>
 							<FontAwesomeIcon icon={faHistory} />
 						</div>
 					))}
