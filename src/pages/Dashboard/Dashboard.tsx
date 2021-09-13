@@ -1,6 +1,6 @@
 import { faRedo } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
