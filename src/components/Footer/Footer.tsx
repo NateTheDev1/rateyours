@@ -22,7 +22,7 @@ export const Footer = () => {
 						Phone: +1 231 - 215 - 4678
 					</p>
 					<p className="text-white text-sm mt-4 font-normal italic lg:text-left text-center">
-						Email: corporate@rateit.com
+						Email: corporate@yourateit.io
 					</p>
 				</div>
 				<div className="flex justify-center mt-8 lg:mt-0">
