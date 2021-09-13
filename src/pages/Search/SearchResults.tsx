@@ -155,7 +155,7 @@ const SearchResults = () => {
 					</h2>
 				)}
 				{data && data.search.reviews.length > 0 && (
-					<div className="flex flex-wrap overflow-x-hidden">
+					<div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1">
 						{data?.search.reviews.map((review, key) => (
 							<SearchResult review={review} key={key} />
 						))}

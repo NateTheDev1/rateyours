@@ -67,6 +67,8 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 								onClick={() => setOpenMobileNav(!openMobileNav)}
 							/>
 						</div>
+						<IconLogo width="50px" />
+						<p className="text-lg">rateit.</p>
 						<div className="flex flex-col mt-8">
 							<Link
 								to="/"

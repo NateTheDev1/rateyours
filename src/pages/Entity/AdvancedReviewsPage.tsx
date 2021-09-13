@@ -117,7 +117,7 @@ const AdvancedReviewsPage = () => {
 					}
 				>
 					<FontAwesomeIcon icon={faArrowLeft} />
-					<p className="ml-2 font-sans text-xs">Go back</p>
+					<p className="ml-2 font-sans text-md">Go back</p>
 				</div>
 				<h3 className="font-light font-sans text-2xl">
 					Reading reviews about{' '}
