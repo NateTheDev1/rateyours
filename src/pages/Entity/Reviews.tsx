@@ -1,11 +1,28 @@
-import { faPlusSquare } from '@fortawesome/pro-light-svg-icons';
+import { faArrowRight, faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
-import { useQuery } from '../../components/Navbar/Navbar';
 import { useSearchReviewsQuery } from '../../graphql';
 import Review from './Review';
 import StartReview from './startReviewEmitter';
+
+// useEffect(() => {
+// 	if (queries.get('scrollTo')) {
+// 		const el = document.getElementById(queries.get('scrollTo')!);
+
+// 		el?.classList.add('p-2');
+
+// 		if (el) {
+// 			el.style.border = 'none';
+// 			el.style.borderLeft = '5px solid #10B981';
+// 			// el.scrollIntoView({
+// 			// 	behavior: 'smooth',
+// 			// 	block: 'nearest',
+// 			// 	inline: 'start'
+// 			// });
+// 		}
+// 	}
+// }, [data, queries]);
 
 export const Reviews = ({
 	entityId,
@@ -16,35 +33,28 @@ export const Reviews = ({
 	entityId: number;
 	review: any;
 }) => {
-	const queries = useQuery();
 	const { data, loading } = useSearchReviewsQuery({
-		variables: { entityId }
-	});
-	useEffect(() => {
-		if (queries.get('s	ollTo')) {
-			const el = document.getElementById(queries.get('scrollTo')!);
-
-			el?.classList.add('p-2');
-
-			if (el) {
-				el.style.border = 'none';
-				el.style.borderLeft = '5px solid #10B981';
-				el.scrollIntoView({
-					behavior: 'smooth',
-					block: 'nearest',
-					inline: 'start'
-				});
-			}
+		variables: {
+			entityId,
+			filters: { minRating: 1, maxRating: 5, sortBy: 'DESC' }
 		}
-	}, [data, queries]);
+	});
+
+	const history = useHistory();
 
 	return (
 		<div>
-			<div className="bg-gray-50 w-full p-6">
+			<div
+				onClick={() =>
+					history.push(`/search/results/entity/${entityId}/reviews`)
+				}
+				className="bg-gray-50 w-full p-6 hover:opacity-80 hover:bg-gray-200 transition cursor-pointer flex justify-between items-center"
+			>
 				<h3 className="font-light font-sans text-lg">
-					Read reviews about{' '}
+					Read more reviews about{' '}
 					<span className="text-primary font-bold">{entityName}</span>
 				</h3>
+				<FontAwesomeIcon icon={faArrowRight} />
 			</div>
 			<div className="p-6">
 				{loading && <LoadingCircle loading={true} />}
@@ -52,8 +62,11 @@ export const Reviews = ({
 					<div className="mt-2">
 						<div className="flex justify-between items-baseline">
 							<h4 className="font-light text-sm my-2">
-								{data.searchReviews.total} Reviews
+								Viewing {data.searchReviews.reviews.length} of{' '}
+								{data.searchReviews.total} Review
+								{data.searchReviews.total > 1 && 's'}
 							</h4>
+
 							<button
 								onClick={() => {
 									StartReview.emit('STARTED_REVIEW', {});

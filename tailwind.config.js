@@ -9,6 +9,9 @@ module.exports = {
 			},
 			minWidth: {
 				'1/5': '20%'
+			},
+			width: {
+				almost: '49%'
 			}
 		},
 		borderColor: theme => ({

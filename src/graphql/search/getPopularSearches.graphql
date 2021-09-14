@@ -1,0 +1,6 @@
+query GetPopularSearches {
+	getPopularSearches {
+		query
+		searches
+	}
+}

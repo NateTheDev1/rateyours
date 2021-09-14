@@ -1,0 +1,8 @@
+query GetUserEntities($id: Int!) {
+	getUserEntities(id: $id) {
+		id
+		type
+		name
+		views
+	}
+}

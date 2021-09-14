@@ -17,7 +17,7 @@ export const PublicRoute: any = ({
 	}
 
 	if (authenticated && !loading) {
-		return <Redirect to="/account" />;
+		return <Redirect to="/dashboard" />;
 	}
 
 	return <LoadingComponent />;

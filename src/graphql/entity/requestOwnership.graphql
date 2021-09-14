@@ -1,0 +1,3 @@
+mutation RequestOwnership($entityId: Int!, $userId: Int!) {
+	requestOwnership(entityId: $entityId, userId: $userId)
+}

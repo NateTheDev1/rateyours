@@ -73,6 +73,7 @@ export type Entity = {
 export type EntityOwnershipRequest = {
   id: Scalars['Int'];
   requestedBy: Scalars['Int'];
+  entity: Scalars['Int'];
   approved: Scalars['Boolean'];
 };
 
@@ -90,11 +91,13 @@ export type Mutation = {
   addCategory: Category;
   addReview: Review;
   updateEntityViews: Scalars['Boolean'];
+  requestOwnership: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
   sendPasswordReset: Scalars['Boolean'];
   resetPassword: Scalars['Boolean'];
   updateUserDetails: Scalars['Boolean'];
+  deleteSearchHistory: Scalars['Boolean'];
 };
 
 
@@ -112,6 +115,12 @@ export type MutationAddReviewArgs = {
 export type MutationUpdateEntityViewsArgs = {
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
+};
+
+
+export type MutationRequestOwnershipArgs = {
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -139,6 +148,17 @@ export type MutationUpdateUserDetailsArgs = {
   patch: UpdateUserDetailsInput;
 };
 
+
+export type MutationDeleteSearchHistoryArgs = {
+  id: Scalars['Int'];
+};
+
+export type PopularSearch = {
+  id: Scalars['Int'];
+  query: Scalars['String'];
+  searches: Scalars['Int'];
+};
+
 export type Query = {
   getCategories: Array<Category>;
   search: ReviewSearchResponse;
@@ -146,8 +166,12 @@ export type Query = {
   searchReviews: SearchReviewsResponse;
   hasReviewed: Scalars['Boolean'];
   getCategory: Category;
+  getEntityOwnershipRequests: Array<Maybe<EntityOwnershipRequest>>;
+  getPopularSearches: Array<Maybe<PopularSearch>>;
   getUser: User;
   getUserActivity: UserActivity;
+  getUserEntities: Array<Maybe<Entity>>;
+  getSearchHistory: Array<Maybe<SearchHistory>>;
 };
 
 
@@ -164,8 +188,10 @@ export type QueryGetEntityArgs = {
 
 
 export type QuerySearchReviewsArgs = {
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 };
 
 
@@ -180,12 +206,27 @@ export type QueryGetCategoryArgs = {
 };
 
 
+export type QueryGetEntityOwnershipRequestsArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryGetUserArgs = {
   id: Scalars['Int'];
 };
 
 
 export type QueryGetUserActivityArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUserEntitiesArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetSearchHistoryArgs = {
   id: Scalars['Int'];
 };
 
@@ -220,6 +261,12 @@ export type ReviewInput = {
   entity: Scalars['Int'];
 };
 
+export type ReviewSearchFilters = {
+  minRating: Scalars['Int'];
+  maxRating: Scalars['Int'];
+  sortBy: Scalars['String'];
+};
+
 export type ReviewSearchResponse = {
   reviews: Array<Maybe<Review>>;
   entities: Array<Maybe<Entity>>;
@@ -231,6 +278,12 @@ export type SearchFilters = {
   maxRating: Scalars['Int'];
   sortyBy: Scalars['String'];
   categoryRestriction?: Maybe<Scalars['String']>;
+};
+
+export type SearchHistory = {
+  id: Scalars['Int'];
+  query: Scalars['String'];
+  user: Scalars['Int'];
 };
 
 export type SearchReviewsResponse = {
@@ -265,6 +318,21 @@ export type GetEntityQueryVariables = Exact<{
 
 export type GetEntityQuery = { getEntity: { id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ id: number, fullName?: Maybe<string> }> } };
 
+export type GetEntityOwnershipRequestsQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEntityOwnershipRequestsQuery = { getEntityOwnershipRequests: Array<Maybe<{ id: number, entity: number, approved: boolean }>> };
+
+export type RequestOwnershipMutationVariables = Exact<{
+  entityId: Scalars['Int'];
+  userId: Scalars['Int'];
+}>;
+
+
+export type RequestOwnershipMutation = { requestOwnership: boolean };
+
 export type UpdateEntityViewsMutationVariables = Exact<{
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
@@ -290,8 +358,10 @@ export type HasReviewedQueryVariables = Exact<{
 export type HasReviewedQuery = { hasReviewed: boolean };
 
 export type SearchReviewsQueryVariables = Exact<{
+  filters: ReviewSearchFilters;
   entityId: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -316,6 +386,11 @@ export type GetCategoryQueryVariables = Exact<{
 
 export type GetCategoryQuery = { getCategory: { id: number, title: string, caption: string, iconKey?: Maybe<string>, banner?: Maybe<string>, topTen: { mostViewed: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>>, mostRecent: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> } } };
 
+export type GetPopularSearchesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPopularSearchesQuery = { getPopularSearches: Array<Maybe<{ query: string, searches: number }>> };
+
 export type SearchQueryVariables = Exact<{
   filters: SearchFilters;
   first?: Maybe<Scalars['Int']>;
@@ -332,6 +407,20 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { createUser: { token: string, user: { id: number, fullName?: Maybe<string>, birthday?: Maybe<string>, accountType: string, email: string } } };
 
+export type DeleteSearchHistoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteSearchHistoryMutation = { deleteSearchHistory: boolean };
+
+export type GetSearchHistoryQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetSearchHistoryQuery = { getSearchHistory: Array<Maybe<{ query: string }>> };
+
 export type GetUserQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -345,6 +434,13 @@ export type GetUserActivityQueryVariables = Exact<{
 
 
 export type GetUserActivityQuery = { getUserActivity: { reviews: Array<Maybe<{ id: number, type: string, title: string, entity: number, createdAt: string, tags?: Maybe<Array<Maybe<string>>> }>> } };
+
+export type GetUserEntitiesQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetUserEntitiesQuery = { getUserEntities: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> };
 
 export type LoginMutationVariables = Exact<{
   credentials: LoginInput;
@@ -418,6 +514,75 @@ export function useGetEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetEntityQueryHookResult = ReturnType<typeof useGetEntityQuery>;
 export type GetEntityLazyQueryHookResult = ReturnType<typeof useGetEntityLazyQuery>;
 export type GetEntityQueryResult = Apollo.QueryResult<GetEntityQuery, GetEntityQueryVariables>;
+export const GetEntityOwnershipRequestsDocument = gql`
+    query GetEntityOwnershipRequests($id: Int!) {
+  getEntityOwnershipRequests(id: $id) {
+    id
+    entity
+    approved
+  }
+}
+    `;
+
+/**
+ * __useGetEntityOwnershipRequestsQuery__
+ *
+ * To run a query within a React component, call `useGetEntityOwnershipRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEntityOwnershipRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEntityOwnershipRequestsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEntityOwnershipRequestsQuery(baseOptions: Apollo.QueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+      }
+export function useGetEntityOwnershipRequestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>(GetEntityOwnershipRequestsDocument, options);
+        }
+export type GetEntityOwnershipRequestsQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsQuery>;
+export type GetEntityOwnershipRequestsLazyQueryHookResult = ReturnType<typeof useGetEntityOwnershipRequestsLazyQuery>;
+export type GetEntityOwnershipRequestsQueryResult = Apollo.QueryResult<GetEntityOwnershipRequestsQuery, GetEntityOwnershipRequestsQueryVariables>;
+export const RequestOwnershipDocument = gql`
+    mutation RequestOwnership($entityId: Int!, $userId: Int!) {
+  requestOwnership(entityId: $entityId, userId: $userId)
+}
+    `;
+export type RequestOwnershipMutationFn = Apollo.MutationFunction<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
+
+/**
+ * __useRequestOwnershipMutation__
+ *
+ * To run a mutation, you first call `useRequestOwnershipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestOwnershipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestOwnershipMutation, { data, loading, error }] = useRequestOwnershipMutation({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRequestOwnershipMutation(baseOptions?: Apollo.MutationHookOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestOwnershipMutation, RequestOwnershipMutationVariables>(RequestOwnershipDocument, options);
+      }
+export type RequestOwnershipMutationHookResult = ReturnType<typeof useRequestOwnershipMutation>;
+export type RequestOwnershipMutationResult = Apollo.MutationResult<RequestOwnershipMutation>;
+export type RequestOwnershipMutationOptions = Apollo.BaseMutationOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
 export const UpdateEntityViewsDocument = gql`
     mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
   updateEntityViews(viewCount: $viewCount, entityId: $entityId)
@@ -530,8 +695,13 @@ export type HasReviewedQueryHookResult = ReturnType<typeof useHasReviewedQuery>;
 export type HasReviewedLazyQueryHookResult = ReturnType<typeof useHasReviewedLazyQuery>;
 export type HasReviewedQueryResult = Apollo.QueryResult<HasReviewedQuery, HasReviewedQueryVariables>;
 export const SearchReviewsDocument = gql`
-    query SearchReviews($entityId: Int!, $first: Int) {
-  searchReviews(entityId: $entityId, first: $first) {
+    query SearchReviews($filters: ReviewSearchFilters!, $entityId: Int!, $first: Int, $query: String) {
+  searchReviews(
+    filters: $filters
+    entityId: $entityId
+    first: $first
+    query: $query
+  ) {
     total
     reviews {
       id
@@ -563,8 +733,10 @@ export const SearchReviewsDocument = gql`
  * @example
  * const { data, loading, error } = useSearchReviewsQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *      entityId: // value for 'entityId'
  *      first: // value for 'first'
+ *      query: // value for 'query'
  *   },
  * });
  */
@@ -703,6 +875,41 @@ export function useGetCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetCategoryQueryHookResult = ReturnType<typeof useGetCategoryQuery>;
 export type GetCategoryLazyQueryHookResult = ReturnType<typeof useGetCategoryLazyQuery>;
 export type GetCategoryQueryResult = Apollo.QueryResult<GetCategoryQuery, GetCategoryQueryVariables>;
+export const GetPopularSearchesDocument = gql`
+    query GetPopularSearches {
+  getPopularSearches {
+    query
+    searches
+  }
+}
+    `;
+
+/**
+ * __useGetPopularSearchesQuery__
+ *
+ * To run a query within a React component, call `useGetPopularSearchesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPopularSearchesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPopularSearchesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPopularSearchesQuery(baseOptions?: Apollo.QueryHookOptions<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>(GetPopularSearchesDocument, options);
+      }
+export function useGetPopularSearchesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>(GetPopularSearchesDocument, options);
+        }
+export type GetPopularSearchesQueryHookResult = ReturnType<typeof useGetPopularSearchesQuery>;
+export type GetPopularSearchesLazyQueryHookResult = ReturnType<typeof useGetPopularSearchesLazyQuery>;
+export type GetPopularSearchesQueryResult = Apollo.QueryResult<GetPopularSearchesQuery, GetPopularSearchesQueryVariables>;
 export const SearchDocument = gql`
     query Search($filters: SearchFilters!, $first: Int, $query: String!) {
   search(filters: $filters, first: $first, query: $query) {
@@ -804,6 +1011,72 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const DeleteSearchHistoryDocument = gql`
+    mutation DeleteSearchHistory($id: Int!) {
+  deleteSearchHistory(id: $id)
+}
+    `;
+export type DeleteSearchHistoryMutationFn = Apollo.MutationFunction<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>;
+
+/**
+ * __useDeleteSearchHistoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteSearchHistoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSearchHistoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSearchHistoryMutation, { data, loading, error }] = useDeleteSearchHistoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSearchHistoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>(DeleteSearchHistoryDocument, options);
+      }
+export type DeleteSearchHistoryMutationHookResult = ReturnType<typeof useDeleteSearchHistoryMutation>;
+export type DeleteSearchHistoryMutationResult = Apollo.MutationResult<DeleteSearchHistoryMutation>;
+export type DeleteSearchHistoryMutationOptions = Apollo.BaseMutationOptions<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>;
+export const GetSearchHistoryDocument = gql`
+    query GetSearchHistory($id: Int!) {
+  getSearchHistory(id: $id) {
+    query
+  }
+}
+    `;
+
+/**
+ * __useGetSearchHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetSearchHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchHistoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSearchHistoryQuery(baseOptions: Apollo.QueryHookOptions<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>(GetSearchHistoryDocument, options);
+      }
+export function useGetSearchHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>(GetSearchHistoryDocument, options);
+        }
+export type GetSearchHistoryQueryHookResult = ReturnType<typeof useGetSearchHistoryQuery>;
+export type GetSearchHistoryLazyQueryHookResult = ReturnType<typeof useGetSearchHistoryLazyQuery>;
+export type GetSearchHistoryQueryResult = Apollo.QueryResult<GetSearchHistoryQuery, GetSearchHistoryQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser($id: Int!) {
   getUser(id: $id) {
@@ -885,6 +1158,44 @@ export function useGetUserActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetUserActivityQueryHookResult = ReturnType<typeof useGetUserActivityQuery>;
 export type GetUserActivityLazyQueryHookResult = ReturnType<typeof useGetUserActivityLazyQuery>;
 export type GetUserActivityQueryResult = Apollo.QueryResult<GetUserActivityQuery, GetUserActivityQueryVariables>;
+export const GetUserEntitiesDocument = gql`
+    query GetUserEntities($id: Int!) {
+  getUserEntities(id: $id) {
+    id
+    type
+    name
+    views
+  }
+}
+    `;
+
+/**
+ * __useGetUserEntitiesQuery__
+ *
+ * To run a query within a React component, call `useGetUserEntitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserEntitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserEntitiesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserEntitiesQuery(baseOptions: Apollo.QueryHookOptions<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>(GetUserEntitiesDocument, options);
+      }
+export function useGetUserEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>(GetUserEntitiesDocument, options);
+        }
+export type GetUserEntitiesQueryHookResult = ReturnType<typeof useGetUserEntitiesQuery>;
+export type GetUserEntitiesLazyQueryHookResult = ReturnType<typeof useGetUserEntitiesLazyQuery>;
+export type GetUserEntitiesQueryResult = Apollo.QueryResult<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($credentials: LoginInput!) {
   login(credentials: $credentials) {

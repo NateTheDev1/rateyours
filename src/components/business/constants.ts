@@ -1,1 +1,1 @@
-export const SITE_URL = 'https://rateyours.io';
+export const SITE_URL = 'https://www.yourateit.io';

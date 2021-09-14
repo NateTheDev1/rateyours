@@ -7,12 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { lazy, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import EntitySchema from '../../components/business/EntitySchema';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import {
+	useGetEntityOwnershipRequestsQuery,
 	useGetEntityQuery,
 	useHasReviewedLazyQuery,
+	useRequestOwnershipMutation,
 	useUpdateEntityViewsMutation
 } from '../../graphql';
 import { UserSelectors } from '../../redux/User/selectors';
@@ -23,6 +26,8 @@ import StartReview from './startReviewEmitter';
 
 const School = lazy(() => import('./School'));
 const Movie = lazy(() => import('./Movie'));
+const City = lazy(() => import('./City'));
+const Country = lazy(() => import('./Country'));
 
 const EntityBase = () => {
 	const history = useHistory();
@@ -30,6 +35,17 @@ const EntityBase = () => {
 
 	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery({
 		fetchPolicy: 'network-only'
+	});
+	const [claimOwnership, claimEntityData] = useRequestOwnershipMutation();
+	const {
+		data: getPendingOwnershipsData,
+		loading: getPendingOwnershipsLoading,
+		refetch
+	} = useGetEntityOwnershipRequestsQuery({
+		variables: { id: userId! },
+		onError: () => {
+			refetch({ id: userId });
+		}
 	});
 
 	const [viewed, setViewed] = useState(false);
@@ -76,6 +92,14 @@ const EntityBase = () => {
 				variables: { entityId: Number(entityId), userId: userId }
 			});
 			setCreatingReview(true);
+		}
+	};
+
+	const claimEntity = () => {
+		if (data && userId) {
+			claimOwnership({
+				variables: { entityId: data.getEntity.id, userId }
+			});
 		}
 	};
 
@@ -141,6 +165,7 @@ const EntityBase = () => {
 							<h1 className="text-2xl text-primary">
 								{data?.getEntity.name}{' '}
 							</h1>
+
 							<button
 								onClick={onStartReview}
 								className="sm:flex hidden p-4 mt-4 font-medium rounded-md bg-green-500 text-white h-10 items-center w-48 justify-center text-sm hover:opacity-90 transition"
@@ -166,27 +191,106 @@ const EntityBase = () => {
 							) && parseEntity(data.getEntity as any)['bio']}
 						</p>
 						{data.getEntity.type === 'Schools' && (
-							<School
-								school={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-							/>
+							<>
+								<EntitySchema
+									type="School"
+									entityName={data.getEntity.name}
+									sameAs={[
+										...returnIdentifiedContent(
+											data.getEntity as any
+										).websites
+									]}
+								/>
+								<School
+									school={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
+						)}
+						{data.getEntity.type === 'Cities' && (
+							<>
+								<EntitySchema
+									type="City"
+									entityName={data.getEntity.name}
+								/>
+								<City
+									city={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
 						)}
 						{data.getEntity.type === 'Movies' && (
-							<Movie
-								movie={
-									returnIdentifiedContent(
-										data.getEntity as any
-									) as any
-								}
-								title={data.getEntity.name}
-							/>
+							<>
+								<EntitySchema
+									type="Movie"
+									entityName={data.getEntity.name}
+								/>
+								<Movie
+									movie={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+									title={data.getEntity.name}
+								/>
+							</>
+						)}
+						{data.getEntity.type === 'Countries' && (
+							<>
+								<EntitySchema
+									type="Country"
+									entityName={data.getEntity.name}
+								/>
+								<Country
+									title={data.getEntity.name}
+									country={
+										returnIdentifiedContent(
+											data.getEntity as any
+										) as any
+									}
+								/>
+							</>
 						)}
 						<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full">
 							{data.getEntity.type}
 						</span>
+						{!data.getEntity.ownedBy &&
+							getPendingOwnershipsData &&
+							!getPendingOwnershipsLoading &&
+							data.getEntity &&
+							!getPendingOwnershipsData?.getEntityOwnershipRequests.find(
+								request => {
+									return (
+										request?.entity === data.getEntity.id
+									);
+								}
+							) && (
+								<p
+									className={`${
+										!claimEntityData.data
+											?.requestOwnership && 'underline'
+									} block mt-4 opacity-50 cursor-pointer ${
+										claimEntityData.data
+											?.requestOwnership === true &&
+										'text-primary opacity-100'
+									}`}
+									onClick={claimEntity}
+								>
+									{claimEntityData.data?.requestOwnership ===
+									true
+										? 'Ownership request sent!'
+										: 'Claim this page'}
+								</p>
+							)}
+						{getPendingOwnershipsLoading && (
+							<LoadingCircle loading={true} />
+						)}
 						<Link
 							to={`/support/entity-incorrect?entity=${data.getEntity.id}`}
 							className="underline block mt-4 opacity-50"

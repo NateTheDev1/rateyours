@@ -1,0 +1,3 @@
+mutation DeleteSearchHistory($id: Int!) {
+	deleteSearchHistory(id: $id)
+}

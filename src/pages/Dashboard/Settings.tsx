@@ -23,7 +23,7 @@ const Settings = () => {
 		birthday: Date;
 	}>({
 		fullName: user.fullName ?? '',
-		birthday: new Date()
+		birthday: user.birthday ? new Date(user.birthday) : new Date()
 	});
 
 	const [formError, setFormError] = useState('');
@@ -37,7 +37,7 @@ const Settings = () => {
 
 	const onSubmit = (e: FormEvent) => {
 		e.preventDefault();
-
+		console.log(formValues.birthday);
 		updateUser({
 			variables: {
 				patch: {
@@ -102,6 +102,12 @@ const Settings = () => {
 				/>
 				<p className="font-light opacity-50 text-sm mt-8 font-sans">
 					Account Type (Currently Unable To Change)
+				</p>
+				<p
+					className="uppercase mt-3 bg-blue-500 p-2 text-center text-white rounded-md"
+					style={{ width: '100px' }}
+				>
+					{user.accountType}
 				</p>
 				<p className="font-light opacity-50 text-sm mt-8 font-sans">
 					Password

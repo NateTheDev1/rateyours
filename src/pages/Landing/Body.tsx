@@ -19,17 +19,17 @@ export const Body = () => {
 	return (
 		<div className="flex flex-col items-center justify-center max-w-screen-lg m-auto lg:p-0 p-4">
 			<Helmet>
-				<title>rateit | Home</title>
+				<title>Rateit | Leave a rating on anything</title>
 				<meta
 					name="description"
-					content="Read and write your own reviews on almost anything from businesses, books, movies, music, teachers, and more."
+					content="Rateit is your one stop shop to let everyone know how you rate everyday things such as businesses, schools, credit cards, food products, and more."
 				/>
 			</Helmet>
 			<h2 className="font-bold lg:text-3xl text-xl mt-14 text-center">
 				Search over 20 categories to get information about anything
 			</h2>
 			<div className="search-form flex items-center bg-gray-200 rounded-3xl px-4 py-4 mt-8 w-full">
-				<FontAwesomeIcon icon={faSearch} className="mr-2" />
+				<FontAwesomeIcon icon={faSearch} className="mr-2 opacity-50" />
 
 				<form
 					className="flex items-center"
@@ -125,9 +125,8 @@ export const Body = () => {
 					quality information to our users.
 					<br></br>
 					<span>
-						Want to learn more?{' '}
 						<Link to="/partners" className="underline">
-							Click here
+							Want to learn more?
 						</Link>
 					</span>
 				</p>

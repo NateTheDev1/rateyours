@@ -1,5 +1,15 @@
-query SearchReviews($entityId: Int!, $first: Int) {
-	searchReviews(entityId: $entityId, first: $first) {
+query SearchReviews(
+	$filters: ReviewSearchFilters!
+	$entityId: Int!
+	$first: Int
+	$query: String
+) {
+	searchReviews(
+		filters: $filters
+		entityId: $entityId
+		first: $first
+		query: $query
+	) {
 		total
 		reviews {
 			id

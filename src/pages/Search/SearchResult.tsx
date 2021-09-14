@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { SearchQuery } from '../../graphql';
 import Moment from 'react-moment';
+import { getTagColor } from '../../components/business/tag-colors-config';
 
 export const SearchResult = ({
 	review
@@ -15,12 +16,11 @@ export const SearchResult = ({
 				history.push(
 					'/search/results/entity/' +
 						review?.entity +
-						'?scrollTo=' +
-						review?.id
+						'/reviews?query=' +
+						review?.title
 				)
 			}
-			className="border rounded-md lg:mt-0 mt-4 mb-4 shadow-lg border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50 flex-1 hover:border-gray-400 transition lg:1/5 md:w-1/2 w-full lg:mr-8"
-			style={{ minHeight: '300px', minWidth: '450px' }}
+			className="border rounded-md lg:mt-0 mt-4 mb-4 shadow-md  border-gray-200 p-8 bg-white cursor-pointer hover:opacity-50  hover:border-gray-400 transition  lg:mr-8"
 		>
 			<h4 className="font-bold text-lg">{review?.title}</h4>
 			<p className="mt-4 font-medium">
@@ -38,7 +38,10 @@ export const SearchResult = ({
 			</p>
 
 			<div className="flex flex-wrap">
-				<span className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 bg-blue-600 rounded-full mr-2">
+				<span
+					style={{ backgroundColor: getTagColor(review!.type) }}
+					className="inline-flex items-center justify-center px-3 py-3 text-md mt-4 font-bold leading-none text-red-100 rounded-full mr-2"
+				>
 					{review?.type}
 				</span>
 				{review?.tags?.map((tag, key) => (

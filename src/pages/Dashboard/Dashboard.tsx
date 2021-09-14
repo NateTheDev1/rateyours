@@ -1,16 +1,18 @@
 import { faRedo } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy } from 'react';
+import { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
-import { useGetUserActivityQuery } from '../../graphql';
+import NoContent from '../../components/business/Loading/NoContent';
+import {
+	useGetUserActivityQuery,
+	useGetUserEntitiesQuery
+} from '../../graphql';
 import { UserSelectors } from '../../redux/User/selectors';
-
-const ActivityCard = lazy(() => import('./ActivityCard'));
-const NoContent = lazy(
-	() => import('../../components/business/Loading/NoContent')
-);
+import { SearchResultEntity } from '../Search/SearchResultEntity';
+import ActivityCard from './ActivityCard';
+import PendingOwnerships from './PendingOwnerships';
 
 const Dashboard = () => {
 	const id = UserSelectors.useSelectUserId()!;
@@ -20,6 +22,17 @@ const Dashboard = () => {
 		skip: !id,
 		onError: () => {
 			refetch({ id });
+		}
+	});
+	const {
+		data: userEntitiesData,
+		loading: userEntitiesLoading,
+		refetch: refetchEntities
+	} = useGetUserEntitiesQuery({
+		variables: { id },
+		skip: !id,
+		onError: () => {
+			refetchEntities({ id });
 		}
 	});
 
@@ -36,8 +49,9 @@ const Dashboard = () => {
 			<div className="w-full bg-yellow-600 text-white font-bold p-4 rounded-md">
 				<p className="leading-loose">
 					Note: The dashboard is a beta feature and is currently in
-					development. Currently you may only see your activity. For
-					more information on upcoming features visit our{' '}
+					development. Currently you may only see your activity and
+					ownership data. For more information on upcoming features
+					visit our{' '}
 					<Link to="/about/updates" className="underline">
 						about page.
 					</Link>
@@ -52,7 +66,8 @@ const Dashboard = () => {
 					className="ml-4 cursor-pointer hover:opacity-50 transition"
 				/>
 			</div>
-			{loading && <LoadingCircle loading={true} />}
+			{loading ||
+				(userEntitiesLoading && <LoadingCircle loading={true} />)}
 			{!loading && data && data.getUserActivity.reviews.length < 1 && (
 				<p className="text-center bg-opacity-70">No activity.</p>
 			)}
@@ -67,6 +82,29 @@ const Dashboard = () => {
 					{data.getUserActivity.reviews.length < 1 && <NoContent />}
 				</div>
 			)}
+			<h2 className="font-bold text-xl mt-8">Your Ownerships</h2>
+			<div className="flex-col my-3">
+				<p className="leading-loose opacity-50">
+					These are entities that you own. To learn more visit our
+					article on owning entities.
+				</p>
+				<Link
+					to="/support/owning-entities"
+					className="underline opacity-50 mt-3"
+				>
+					What does it mean to own an entity?
+				</Link>
+			</div>
+			<div className="mt-8">
+				{userEntitiesData?.getUserEntities.map((entity, key) => (
+					<SearchResultEntity entity={entity} key={key} />
+				))}
+				{userEntitiesData &&
+					userEntitiesData.getUserEntities.length < 1 && (
+						<NoContent />
+					)}
+			</div>
+			<Suspense fallback={<></>}>{id && <PendingOwnerships />}</Suspense>
 		</div>
 	);
 };
