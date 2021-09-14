@@ -3,8 +3,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBracketsCurly } from '@fortawesome/pro-regular-svg-icons';
+import { IconLogo } from '../../components/business/Logo/IconLogo';
 
 const About = () => {
 	return (
@@ -14,11 +13,17 @@ const About = () => {
 			</Helmet>
 			<Navbar />
 			<div className="w-screen bg-gray-100 p-8">
-				<h1 className="text-center mt-20 lg:text-5xl text-3xl font-bold">
-					What makes <span className="text-primary">rateit</span> so
-					unique?
+				<div className="flex flex-col lg:justify-center lg:items-center justify-start mt-20">
+					<IconLogo width="75px" />
+					<p className="text-2xl">rateit</p>
+				</div>
+				<h1 className="lg:text-center mt-8 lg:text-5xl text-3xl font-bold">
+					What makes us so unique?
 				</h1>
-				<p className="leading-loose text-xl text-center mt-12 lg:w-2/4 md:w-3/4 w-full m-auto mb-12">
+				<p
+					className="lg:text-xl text-lg lg:text-center mt-12 lg:w-2/4 md:w-3/4 w-full m-auto mb-12"
+					style={{ lineHeight: '2.5rem' }}
+				>
 					<span className="text-primary">Rateit</span> is a place
 					where you can find information and ratings from a plethra of
 					categories on different things like people, movies, products
@@ -32,10 +37,10 @@ const About = () => {
 				</p>
 			</div>
 			<div className="lg:p-0 p-4 mb-auto mt-14">
-				<div className="max-w-screen-lg m-auto mb-20">
+				<div className="max-w-screen-xl m-auto mb-20">
 					<h2 className="font-bold text-3xl">Our Team</h2>
-					<div className="grid-cols-3">
-						<div className="bg-white shadow-lg border border-gray-200 p-4 mt-12 w-1/3 rounded-md">
+					<div className="flex justify-between">
+						<div className="bg-white shadow-lg border border-gray-200 p-4 mt-12 rounded-md lg:w-1/3 w-full md:w-3/4">
 							<LazyLoadImage
 								alt="Nathaniel Richards on rateit"
 								effect="blur"
