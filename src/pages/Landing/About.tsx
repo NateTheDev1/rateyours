@@ -39,10 +39,10 @@ const About = () => {
 					community.
 				</p>
 			</div>
-			<div className="lg:p-0 p-4 mb-auto mt-14">
+			<div className="p-4 mb-auto mt-14">
 				<div className="max-w-screen-xl m-auto mb-20">
 					<h2 className="font-bold text-3xl">Our Team</h2>
-					<div className="bg-primary p-8 rounded-lg mt-8 flex justify-between items-center">
+					<div className="bg-primary p-8 rounded-lg mt-8 flex lg:flex-row flex-col justify-between items-center">
 						<h4 className="text-white text-2xl">
 							Looking to join our team?
 						</h4>
@@ -55,22 +55,33 @@ const About = () => {
 							Contact
 						</a>
 					</div>
-					<div className="flex justify-between">
-						<div className="bg-white shadow-lg border border-gray-200 p-4 mt-12 rounded-md lg:w-1/3 w-full md:w-3/4">
-							<LazyLoadImage
-								alt="Nathaniel Richards on rateit"
-								effect="blur"
-								className="rounded-md"
-								src="https://scontent.fdet1-2.fna.fbcdn.net/v/t1.6435-9/120097963_2795422830691922_9072172055537035422_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=v4b-jNaO5V8AX-pO8UY&_nc_ht=scontent.fdet1-2.fna&oh=7192b3c495532d0a750ee316e6b67799&oe=6167107E"
-							/>
-							<h3 className="font-bold text-lg mt-4">
-								Nathaniel Richards
-							</h3>
-							<p className="leading-loose">
-								Software engineer and creator of rateit,
-								Nathaniel Richards spends the majority of his
-								time cobbling code ⚒️
-							</p>
+					<div className="flex flex-wrap">
+						<div className="bg-white shadow-lg border border-gray-200 p-4 mt-12 rounded-md lg:w-1/3 w-full  flex flex-col justify-between">
+							<div className="flex flex-col justify-between">
+								<LazyLoadImage
+									alt="Nathaniel Richards on rateit"
+									effect="blur"
+									className="rounded-md"
+									style={{
+										height: '350px',
+										width: '100%',
+										objectFit: 'cover',
+										objectPosition: 'center'
+									}}
+									src="https://cdn.yourateit.io/images/about/nathaniel_richards.jpeg"
+								/>
+								<h3 className="font-bold text-lg mt-4">
+									Nathaniel Richards
+								</h3>
+								<p className="opacity-50 font-medium my-2">
+									Chief Executive Officer
+								</p>
+								<p className="leading-loose">
+									Software engineer and creator of rateit,
+									Nathaniel Richards spends the majority of
+									his time cobbling code ⚒️
+								</p>
+							</div>
 							<a
 								href="https://nathanielrichards.dev"
 								rel="noreferrer"
@@ -80,7 +91,43 @@ const About = () => {
 								Visit Website
 							</a>
 						</div>
+						<div className="bg-white shadow-lg border border-gray-200 p-4 mt-12 rounded-md lg:w-1/3 w-full lg:ml-8 flex flex-col justify-between">
+							<div className="flex flex-col">
+								<LazyLoadImage
+									alt="Marco Chavez on rateit"
+									effect="blur"
+									style={{
+										height: '350px',
+										width: '100%',
+										objectFit: 'cover',
+										objectPosition: 'center'
+									}}
+									className="rounded-md"
+									src="https://cdn.yourateit.io/images/about/marco_chavez.jpg"
+								/>
+								<h3 className="font-bold text-lg mt-4">
+									Marco Chavez
+								</h3>
+								<p className="opacity-50 font-medium my-2">
+									Software Engineer
+								</p>
+								<p className="leading-loose">
+									A software engineer and excellent front end
+									developer, and previous mentor at Woz U.
+								</p>
+							</div>
+
+							<a
+								href="https://www.marcochavez.info/"
+								rel="noreferrer"
+								target="_blank"
+								className="p-4 rounded-md bg-white border border-primary text-black h-10 flex items-center w-full mt-4 justify-center font-medium text-sm hover:opacity-40 transition uppercase tracking-widest"
+							>
+								Visit Linkedin
+							</a>
+						</div>
 					</div>
+
 					<h2 className="font-bold text-3xl mt-12">
 						Our Core Values
 					</h2>
@@ -92,37 +139,13 @@ const About = () => {
 						verified reviewers to get you a guaranteed organic
 						opinion.
 					</p>
-					<div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-8 lg:justify-items-center">
-						<div className="flex flex-col lg:justify-center lg:items-center">
-							<h4 className="font-medium my-8 text-primary lg:text-2xl text-xl lg:mb-0 mb-8 leading-8 w-full">
-								Truthful Information
-							</h4>
-							<FontAwesomeIcon
-								icon={faGavel}
-								size="lg"
-								className="mt-2 mb-2 text-primary"
-							/>
-						</div>
-						<div className="flex flex-col lg:justify-center text-primary lg:items-center">
-							<h4 className="font-medium my-8 text-primary lg:text-2xl text-xl lg:mb-0 mb-8 leading-8 w-full">
-								Free Information
-							</h4>
-							<FontAwesomeIcon
-								icon={faWaveSquare}
-								size="lg"
-								className="mt-2 mb-2 text-primary"
-							/>
-						</div>
-						<div className="flex flex-col lg:justify-center text-primary lg:items-center">
-							<h4 className="font-medium my-8 text-primary lg:text-2xl text-xl lg:mb-0 mb-8 leading-8 w-full">
-								Creating Change
-							</h4>
-							<FontAwesomeIcon
-								icon={faExchange}
-								size="lg"
-								className="mt-2 mb-2 text-primary"
-							/>
-						</div>
+					<div className="flex justify-center items-center">
+						<LazyLoadImage
+							alt="Our core values"
+							effect="blur"
+							className="mb-8 w-2/3 mt-12"
+							src="https://cdn.yourateit.io/images/about/about-hero.svg"
+						/>
 					</div>
 				</div>
 			</div>
