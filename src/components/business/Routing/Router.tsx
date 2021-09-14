@@ -7,6 +7,8 @@ import { PrivateRoute } from './PrivateRoute';
 
 // Components
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
+const About = lazy(() => import('../../../pages/Landing/About'));
+
 const Signup = lazy(() => import('../../../pages/Onboarding/Signup'));
 const Categories = lazy(() => import('../../../pages/Search/Categories'));
 const Suggest = lazy(() => import('../../../pages/Search/Suggest'));
@@ -68,6 +70,9 @@ export const Router = () => {
 						<PublicRoute exact path="/login">
 							<Login />
 						</PublicRoute>
+						<Route exact path="/about">
+							<About />
+						</Route>
 						<Route exact path="/">
 							<Landing />
 						</Route>
