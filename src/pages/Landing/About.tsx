@@ -16,7 +16,7 @@ const About = () => {
 			</Helmet>
 			<Navbar />
 			<div className="w-screen bg-gray-100 p-8">
-				<div className="flex flex-col lg:justify-center lg:items-center justify-start mt-20">
+				<div className="flex flex-col lg:justify-center lg:items-center justify-start mt-24">
 					<IconLogo width="75px" />
 					<p className="text-2xl">rateit</p>
 				</div>
@@ -31,7 +31,7 @@ const About = () => {
 					where you can find information and ratings from a plethra of
 					categories on different things like people, movies, products
 					and more. Here at{' '}
-					<span className="text-primary">rateit</span> we beleive in
+					<span className="text-primary">rateit</span> we believe in
 					promoting the spread of authentic and truthful information
 					in a free environment. We hope to make our platform an
 					environment in which you can trust to find accurate and
@@ -52,7 +52,7 @@ const About = () => {
 							target="_blank"
 							className="p-4 text-center rounded-md bg-white border border-primary text-black flex items-center h-2/4 mt-4 justify-center font-medium text-sm hover:opacity-40 transition uppercase tracking-widest"
 						>
-							Visit Website
+							Contact
 						</a>
 					</div>
 					<div className="flex justify-between">
