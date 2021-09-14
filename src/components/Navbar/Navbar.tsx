@@ -84,6 +84,12 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 								Categories
 							</Link>
 							<Link
+								to="/about"
+								className="font-regular  mb-4 underline text-md font-sans transition hover:underline"
+							>
+								About
+							</Link>
+							<Link
 								to="/search"
 								className="font-regular  mb-4 underline text-md font-sans transition hover:underline"
 							>
@@ -170,6 +176,12 @@ export const Navbar = ({ showLogin = true }: { showLogin?: boolean }) => {
 					className="font-regular ml-10 text-md font-sans transition hover:underline"
 				>
 					Search
+				</Link>
+				<Link
+					to="/about"
+					className="font-regular ml-10 text-md font-sans transition hover:underline"
+				>
+					About
 				</Link>
 			</div>
 			<div className="flex items-center lg:w-auto w-4/5 justify-between">
