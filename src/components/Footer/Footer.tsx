@@ -25,36 +25,6 @@ export const Footer = () => {
 						Email: corporate@yourateit.io
 					</p>
 				</div>
-<<<<<<< HEAD
-				<div className="text-white ml-24  flex-col lg:flex hidden">
-					<p className="font-bold text-xs mb-4">PRODUCT</p>
-					<Link to="/signup" className="text-xs underline mb-4">
-						Get Started
-					</Link>
-					<Link to="/login" className="text-xs underline mb-4">
-						Login
-					</Link>
-				</div>
-				<div className="text-white ml-24  flex-col lg:flex hidden">
-					<p className="font-bold text-xs mb-4">COMPANY</p>
-					<Link to="/login" className="text-xs underline mb-4">
-						Email Us
-					</Link>
-					<Link to="/login" className="text-xs underline mb-4">
-						Support
-					</Link>
-					<a
-						href="https://status.yourateit.io"
-						target="_blank"
-						rel="noreferrer"
-						className="text-xs underline mb-4"
-					>
-						Status
-					</a>
-					<Link to="/about" className="text-xs underline mb-4">
-						About
-					</Link>
-=======
 				<div className="flex justify-center mt-8 lg:mt-0">
 					{!loggedIn && (
 						<div className="text-white lg:ml-24 flex-col flex">
@@ -116,7 +86,6 @@ export const Footer = () => {
 							</Link>
 						))}
 					</div>
->>>>>>> origin
 				</div>
 			</div>
 		</footer>
