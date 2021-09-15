@@ -7,12 +7,18 @@ import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
 
 import { Footer } from '../../components/Footer/Footer';
 import { Navbar, useQuery } from '../../components/Navbar/Navbar';
-import { useGetEntityQuery, useSearchReviewsQuery } from '../../graphql';
+import {
+	useGetEntityQuery,
+	useGetReviewVotesQuery,
+	useSearchReviewsQuery
+} from '../../graphql';
+import { UserSelectors } from '../../redux/User/selectors';
 import { SearchFiltersBar } from '../Search/SearchFiltersBar';
 import Review from './Review';
 
 const AdvancedReviewsPage = () => {
 	const { entityId }: { entityId: string } = useParams();
+	const userId = UserSelectors.useSelectUserId()!;
 	const query = useQuery();
 
 	const [page, setPage] = useState(1);
@@ -20,6 +26,13 @@ const AdvancedReviewsPage = () => {
 
 	const [helmet, setHelmet] = useState<any>(null);
 	const history = useHistory();
+
+	const { data: getReviewsVoteData, refetch: refetchReviewVotes } =
+		useGetReviewVotesQuery({
+			variables: { id: userId },
+			skip: !userId,
+			nextFetchPolicy: 'network-only'
+		});
 
 	const { data, loading } = useGetEntityQuery({
 		variables: { id: Number(entityId) },
@@ -103,6 +116,18 @@ const AdvancedReviewsPage = () => {
 		}
 	};
 
+	const getReviewVote = (id: number) => {
+		const foundVote = getReviewsVoteData?.getReviewVotes.find(
+			review => review?.reviewId === id
+		);
+
+		if (foundVote) {
+			return foundVote;
+		} else {
+			return undefined;
+		}
+	};
+
 	return (
 		<div className="min-h-screen overflow-hidden flex flex-col">
 			{helmet !== null && helmet}
@@ -162,7 +187,12 @@ const AdvancedReviewsPage = () => {
 					<div className="flex-col p-2">
 						{getReviewsData.searchReviews.reviews.map(
 							(review, key) => (
-								<Review review={review as any} key={key} />
+								<Review
+									review={review as any}
+									key={key}
+									refetchVotes={refetchReviewVotes}
+									vote={getReviewVote(review!.id)}
+								/>
 							)
 						)}
 					</div>

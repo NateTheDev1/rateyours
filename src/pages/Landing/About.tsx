@@ -4,9 +4,6 @@ import { Footer } from '../../components/Footer/Footer';
 import { Navbar } from '../../components/Navbar/Navbar';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IconLogo } from '../../components/business/Logo/IconLogo';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGavel } from '@fortawesome/pro-solid-svg-icons';
-import { faExchange, faWaveSquare } from '@fortawesome/pro-regular-svg-icons';
 
 const About = () => {
 	return (

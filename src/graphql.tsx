@@ -92,6 +92,7 @@ export type Mutation = {
   addReview: Review;
   updateEntityViews: Scalars['Boolean'];
   requestOwnership: Scalars['Boolean'];
+  voteReview: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
   sendPasswordReset: Scalars['Boolean'];
@@ -121,6 +122,11 @@ export type MutationUpdateEntityViewsArgs = {
 export type MutationRequestOwnershipArgs = {
   entityId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type MutationVoteReviewArgs = {
+  vote: VoteInput;
 };
 
 
@@ -172,6 +178,7 @@ export type Query = {
   getUserActivity: UserActivity;
   getUserEntities: Array<Maybe<Entity>>;
   getSearchHistory: Array<Maybe<SearchHistory>>;
+  getReviewVotes: Array<Maybe<ReviewVote>>;
 };
 
 
@@ -230,6 +237,11 @@ export type QueryGetSearchHistoryArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryGetReviewVotesArgs = {
+  id: Scalars['Int'];
+};
+
 export type ResetPasswordCredentials = {
   email: Scalars['String'];
   newPassword: Scalars['String'];
@@ -248,6 +260,8 @@ export type Review = {
   rating: Scalars['Int'];
   specialContent?: Maybe<Scalars['String']>;
   entity: Scalars['Int'];
+  upvotes: Scalars['Int'];
+  downvotes: Scalars['Int'];
 };
 
 export type ReviewInput = {
@@ -271,6 +285,13 @@ export type ReviewSearchResponse = {
   reviews: Array<Maybe<Review>>;
   entities: Array<Maybe<Entity>>;
   total: Scalars['Int'];
+};
+
+export type ReviewVote = {
+  id: Scalars['Int'];
+  votedDate: Scalars['String'];
+  voteType?: Maybe<VoteType>;
+  reviewId: Scalars['Int'];
 };
 
 export type SearchFilters = {
@@ -310,6 +331,17 @@ export type User = {
 export type UserActivity = {
   reviews: Array<Maybe<Review>>;
 };
+
+export type VoteInput = {
+  userId: Scalars['Int'];
+  voteType: VoteType;
+  reviewId: Scalars['Int'];
+};
+
+export type VoteType =
+  | 'UPVOTE'
+  | 'DOWNVOTE'
+  | 'REMOVE';
 
 export type GetEntityQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -400,6 +432,13 @@ export type SearchQueryVariables = Exact<{
 
 export type SearchQuery = { search: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>>, entities: Array<Maybe<{ id: number, type: string, name: string, specialContent?: Maybe<string>, views?: Maybe<number>, ownedBy?: Maybe<{ fullName?: Maybe<string> }> }>> } };
 
+export type VoteReviewMutationVariables = Exact<{
+  vote: VoteInput;
+}>;
+
+
+export type VoteReviewMutation = { voteReview: boolean };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -413,6 +452,13 @@ export type DeleteSearchHistoryMutationVariables = Exact<{
 
 
 export type DeleteSearchHistoryMutation = { deleteSearchHistory: boolean };
+
+export type GetReviewVotesQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetReviewVotesQuery = { getReviewVotes: Array<Maybe<{ id: number, votedDate: string, voteType?: Maybe<VoteType>, reviewId: number }>> };
 
 export type GetSearchHistoryQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -971,6 +1017,37 @@ export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sea
 export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
+export const VoteReviewDocument = gql`
+    mutation VoteReview($vote: VoteInput!) {
+  voteReview(vote: $vote)
+}
+    `;
+export type VoteReviewMutationFn = Apollo.MutationFunction<VoteReviewMutation, VoteReviewMutationVariables>;
+
+/**
+ * __useVoteReviewMutation__
+ *
+ * To run a mutation, you first call `useVoteReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVoteReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [voteReviewMutation, { data, loading, error }] = useVoteReviewMutation({
+ *   variables: {
+ *      vote: // value for 'vote'
+ *   },
+ * });
+ */
+export function useVoteReviewMutation(baseOptions?: Apollo.MutationHookOptions<VoteReviewMutation, VoteReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VoteReviewMutation, VoteReviewMutationVariables>(VoteReviewDocument, options);
+      }
+export type VoteReviewMutationHookResult = ReturnType<typeof useVoteReviewMutation>;
+export type VoteReviewMutationResult = Apollo.MutationResult<VoteReviewMutation>;
+export type VoteReviewMutationOptions = Apollo.BaseMutationOptions<VoteReviewMutation, VoteReviewMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($user: CreateUserInput!) {
   createUser(user: $user) {
@@ -1042,6 +1119,44 @@ export function useDeleteSearchHistoryMutation(baseOptions?: Apollo.MutationHook
 export type DeleteSearchHistoryMutationHookResult = ReturnType<typeof useDeleteSearchHistoryMutation>;
 export type DeleteSearchHistoryMutationResult = Apollo.MutationResult<DeleteSearchHistoryMutation>;
 export type DeleteSearchHistoryMutationOptions = Apollo.BaseMutationOptions<DeleteSearchHistoryMutation, DeleteSearchHistoryMutationVariables>;
+export const GetReviewVotesDocument = gql`
+    query GetReviewVotes($id: Int!) {
+  getReviewVotes(id: $id) {
+    id
+    votedDate
+    voteType
+    reviewId
+  }
+}
+    `;
+
+/**
+ * __useGetReviewVotesQuery__
+ *
+ * To run a query within a React component, call `useGetReviewVotesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetReviewVotesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetReviewVotesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetReviewVotesQuery(baseOptions: Apollo.QueryHookOptions<GetReviewVotesQuery, GetReviewVotesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetReviewVotesQuery, GetReviewVotesQueryVariables>(GetReviewVotesDocument, options);
+      }
+export function useGetReviewVotesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetReviewVotesQuery, GetReviewVotesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetReviewVotesQuery, GetReviewVotesQueryVariables>(GetReviewVotesDocument, options);
+        }
+export type GetReviewVotesQueryHookResult = ReturnType<typeof useGetReviewVotesQuery>;
+export type GetReviewVotesLazyQueryHookResult = ReturnType<typeof useGetReviewVotesLazyQuery>;
+export type GetReviewVotesQueryResult = Apollo.QueryResult<GetReviewVotesQuery, GetReviewVotesQueryVariables>;
 export const GetSearchHistoryDocument = gql`
     query GetSearchHistory($id: Int!) {
   getSearchHistory(id: $id) {

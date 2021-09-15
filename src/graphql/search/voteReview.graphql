@@ -1,0 +1,3 @@
+mutation VoteReview($vote: VoteInput!) {
+	voteReview(vote: $vote)
+}
