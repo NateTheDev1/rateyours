@@ -2,27 +2,10 @@ import { faArrowRight, faPlusSquare } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router';
 import { LoadingCircle } from '../../components/business/Loading/LoadingCircle';
-import { useSearchReviewsQuery } from '../../graphql';
+import { useGetReviewVotesQuery, useSearchReviewsQuery } from '../../graphql';
+import { UserSelectors } from '../../redux/User/selectors';
 import Review from './Review';
 import StartReview from './startReviewEmitter';
-
-// useEffect(() => {
-// 	if (queries.get('scrollTo')) {
-// 		const el = document.getElementById(queries.get('scrollTo')!);
-
-// 		el?.classList.add('p-2');
-
-// 		if (el) {
-// 			el.style.border = 'none';
-// 			el.style.borderLeft = '5px solid #10B981';
-// 			// el.scrollIntoView({
-// 			// 	behavior: 'smooth',
-// 			// 	block: 'nearest',
-// 			// 	inline: 'start'
-// 			// });
-// 		}
-// 	}
-// }, [data, queries]);
 
 export const Reviews = ({
 	entityId,
@@ -33,12 +16,35 @@ export const Reviews = ({
 	entityId: number;
 	review: any;
 }) => {
+	const userId = UserSelectors.useSelectUserId()!;
 	const { data, loading } = useSearchReviewsQuery({
 		variables: {
 			entityId,
 			filters: { minRating: 1, maxRating: 5, sortBy: 'DESC' }
 		}
 	});
+	const { data: getReviewsData, refetch } = useGetReviewVotesQuery({
+		variables: { id: userId },
+		skip: !userId,
+		nextFetchPolicy: 'network-only',
+		onError: () => {
+			if (userId) {
+				refetch();
+			}
+		}
+	});
+
+	const getReviewVote = (id: number) => {
+		const foundVote = getReviewsData?.getReviewVotes.find(
+			review => review?.reviewId === id
+		);
+
+		if (foundVote) {
+			return foundVote;
+		} else {
+			return undefined;
+		}
+	};
 
 	const history = useHistory();
 
@@ -82,14 +88,31 @@ export const Reviews = ({
 						</div>
 						{data.searchReviews.total > 0 && (
 							<div className="flex-col p-2">
-								{review && <Review review={review as any} />}
+								{review && (
+									<Review
+										review={review as any}
+										refetchVotes={refetch}
+									/>
+								)}
 								{data.searchReviews.reviews.map(
 									(review, key) => (
 										<Review
+											refetchVotes={refetch}
+											vote={getReviewVote(review!.id)}
 											review={review as any}
 											key={key}
 										/>
 									)
+								)}
+							</div>
+						)}
+						{data.searchReviews.total > 0 && review && (
+							<div className="flex-col p-2">
+								{review && (
+									<Review
+										review={review as any}
+										refetchVotes={refetch}
+									/>
 								)}
 							</div>
 						)}

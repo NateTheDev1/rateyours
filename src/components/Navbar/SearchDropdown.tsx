@@ -21,7 +21,7 @@ export const SearchDropdown = () => {
 	const [clearHistory] = useDeleteSearchHistoryMutation();
 
 	return (
-		<div className="w-full bg-white p-4 z-10">
+		<div className="w-full bg-white p-4 z-10 border-black border-2">
 			<h4 className="font-medium opacity-50 mb-4">Trending Searches</h4>
 			{loading && <LoadingCircle loading={true} />}
 			<div className="flex flex-col">

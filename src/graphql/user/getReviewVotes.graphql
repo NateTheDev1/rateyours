@@ -1,0 +1,8 @@
+query GetReviewVotes($id: Int!) {
+	getReviewVotes(id: $id) {
+		id
+		votedDate
+		voteType
+		reviewId
+	}
+}
