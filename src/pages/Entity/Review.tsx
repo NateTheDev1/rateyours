@@ -61,40 +61,46 @@ const Review = ({
 		>
 			<div className="flex justify-between">
 				<h4 className="font-medium text-md">{review?.title}</h4>
-				<div className="flex items-center mt-4">
-					<Tooltip title="Upvote">
-						<IconButton
-							className="mr-4 opacity-70"
-							onClick={() => onTriggerVote('UPVOTE')}
-						>
-							<FontAwesomeIcon
-								icon={faChevronUp}
-								size="sm"
-								className={`${
-									vote &&
-									vote.voteType === 'UPVOTE' &&
-									'text-primary'
-								}`}
-							/>
-						</IconButton>
-					</Tooltip>
+				<div className="flex items-center">
+					<div className="flex flex-col justify-center items-center">
+						<Tooltip title="Upvote">
+							<IconButton
+								className="mr-4 opacity-70"
+								onClick={() => onTriggerVote('UPVOTE')}
+							>
+								<FontAwesomeIcon
+									icon={faChevronUp}
+									size="sm"
+									className={`${
+										vote &&
+										vote.voteType === 'UPVOTE' &&
+										'text-primary'
+									}`}
+								/>
+							</IconButton>
+						</Tooltip>
+						<p className="text-xs">{review!.upvotes}</p>
+					</div>
 
-					<Tooltip title="Downvote">
-						<IconButton
-							className="opacity-70"
-							onClick={() => onTriggerVote('DOWNVOTE')}
-						>
-							<FontAwesomeIcon
-								icon={faChevronDown}
-								size="sm"
-								className={`${
-									vote &&
-									vote.voteType === 'DOWNVOTE' &&
-									'text-primary'
-								}`}
-							/>
-						</IconButton>
-					</Tooltip>
+					<div className="flex flex-col justify-center items-center">
+						<Tooltip title="Downvote">
+							<IconButton
+								className="opacity-70"
+								onClick={() => onTriggerVote('DOWNVOTE')}
+							>
+								<FontAwesomeIcon
+									icon={faChevronDown}
+									size="sm"
+									className={`${
+										vote &&
+										vote.voteType === 'DOWNVOTE' &&
+										'text-red-500'
+									}`}
+								/>
+							</IconButton>
+						</Tooltip>
+						<p className="text-xs">{review!.downvotes}</p>
+					</div>
 				</div>
 			</div>
 			<h4 className="font-light mt-3 text-sm">

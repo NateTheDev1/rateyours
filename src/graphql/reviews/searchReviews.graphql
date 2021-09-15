@@ -24,6 +24,8 @@ query SearchReviews(
 			rating
 			specialContent
 			entity
+			upvotes
+			downvotes
 		}
 	}
 }
