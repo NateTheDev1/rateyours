@@ -397,7 +397,7 @@ export type SearchReviewsQueryVariables = Exact<{
 }>;
 
 
-export type SearchReviewsQuery = { searchReviews: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, createdByUser: { fullName?: Maybe<string> } }>> } };
+export type SearchReviewsQuery = { searchReviews: { total: number, reviews: Array<Maybe<{ id: number, type: string, title: string, createdAt: string, body: string, tags?: Maybe<Array<Maybe<string>>>, rating: number, specialContent?: Maybe<string>, entity: number, upvotes: number, downvotes: number, createdByUser: { fullName?: Maybe<string> } }>> } };
 
 export type AddCategoryMutationVariables = Exact<{
   category: AddCategoryInput;
@@ -762,6 +762,8 @@ export const SearchReviewsDocument = gql`
       rating
       specialContent
       entity
+      upvotes
+      downvotes
     }
   }
 }
