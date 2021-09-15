@@ -61,7 +61,7 @@ const Review = ({
 		>
 			<div className="flex justify-between">
 				<h4 className="font-medium text-md">{review?.title}</h4>
-				<div className="flex items-center mt-4">
+				<div className="flex items-center">
 					<Tooltip title="Upvote">
 						<IconButton
 							className="mr-4 opacity-70"
