@@ -120,7 +120,7 @@ const About = () => {
 								target="_blank"
 								className="p-4 rounded-md bg-white border border-primary text-black h-10 flex items-center w-full mt-4 justify-center font-medium text-sm hover:opacity-40 transition uppercase tracking-widest"
 							>
-								Visit Linkedin
+								Visit Website
 							</a>
 						</div>
 					</div>
