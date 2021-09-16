@@ -100,9 +100,11 @@ const ProfilePriorityRequestModal = ({
 				<Button variant="outlined" onClick={() => setOpen(false)}>
 					Close
 				</Button>
-				<Button variant="outlined" onClick={onSubmit}>
-					Submit
-				</Button>
+				{!loading && data?.hasRequestedProfilePriority === false && (
+					<Button variant="outlined" onClick={onSubmit}>
+						Submit
+					</Button>
+				)}
 			</DialogActions>
 		</Dialog>
 	);
