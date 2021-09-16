@@ -59,7 +59,7 @@ const Review = ({
 			className="review w-full my-4 shadow-xs pb-3 border-b border-gray-200"
 			id={String(review?.id)}
 		>
-			<div className="flex justify-between">
+			<div className="flex justify-between items-center">
 				<h4 className="font-medium text-md">{review?.title}</h4>
 				<div className="flex items-center">
 					<div className="flex flex-col justify-center items-center">

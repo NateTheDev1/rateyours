@@ -1,0 +1,3 @@
+query HasRequestedProfilePriority($entityId: Int!) {
+	hasRequestedProfilePriority(entityId: $entityId)
+}

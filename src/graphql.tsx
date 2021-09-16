@@ -93,6 +93,7 @@ export type Mutation = {
   updateEntityViews: Scalars['Boolean'];
   requestOwnership: Scalars['Boolean'];
   voteReview: Scalars['Boolean'];
+  requestProfilePriority: Scalars['Boolean'];
   createUser: CreateUserReturn;
   login: CreateUserReturn;
   sendPasswordReset: Scalars['Boolean'];
@@ -127,6 +128,11 @@ export type MutationRequestOwnershipArgs = {
 
 export type MutationVoteReviewArgs = {
   vote: VoteInput;
+};
+
+
+export type MutationRequestProfilePriorityArgs = {
+  request: ProfilePriorityInput;
 };
 
 
@@ -165,6 +171,12 @@ export type PopularSearch = {
   searches: Scalars['Int'];
 };
 
+export type ProfilePriorityInput = {
+  entityId: Scalars['Int'];
+  requestedBy: Scalars['Int'];
+  why?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   getCategories: Array<Category>;
   search: ReviewSearchResponse;
@@ -179,6 +191,7 @@ export type Query = {
   getUserEntities: Array<Maybe<Entity>>;
   getSearchHistory: Array<Maybe<SearchHistory>>;
   getReviewVotes: Array<Maybe<ReviewVote>>;
+  hasRequestedProfilePriority: Scalars['Boolean'];
 };
 
 
@@ -240,6 +253,11 @@ export type QueryGetSearchHistoryArgs = {
 
 export type QueryGetReviewVotesArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryHasRequestedProfilePriorityArgs = {
+  entityId: Scalars['Int'];
 };
 
 export type ResetPasswordCredentials = {
@@ -365,6 +383,13 @@ export type RequestOwnershipMutationVariables = Exact<{
 
 export type RequestOwnershipMutation = { requestOwnership: boolean };
 
+export type RequestProfilePriorityMutationVariables = Exact<{
+  request: ProfilePriorityInput;
+}>;
+
+
+export type RequestProfilePriorityMutation = { requestProfilePriority: boolean };
+
 export type UpdateEntityViewsMutationVariables = Exact<{
   viewCount: Scalars['Int'];
   entityId: Scalars['Int'];
@@ -487,6 +512,13 @@ export type GetUserEntitiesQueryVariables = Exact<{
 
 
 export type GetUserEntitiesQuery = { getUserEntities: Array<Maybe<{ id: number, type: string, name: string, views?: Maybe<number> }>> };
+
+export type HasRequestedProfilePriorityQueryVariables = Exact<{
+  entityId: Scalars['Int'];
+}>;
+
+
+export type HasRequestedProfilePriorityQuery = { hasRequestedProfilePriority: boolean };
 
 export type LoginMutationVariables = Exact<{
   credentials: LoginInput;
@@ -629,6 +661,37 @@ export function useRequestOwnershipMutation(baseOptions?: Apollo.MutationHookOpt
 export type RequestOwnershipMutationHookResult = ReturnType<typeof useRequestOwnershipMutation>;
 export type RequestOwnershipMutationResult = Apollo.MutationResult<RequestOwnershipMutation>;
 export type RequestOwnershipMutationOptions = Apollo.BaseMutationOptions<RequestOwnershipMutation, RequestOwnershipMutationVariables>;
+export const RequestProfilePriorityDocument = gql`
+    mutation RequestProfilePriority($request: ProfilePriorityInput!) {
+  requestProfilePriority(request: $request)
+}
+    `;
+export type RequestProfilePriorityMutationFn = Apollo.MutationFunction<RequestProfilePriorityMutation, RequestProfilePriorityMutationVariables>;
+
+/**
+ * __useRequestProfilePriorityMutation__
+ *
+ * To run a mutation, you first call `useRequestProfilePriorityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestProfilePriorityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestProfilePriorityMutation, { data, loading, error }] = useRequestProfilePriorityMutation({
+ *   variables: {
+ *      request: // value for 'request'
+ *   },
+ * });
+ */
+export function useRequestProfilePriorityMutation(baseOptions?: Apollo.MutationHookOptions<RequestProfilePriorityMutation, RequestProfilePriorityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestProfilePriorityMutation, RequestProfilePriorityMutationVariables>(RequestProfilePriorityDocument, options);
+      }
+export type RequestProfilePriorityMutationHookResult = ReturnType<typeof useRequestProfilePriorityMutation>;
+export type RequestProfilePriorityMutationResult = Apollo.MutationResult<RequestProfilePriorityMutation>;
+export type RequestProfilePriorityMutationOptions = Apollo.BaseMutationOptions<RequestProfilePriorityMutation, RequestProfilePriorityMutationVariables>;
 export const UpdateEntityViewsDocument = gql`
     mutation UpdateEntityViews($viewCount: Int!, $entityId: Int!) {
   updateEntityViews(viewCount: $viewCount, entityId: $entityId)
@@ -1313,6 +1376,39 @@ export function useGetUserEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetUserEntitiesQueryHookResult = ReturnType<typeof useGetUserEntitiesQuery>;
 export type GetUserEntitiesLazyQueryHookResult = ReturnType<typeof useGetUserEntitiesLazyQuery>;
 export type GetUserEntitiesQueryResult = Apollo.QueryResult<GetUserEntitiesQuery, GetUserEntitiesQueryVariables>;
+export const HasRequestedProfilePriorityDocument = gql`
+    query HasRequestedProfilePriority($entityId: Int!) {
+  hasRequestedProfilePriority(entityId: $entityId)
+}
+    `;
+
+/**
+ * __useHasRequestedProfilePriorityQuery__
+ *
+ * To run a query within a React component, call `useHasRequestedProfilePriorityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHasRequestedProfilePriorityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHasRequestedProfilePriorityQuery({
+ *   variables: {
+ *      entityId: // value for 'entityId'
+ *   },
+ * });
+ */
+export function useHasRequestedProfilePriorityQuery(baseOptions: Apollo.QueryHookOptions<HasRequestedProfilePriorityQuery, HasRequestedProfilePriorityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HasRequestedProfilePriorityQuery, HasRequestedProfilePriorityQueryVariables>(HasRequestedProfilePriorityDocument, options);
+      }
+export function useHasRequestedProfilePriorityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HasRequestedProfilePriorityQuery, HasRequestedProfilePriorityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HasRequestedProfilePriorityQuery, HasRequestedProfilePriorityQueryVariables>(HasRequestedProfilePriorityDocument, options);
+        }
+export type HasRequestedProfilePriorityQueryHookResult = ReturnType<typeof useHasRequestedProfilePriorityQuery>;
+export type HasRequestedProfilePriorityLazyQueryHookResult = ReturnType<typeof useHasRequestedProfilePriorityLazyQuery>;
+export type HasRequestedProfilePriorityQueryResult = Apollo.QueryResult<HasRequestedProfilePriorityQuery, HasRequestedProfilePriorityQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($credentials: LoginInput!) {
   login(credentials: $credentials) {

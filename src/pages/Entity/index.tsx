@@ -4,7 +4,7 @@ import {
 	faQuestionCircle
 } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { lazy, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import EntitySchema from '../../components/business/EntitySchema';
@@ -21,6 +21,7 @@ import {
 import { UserSelectors } from '../../redux/User/selectors';
 import NewReview from './NewReview';
 import { parseEntity, returnIdentifiedContent } from './parseEntity';
+
 import Reviews from './Reviews';
 import StartReview from './startReviewEmitter';
 
@@ -28,10 +29,15 @@ const School = lazy(() => import('./School'));
 const Movie = lazy(() => import('./Movie'));
 const City = lazy(() => import('./City'));
 const Country = lazy(() => import('./Country'));
+const ProfilePriorityRequestModal = lazy(
+	() => import('./ProfilePriorityRequestScreen')
+);
 
 const EntityBase = () => {
 	const history = useHistory();
 	const userId = UserSelectors.useSelectUserId();
+
+	const [priorityModal, setPriorityModal] = useState(false);
 
 	const [getHasReviewed, hasReviewedLoading] = useHasReviewedLazyQuery({
 		fetchPolicy: 'network-only'
@@ -137,6 +143,15 @@ const EntityBase = () => {
 		<div className="min-h-screen overflow-hidden flex flex-col">
 			{helmet !== null && helmet}
 			<Navbar />
+			<Suspense fallback={<></>}>
+				{priorityModal && (
+					<ProfilePriorityRequestModal
+						open={priorityModal}
+						setOpen={setPriorityModal}
+						entityId={Number(entityId)}
+					/>
+				)}
+			</Suspense>
 			<div className="mb-auto mt-2 m-auto lg:w-4/5 w-full lg:p-8 p-2">
 				{loading && <LoadingCircle loading={true} />}
 				{!loading && data && (
@@ -153,7 +168,20 @@ const EntityBase = () => {
 									Note: This profile does not currently have
 									very much information. If you would like us
 									to prioritize updating this profile please{' '}
-									<span className="underline font-bold cursor-pointer">
+									<span
+										className="underline font-bold cursor-pointer"
+										onClick={() => {
+											if (userId) {
+												setPriorityModal(true);
+											} else {
+												history.push(
+													'/login?redirect=entity-' +
+														entityId +
+														'&reviewing=true'
+												);
+											}
+										}}
+									>
 										click here
 									</span>
 									.{' '}

@@ -59,6 +59,7 @@ const Dashboard = () => {
 			</div>
 			<div className="flex items-center mt-10 mb-4">
 				<h2 className="font-bold text-xl">Your Activity</h2>
+
 				<FontAwesomeIcon
 					size="lg"
 					onClick={onRefresh}
@@ -66,6 +67,9 @@ const Dashboard = () => {
 					className="ml-4 cursor-pointer hover:opacity-50 transition"
 				/>
 			</div>
+			<p className="text-xs opacity-70 ml-2 mb-2">
+				{data?.getUserActivity.reviews.length} Results
+			</p>
 			{loading ||
 				(userEntitiesLoading && <LoadingCircle loading={true} />)}
 			{!loading && data && data.getUserActivity.reviews.length < 1 && (

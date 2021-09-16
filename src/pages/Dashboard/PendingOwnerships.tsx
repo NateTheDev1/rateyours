@@ -46,7 +46,7 @@ export const PendingOwnerships = () => {
 								</h4>
 							</div>
 							<div className="flex-col mt-4 lg:mt-0">
-								<h4 className="font-bold uppercase text-yellow-500">
+								<h4 className="font-medium text-xs uppercase text-yellow-500">
 									{request?.approved
 										? 'Approved'
 										: 'Pending Approval'}
