@@ -50,7 +50,7 @@ const ProfilePriorityRequestModal = ({
 		if (open) {
 			refetch();
 		}
-	}, [open]);
+	}, [open, refetch]);
 
 	return (
 		<Dialog

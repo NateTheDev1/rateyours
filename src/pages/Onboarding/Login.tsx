@@ -90,7 +90,7 @@ const Login = () => {
 							setValue={val => onChange(val, 'password')}
 						/>
 						<div className="font-sans font-light mt-6 text-primary text-right underline">
-							<Link to="/password-reset">Forgot Password?</Link>
+							<Link to="/forgot-password">Forgot Password?</Link>
 						</div>
 						{loginData.loading ? (
 							<LoadingCircle loading={true} />
