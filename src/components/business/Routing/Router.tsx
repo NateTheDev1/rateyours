@@ -4,8 +4,10 @@ import { PublicRoute } from './PublicRoute';
 import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { PrivateRoute } from './PrivateRoute';
+import { Helmet } from 'react-helmet';
 
 // Components
+const url = 'https://yourateit.io/';
 const Login = lazy(() => import('../../../pages/Onboarding/Login'));
 const About = lazy(() => import('../../../pages/Landing/About'));
 
@@ -57,9 +59,15 @@ export const Router = () => {
 							<EntityBase />
 						</Route>
 						<Route exact path="/search/results">
+							<Helmet>
+								<link rel="canonical" href={`${url}results/`}/>
+							</Helmet>
 							<SearchResults />
 						</Route>
 						<Route exact path="/search">
+							<Helmet>
+								<link rel="canonical" href={`${url}search/`}/>
+							</Helmet>
 							<SearchRoot />
 						</Route>
 						<Route exact path="/categories/:id">
@@ -69,9 +77,15 @@ export const Router = () => {
 							<Suggest />
 						</Route>
 						<Route exact path="/categories">
+							<Helmet>
+								<link rel="canonical" href={`${url}categories/`}/>
+							</Helmet>
 							<Categories />
 						</Route>
 						<PublicRoute exact path="/signup">
+							<Helmet>
+								<link rel="canonical" href={`${url}signup/`}/>
+							</Helmet>
 							<Signup />
 						</PublicRoute>
 						<PublicRoute exact path="/forgot-password/reset/:code">
@@ -81,12 +95,21 @@ export const Router = () => {
 							<ForgotPassword />
 						</PublicRoute>
 						<PublicRoute exact path="/login">
+							<Helmet>
+								<link rel="canonical" href={`${url}login/`}/>
+							</Helmet>
 							<Login />
 						</PublicRoute>
 						<Route exact path="/about">
+							<Helmet>
+								<link rel="canonical" href={`${url}about/`}/>
+							</Helmet>
 							<About />
 						</Route>
 						<Route exact path="/">
+							<Helmet>
+								<link rel="canonical" href={url}/>
+							</Helmet>
 							<Landing />
 						</Route>
 						<Route path="*">
