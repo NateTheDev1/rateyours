@@ -21,6 +21,13 @@ const UserDashboardRoot = lazy(
 	() => import('../../../pages/Dashboard/UserDashboardRoot')
 );
 
+const ForgotPassword = lazy(
+	() => import('../../../pages/Onboarding/ForgotPassword')
+);
+const ResetPassword = lazy(
+	() => import('../../../pages/Onboarding/ResetPassword')
+);
+
 const AdvancedReviewsPage = lazy(
 	() => import('../../../pages/Entity/AdvancedReviewsPage')
 );
@@ -66,6 +73,12 @@ export const Router = () => {
 						</Route>
 						<PublicRoute exact path="/signup">
 							<Signup />
+						</PublicRoute>
+						<PublicRoute exact path="/forgot-password/reset/:code">
+							<ResetPassword />
+						</PublicRoute>
+						<PublicRoute exact path="/forgot-password">
+							<ForgotPassword />
 						</PublicRoute>
 						<PublicRoute exact path="/login">
 							<Login />
