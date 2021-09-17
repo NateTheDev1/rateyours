@@ -84,7 +84,7 @@ export const Router = () => {
 						</Route>
 						<PublicRoute exact path="/signup">
 							<Helmet>
-								<link rel="canonical" href={`${url}signup`}/>
+								<link rel="canonical" href={`${url}signup/`}/>
 							</Helmet>
 							<Signup />
 						</PublicRoute>
