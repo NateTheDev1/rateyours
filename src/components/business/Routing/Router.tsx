@@ -5,6 +5,7 @@ import { lazy } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { PrivateRoute } from './PrivateRoute';
 import { Helmet } from 'react-helmet';
+import ScrollToTopRouter from './ScrollToTopRouter';
 
 // Components
 const url = 'https://yourateit.io/';
@@ -38,7 +39,7 @@ export const Router = () => {
 	const location = useLocation();
 
 	return (
-		<>
+		<ScrollToTopRouter>
 			<SwitchTransition>
 				<CSSTransition
 					key={location.key}
@@ -60,13 +61,13 @@ export const Router = () => {
 						</Route>
 						<Route exact path="/search/results">
 							<Helmet>
-								<link rel="canonical" href={`${url}results/`}/>
+								<link rel="canonical" href={`${url}results/`} />
 							</Helmet>
 							<SearchResults />
 						</Route>
 						<Route exact path="/search">
 							<Helmet>
-								<link rel="canonical" href={`${url}search/`}/>
+								<link rel="canonical" href={`${url}search/`} />
 							</Helmet>
 							<SearchRoot />
 						</Route>
@@ -78,13 +79,16 @@ export const Router = () => {
 						</Route>
 						<Route exact path="/categories">
 							<Helmet>
-								<link rel="canonical" href={`${url}categories/`}/>
+								<link
+									rel="canonical"
+									href={`${url}categories/`}
+								/>
 							</Helmet>
 							<Categories />
 						</Route>
 						<PublicRoute exact path="/signup">
 							<Helmet>
-								<link rel="canonical" href={`${url}signup/`}/>
+								<link rel="canonical" href={`${url}signup/`} />
 							</Helmet>
 							<Signup />
 						</PublicRoute>
@@ -96,19 +100,19 @@ export const Router = () => {
 						</PublicRoute>
 						<PublicRoute exact path="/login">
 							<Helmet>
-								<link rel="canonical" href={`${url}login/`}/>
+								<link rel="canonical" href={`${url}login/`} />
 							</Helmet>
 							<Login />
 						</PublicRoute>
 						<Route exact path="/about">
 							<Helmet>
-								<link rel="canonical" href={`${url}about/`}/>
+								<link rel="canonical" href={`${url}about/`} />
 							</Helmet>
 							<About />
 						</Route>
 						<Route exact path="/">
 							<Helmet>
-								<link rel="canonical" href={url}/>
+								<link rel="canonical" href={url} />
 							</Helmet>
 							<Landing />
 						</Route>
@@ -118,6 +122,6 @@ export const Router = () => {
 					</Switch>
 				</CSSTransition>
 			</SwitchTransition>
-		</>
+		</ScrollToTopRouter>
 	);
 };
